@@ -38,7 +38,8 @@ const Post = ({onClosePress}) => {
   const isFocused = useIsFocused();
 
   const devices = useCameraDevices();
-  const device = devices.back;
+  const device = cameraType === 'back' ? devices.back : devices.front;
+  console.log(devices);
 
   const requestMicrophonePermission = useCallback(async () => {
     console.log('Requesting microphone permission...');
@@ -128,11 +129,9 @@ const Post = ({onClosePress}) => {
     setFlashMode(prevFlashMode => (prevFlashMode === 'off' ? 'on' : 'off'));
   };
 
-  const switchCamera = () => {
-    setCameraType(prevCameraType =>
-      prevCameraType === 'back' ? 'front' : 'back',
-    );
-  };
+  const switchCamera = useCallback(async () => {
+    setCameraType(prevState => (prevState === 'back' ? 'front' : 'back'));
+  }, []);
 
   const takePicture = async () => {
     if (cameraRef.current) {
@@ -169,13 +168,8 @@ const Post = ({onClosePress}) => {
         device={device}
         isActive={isFocused}
         ref={cameraRef}
-        photo={true}>
-        {/* <Camera
-          type={cameraType}
-          flashMode={flashMode}
-          ref={cameraRef}
-          ratio={'16:9'}
-          onCameraReady={onCameraReady}> */}
+        photo={true}
+        torch={flashMode}>
         <View style={styles.topButtonContainer}>
           <Pressable onPress={onClosePress} style={styles.closeButton}>
             <Image source={CloseIcon} />
