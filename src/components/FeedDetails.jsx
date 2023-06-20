@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import {
   Image,
   ImageSourcePropType,
@@ -8,14 +8,14 @@ import {
   TouchableOpacity,
   View,
   ViewStyle,
-} from "react-native";
-import { Colors } from "../utils/styles";
-import Typography from "./Typography/Typography";
-import FeedCaption from "./FeedCaption";
-import MomentsFeedOptions from "../features/home/components/MomentsFeedOptions";
-import ChannelDetails from "./ChannelDetails";
-import ChannelAndUploaderDetails from "./ChannelAndUploaderDetails";
-import FavouritesFeedOptions from "../features/home/components/FavouritesFeedOptions";
+} from 'react-native';
+import {Colors} from '../utils/styles';
+import Typography from './Typography/Typography';
+import FeedCaption from './FeedCaption';
+import MomentsFeedOptions from '../features/home/components/MomentsFeedOptions';
+import ChannelDetails from './ChannelDetails';
+import ChannelAndUploaderDetails from './ChannelAndUploaderDetails';
+import FavouritesFeedOptions from '../features/home/components/FavouritesFeedOptions';
 
 /**
  * Component that displays the details of a feed item.
@@ -40,7 +40,7 @@ const FeedDetails = ({
 }) => {
   return (
     <View style={[styles.container, style]}>
-      <View style={{ flex: 6 }}>
+      <View style={{flex: 6}}>
         {/* Render channel and uploader details based on whether it is in favorites */}
         {isFavourites ? (
           <ChannelAndUploaderDetails
@@ -83,9 +83,9 @@ const FeedDetails = ({
 
 const styles = StyleSheet.create({
   container: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "flex-end",
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'flex-end',
   },
 });
 

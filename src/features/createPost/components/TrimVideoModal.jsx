@@ -1,6 +1,6 @@
 import Video from 'react-native-video';
 
-import React, {useRef, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {Image, Pressable, StyleSheet, View} from 'react-native';
 import BottomModal from '../../../components/BottomModal';
 
@@ -11,6 +11,8 @@ import Typography from '../../../components/Typography/Typography';
 import {HORIZONTAL_MARGIN} from '../../../utils/constants';
 import {Colors} from '../../../utils/styles';
 import TrimTimeOptions from './TrimTimeOptions';
+import {createThumbnail} from 'react-native-create-thumbnail';
+import {ProcessingManager} from 'react-native-video-processing';
 
 const TrimVideoModal = ({
   trimVideoModalRef,
@@ -27,38 +29,58 @@ const TrimVideoModal = ({
   const [videoDuration, setVideoDuration] = useState(null);
   const videoRef = useRef(null);
 
-  // const generateThumbnails = async () => {
-  //   try {
-  //     const thumbnailOptions = {
-  //       time: [startFrame, endFrame], // Use an array to specify multiple times for thumbnail generation
-  //       quality: 1, // Adjust thumbnail quality if needed
-  //     };
+  useEffect(() => {
+    ProcessingManager.getVideoInfo(fileUri).then(
+      ({duration, size, frameRate, bitrate}) =>
+        console.log('duration', duration, size, frameRate, bitrate),
+    );
+    createThumbnail({
+      url: fileUri,
+      timeStamp: startFrame,
+    })
+      .then(response => setThumbnails(response.path))
+      .catch(err => console.log({err}));
+  }, [fileUri, startFrame]);
+  console.log('thumbnails', thumbnails, videoDuration);
 
-  //     const thumbnails = await Promise.all(
-  //       thumbnailOptions.time.map(async time => {
-  //         const {uri} = await getThumbnailAsync(videoUri, {time});
-  //         return uri;
-  //       }),
-  //     );
+  const getThumbnailAsync = async () => {
+    //   try {
+    //     const thumbnailOptions = {
+    //       time: [startFrame, endFrame], // Use an array to specify multiple times for thumbnail generation
+    //       quality: 1, // Adjust thumbnail quality if needed
+    //     };
 
-  //     setThumbnails(thumbnails);
-  //   } catch (error) {
-  //     console.error('Error generating thumbnails:', error);
-  //   }
-  // };
+    const thumbnails = await createThumbnail({
+      url: fileUri,
+      timeStamp: startFrame,
+    });
+
+    console.log(thumbnails);
+    setThumbnails(thumbnails);
+    //   } catch (error) {
+    //     console.error('Error generating thumbnails:', error);
+    //   }
+  };
 
   const onPlaybackStatusUpdate = status => {
-    const durationMillis = status.durationMillis;
+    const durationMillis = status.duration * 1000;
     setVideoDuration(durationMillis);
   };
 
   const trimVideo = async () => {
+    const options = {
+      startTime: startFrame,
+      endTime: endFrame,
+    };
+    console.log('videoUri', videoUri, options);
     try {
-      const {uri} = await getThumbnailAsync(videoUri, {
-        time: startFrame, // Use startFrame as the time for trimming
-      });
+      ProcessingManager.trim(videoUri, options) // like VideoPlayer trim options
+        .then(data => console.log('Trimmed vide', data));
+      // const {uri} = await getThumbnailAsync(videoUri, {
+      //   time: startFrame, // Use startFrame as the time for trimming
+      // });
 
-      console.log('Trimmed video URI:', uri);
+      // console.log('Trimmed video URI:', uri);
     } catch (error) {
       console.error('Error trimming video:', error);
     }
@@ -104,8 +126,9 @@ const TrimVideoModal = ({
           style={styles.media}
           resizeMode="cover"
           shouldPlay={isPlay} // Set to false to pause the video initially
-          isLooping={true}
-          onLoad={() => {
+          repeat={true}
+          onLoad={data => {
+            onPlaybackStatusUpdate(data);
             videoRef.current.seek(0);
           }}
           onPlaybackStatusUpdate={onPlaybackStatusUpdate}
@@ -142,6 +165,7 @@ const TrimVideoModal = ({
             selectedInterval={trimInterval}
           />
         )}
+
         <Typography>
           {Number((endFrame - startFrame) / 1000).toFixed(1)} s/
           {Number(videoDuration / 1000, 2).toFixed(1)} s
@@ -153,7 +177,7 @@ const TrimVideoModal = ({
           onPress={onCancelTrimVideoModalPress}>
           <Typography>Cancel</Typography>
         </Pressable>
-        <Pressable style={styles.saveButton}>
+        <Pressable style={styles.saveButton} onPress={trimVideo}>
           <Typography>Save</Typography>
         </Pressable>
       </View>

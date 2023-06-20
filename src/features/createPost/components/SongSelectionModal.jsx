@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useRef, useState} from 'react';
+import React, {useCallback, useEffect, useMemo, useRef, useState} from 'react';
 import {FlatList, Image, Pressable, StyleSheet, View} from 'react-native';
 import CloseIcon from '../../../../assets/images/close.png';
 import BottomModal from '../../../components/BottomModal';
@@ -16,7 +16,15 @@ const SongSelectionModal = ({
   const [playingSongId, setPlayingSongId] = useState('');
   const [selectedSongId, setSelectedSongId] = useState(null);
   const [selectedSong, setSelectedSong] = useState(null);
-  const soundObject = useRef(new Sound()).current;
+  const sound = useMemo(
+    () =>
+      new Sound(selectedSong?.item.uri, '', error => {
+        if (error) {
+          console.log('Failed to load sound', error);
+        }
+      }),
+    [selectedSong?.item.uri],
+  );
 
   useEffect(() => {
     return () => {
@@ -28,14 +36,13 @@ const SongSelectionModal = ({
   const stopAudioPlayback = useCallback(async () => {
     try {
       if (playingSongId) {
-        await soundObject.stopAsync();
-        await soundObject.unloadAsync();
+        sound.pause();
         setPlayingSongId('');
       }
     } catch (error) {
       // Discard error
     }
-  }, [playingSongId, soundObject]);
+  }, [playingSongId, sound]);
 
   const setIsSelected = useCallback(
     song => {

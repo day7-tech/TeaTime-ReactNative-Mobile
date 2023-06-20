@@ -1,20 +1,15 @@
-import React from "react";
-import { Pressable, StyleSheet } from "react-native";
-import { Gesture, GestureDetector } from "react-native-gesture-handler";
+import React from 'react';
+import {Pressable, StyleSheet} from 'react-native';
+import {Gesture, GestureDetector} from 'react-native-gesture-handler';
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
-} from "react-native-reanimated";
-import Typography from "../../../components/Typography/Typography";
+} from 'react-native-reanimated';
+import Typography from '../../../components/Typography/Typography';
 
-const DraggableText = ({
-  inputValue,
-  textColor,
-  fontSize,
-  onEditTextPress,
-}) => {
-  const offset = useSharedValue({ x: 0, y: 0 });
-  const start = useSharedValue({ x: 0, y: 0 });
+const DraggableText = ({inputValue, textColor, fontSize, onEditTextPress}) => {
+  const offset = useSharedValue({x: 0, y: 0});
+  const start = useSharedValue({x: 0, y: 0});
   const scale = useSharedValue(1);
   const savedScale = useSharedValue(1);
   const rotation = useSharedValue(0);
@@ -22,16 +17,16 @@ const DraggableText = ({
 
   const animatedStyles = useAnimatedStyle(() => ({
     transform: [
-      { translateX: offset.value.x },
-      { translateY: offset.value.y },
-      { scale: scale.value },
-      { rotateZ: `${rotation.value}rad` },
+      {translateX: offset.value.x},
+      {translateY: offset.value.y},
+      {scale: scale.value},
+      {rotateZ: `${rotation.value}rad`},
     ],
   }));
 
   const dragGesture = Gesture.Pan()
     .averageTouches(true)
-    .onUpdate((e) => {
+    .onUpdate(e => {
       offset.value = {
         x: e.translationX + start.value.x,
         y: e.translationY + start.value.y,
@@ -45,7 +40,7 @@ const DraggableText = ({
     });
 
   const zoomGesture = Gesture.Pinch()
-    .onUpdate((event) => {
+    .onUpdate(event => {
       scale.value = savedScale.value * event.scale;
     })
     .onEnd(() => {
@@ -53,7 +48,7 @@ const DraggableText = ({
     });
 
   const rotateGesture = Gesture.Rotation()
-    .onUpdate((event) => {
+    .onUpdate(event => {
       rotation.value = savedRotation.value + event.rotation;
     })
     .onEnd(() => {
@@ -62,13 +57,13 @@ const DraggableText = ({
 
   const composed = Gesture.Simultaneous(
     dragGesture,
-    Gesture.Simultaneous(zoomGesture, rotateGesture)
+    Gesture.Simultaneous(zoomGesture, rotateGesture),
   );
 
   const textStyle = {
     color: textColor,
     fontSize: fontSize,
-    textAlign: "center",
+    textAlign: 'center',
   };
 
   return (
@@ -84,15 +79,15 @@ const DraggableText = ({
 
 const styles = StyleSheet.create({
   draggableTextContainer: {
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   draggableText: {
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   text: {
-    textAlign: "center",
+    textAlign: 'center',
   },
 });
 

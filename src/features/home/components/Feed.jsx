@@ -1,6 +1,7 @@
 import {useNavigation} from '@react-navigation/native';
-import React, {useCallback, useRef, useState} from 'react';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {StyleSheet, TouchableOpacity, View} from 'react-native';
+import Video from 'react-native-video';
 import FeedDetails from '../../../components/FeedDetails';
 import {
   ROUTE_AUTHENTICATED_NAVIGATOR,
@@ -18,7 +19,6 @@ import {
 import {Colors} from '../../../utils/styles';
 import RecognitionStickersModal from '../../recognition/containers/RecognitionStickersModal';
 import CommentsModal from './CommentsModal';
-import Video from 'react-native-video';
 
 /**
  * Feed: Component for displaying a feed item.
@@ -26,7 +26,7 @@ import Video from 'react-native-video';
  * @param {object} item - The feed item object.
  * @param {boolean} isFavourites - Indicates if the feed item is in favorites.
  */
-const Feed = ({item, isFavourites, height, currentVideoId}) => {
+const Feed = ({item, isFavourites, height, currentVideoId, isScrolling}) => {
   const navigation = useNavigation();
   const [isPlaying, setIsPlaying] = useState(false);
   const [isVideoLoaded, setIsVideoLoaded] = useState(false);
@@ -81,8 +81,10 @@ const Feed = ({item, isFavourites, height, currentVideoId}) => {
    * It toggles the video playback state.
    */
   const handlePlayPause = useCallback(() => {
-    setIsPlaying(prev => !prev);
-  }, []);
+    if (!isScrolling) {
+      setIsPlaying(prev => !prev);
+    }
+  }, [isScrolling]);
 
   /**
    * Handle the video load event.
@@ -90,8 +92,10 @@ const Feed = ({item, isFavourites, height, currentVideoId}) => {
    */
   const handleVideoLoad = useCallback(() => {
     setIsVideoLoaded(true);
-    setIsPlaying(true);
-  }, []);
+    if (!isScrolling) {
+      setIsPlaying(true);
+    }
+  }, [isScrolling]);
 
   /**
    * Handle the Thanks button press.
@@ -131,6 +135,7 @@ const Feed = ({item, isFavourites, height, currentVideoId}) => {
    * Navigates to the user details screen.
    */
   const onUserDetailsPress = useCallback(() => {
+    console.log('Hello');
     navigation.navigate(ROUTE_AUTHENTICATED_NAVIGATOR, {
       screen: ROUTE_USER_DETAILS_STACK_NAVIGATOR,
       params: {
@@ -150,6 +155,22 @@ const Feed = ({item, isFavourites, height, currentVideoId}) => {
     commentsModalRef?.current?.present();
   }, []);
 
+  const [shouldPlay, setShouldPlay] = useState(false);
+
+  useEffect(() => {
+    console.log(currentVideoId, item.id, isVideoLoaded, isPlaying);
+    if (
+      currentVideoId === item.id &&
+      isVideoLoaded &&
+      isPlaying &&
+      !isScrolling
+    ) {
+      setShouldPlay(true);
+    } else {
+      setShouldPlay(false);
+    }
+  }, [currentVideoId, isVideoLoaded, isPlaying, item.id, isScrolling]);
+
   return (
     <View style={[styles.container, {height: height}]}>
       {/* Touchable video wrapper */}
@@ -163,13 +184,12 @@ const Feed = ({item, isFavourites, height, currentVideoId}) => {
           ref={videoRef}
           source={{uri: item.uri}}
           style={styles.video}
-          shouldPlay={currentVideoId === item.id && isVideoLoaded && isPlaying}
           resizeMode={'cover'}
-          isLooping
+          repeat={shouldPlay ? true : false}
+          paused={!shouldPlay}
           onLoad={handleVideoLoad}
           isMuted={false}
           volume={0.9}
-          paused={item.id !== currentVideoId}
         />
       </TouchableOpacity>
       {/* Feed details section */}
@@ -197,7 +217,7 @@ const Feed = ({item, isFavourites, height, currentVideoId}) => {
   );
 };
 
-export default Feed;
+export default React.memo(Feed);
 
 const styles = StyleSheet.create({
   container: {

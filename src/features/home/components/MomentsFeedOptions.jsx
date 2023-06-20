@@ -1,11 +1,11 @@
-import { StyleSheet, Text, View } from "react-native";
-import React, { useCallback, useEffect, useState } from "react";
-import FeedOption from "../../../components/FeedOption";
-import LikeIcon from "../../../../assets/images/like.png";
-import LikedIcon from "../../../../assets/images/liked.png";
-import ShareIcon from "../../../../assets/images/share.png";
+import {StyleSheet, Text, View} from 'react-native';
+import React, {useCallback, useEffect, useState} from 'react';
+import FeedOption from '../../../components/FeedOption';
+import LikeIcon from '../../../../assets/images/like.png';
+import LikedIcon from '../../../../assets/images/liked.png';
+import ShareIcon from '../../../../assets/images/share.png';
 
-const MomentsFeedOptions = ({ item, defaultLikes, isLiked }) => {
+const MomentsFeedOptions = ({item, defaultLikes, isLiked}) => {
   const [like, setLike] = useState(false);
   const [likeCount, setLikeCount] = useState(item.likeCount);
 
@@ -14,14 +14,14 @@ const MomentsFeedOptions = ({ item, defaultLikes, isLiked }) => {
    * Updates the like count and toggles the like state.
    */
   const onLikePress = useCallback(() => {
-    setLikeCount((prevCount) => (like ? prevCount - 1 : prevCount + 1));
-    setLike((prevLike) => !prevLike);
+    setLikeCount(prevCount => (like ? prevCount - 1 : prevCount + 1));
+    setLike(prevLike => !prevLike);
   }, [like]);
 
   useEffect(() => {
     setLike(isLiked ?? false);
     setLikeCount(defaultLikes ?? item.likeCount);
-  }, [isLiked, defaultLikes]);
+  }, [isLiked, defaultLikes, item.likeCount]);
 
   /**
    * Handle the Share button press.
@@ -40,7 +40,7 @@ const MomentsFeedOptions = ({ item, defaultLikes, isLiked }) => {
       />
       {/* Share button */}
       <FeedOption
-        label={"Share"}
+        label={'Share'}
         imageIcon={ShareIcon}
         onPress={onSharePress}
       />

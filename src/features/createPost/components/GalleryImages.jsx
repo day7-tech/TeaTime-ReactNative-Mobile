@@ -4,7 +4,7 @@ import * as ImagePicker from 'react-native-image-picker';
 import {PERMISSIONS, RESULTS, check, request} from 'react-native-permissions';
 import {Colors} from '../../../utils/styles';
 
-const GalleryImages = ({mediaType = 'photo'}) => {
+const GalleryImages = ({mediaType}) => {
   const [photos, setPhotos] = useState([]);
 
   useEffect(() => {
@@ -55,6 +55,7 @@ const GalleryImages = ({mediaType = 'photo'}) => {
 
     handleSelectPhoto();
   }, [mediaType]);
+  console.log(photos);
   return (
     <View>
       {photos.length > 0 &&

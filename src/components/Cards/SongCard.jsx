@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useEffect, useMemo, useRef, useState} from 'react';
 import {Image, StyleSheet, TouchableOpacity, View} from 'react-native';
 import CheckIcon from '../../../assets/images/check.png';
 import PauseIcon from '../../../assets/images/pause.png';
@@ -25,15 +25,24 @@ export default function SongCard({
   isSelected,
   setIsSelected,
 }) {
-  const soundObject = useRef(new Sound()).current;
+  const sound = useMemo(
+    () =>
+      new Sound(uri, '', error => {
+        if (error) {
+          console.log('Failed to load sound', error);
+        }
+      }),
+    [uri],
+  );
   const [isLoaded, setIsLoaded] = useState(false);
+  const [currentSound, setCurrentSound] = useState(null);
 
   useEffect(() => {
     let isUnmounted = false;
 
     const loadAudio = async () => {
       try {
-        await soundObject.loadAsync({uri});
+        sound.release();
         setIsLoaded(true);
       } catch (error) {
         // Handle error
@@ -46,18 +55,26 @@ export default function SongCard({
 
     return () => {
       isUnmounted = true;
-      soundObject.stopAsync();
-      soundObject.unloadAsync();
+      sound.release();
     };
-  }, [isLoaded, soundObject, uri]);
+  }, [isLoaded, sound]);
 
   const togglePlayback = async () => {
     try {
       if (isLoaded) {
         if (isPlaying) {
-          await soundObject.pauseAsync();
+          sound.pause(); // Pause the sound
         } else {
-          await soundObject.playAsync();
+          if (sound.isPlaying()) {
+            sound.stop(); // Stop the currently playing sound
+          }
+          sound.play(success => {
+            if (success) {
+              console.log('Successfully finished playing');
+            } else {
+              console.log('Playback failed due to audio decoding errors');
+            }
+          });
         }
         setIsPlaying(!isPlaying);
       }

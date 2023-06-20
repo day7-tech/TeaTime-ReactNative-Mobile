@@ -1,13 +1,14 @@
-import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
-import React, { useCallback, useEffect, useRef, useState } from "react";
-import { FlatList, StyleSheet, View } from "react-native";
-import { generateDummyVideoPosts } from "../../../services/generateRandomContent";
-import { SCREEN_HEIGHT } from "../../../utils/constants";
-import Feed from "../components/Feed";
+import {useBottomTabBarHeight} from '@react-navigation/bottom-tabs';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
+import {FlatList, StyleSheet, View} from 'react-native';
+import {generateDummyVideoPosts} from '../../../services/generateRandomContent';
+import {SCREEN_HEIGHT} from '../../../utils/constants';
+import Feed from '../components/Feed';
 
-const Moments = ({ isFocused }) => {
+const Moments = ({isFocused}) => {
   const [videos, setVideos] = React.useState(generateDummyVideoPosts(0, 10));
   const [currentVideoId, setCurrentVideoId] = useState(null);
+  const [isScrolling, setIsScrolling] = useState(false);
 
   // Create a reference to the FlatList component
   const flatListRef = useRef(null);
@@ -25,30 +26,31 @@ const Moments = ({ isFocused }) => {
     setVideos(newVideos);
   };
   // Function to render a single video post
-  const renderVideo = ({ item }) => {
+  const renderVideo = ({item}) => {
     return (
       <Feed
         item={item}
         isFavourites={false}
         height={SCREEN_HEIGHT - tabBarHeight}
         currentVideoId={currentVideoId}
+        isScrolling={isScrolling}
       />
     );
   };
 
   // Function to pause the first video
-  const pauseFirstVideo = () => {
+  const pauseFirstVideo = useCallback(() => {
     if (videos.length > 0) {
       setCurrentVideoId(null);
     }
-  };
+  }, [videos.length]);
 
   // Function to play the first video
-  const playFirstVideo = () => {
+  const playFirstVideo = useCallback(() => {
     if (videos.length > 0) {
       setCurrentVideoId(videos[0].id);
     }
-  };
+  }, [videos]);
 
   // Pause the first video when isFocused is false
   useEffect(() => {
@@ -57,11 +59,11 @@ const Moments = ({ isFocused }) => {
     } else {
       playFirstVideo();
     }
-  }, [isFocused]);
+  }, [isFocused, pauseFirstVideo, playFirstVideo]);
 
   const handleScroll = useCallback(
-    ({ nativeEvent }) => {
-      const { layoutMeasurement, contentOffset, contentSize } = nativeEvent;
+    ({nativeEvent}) => {
+      const {layoutMeasurement, contentOffset, contentSize} = nativeEvent;
       const screenHeight = layoutMeasurement.height;
       const scrollPosition = contentOffset.y;
       const visibleVideoIndex = Math.floor(scrollPosition / screenHeight);
@@ -72,8 +74,16 @@ const Moments = ({ isFocused }) => {
         setCurrentVideoId(visibleVideo.id);
       }
     },
-    [videos]
+    [videos],
   );
+
+  const handleScrollBegin = useCallback(() => {
+    setIsScrolling(true);
+  }, []);
+
+  const handleScrollEnd = useCallback(() => {
+    setIsScrolling(false);
+  }, []);
 
   return (
     <View>
@@ -83,14 +93,16 @@ const Moments = ({ isFocused }) => {
         renderItem={renderVideo}
         onEndReached={loadMoreVideos}
         onEndReachedThreshold={0.5}
-        keyExtractor={(item) => `${item.id}`}
+        keyExtractor={item => `${item.id}`}
         // Set the behavior for snapping to the start of each video post
         snapToAlignment="start"
-        decelerationRate={"fast"}
+        decelerationRate={'fast'}
         snapToInterval={SCREEN_HEIGHT - tabBarHeight}
         // Hide the vertical scroll bar
         showsVerticalScrollIndicator={false}
         onScroll={handleScroll}
+        onScrollBeginDrag={handleScrollBegin}
+        onScrollEndDrag={handleScrollEnd}
       />
     </View>
   );

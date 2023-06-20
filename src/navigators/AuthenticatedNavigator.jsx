@@ -27,7 +27,7 @@ const AuthenticatedNavigator = () => {
           headerShown: false, // Hide the header for the screen
         }}
       />
-      {/* <Stack.Screen
+      <Stack.Screen
         component={SearchScreen}
         name={ROUTE_SEARCH_SCREEN}
         options={{
@@ -47,7 +47,7 @@ const AuthenticatedNavigator = () => {
         options={{
           headerShown: false, // Hide the header for the screen
         }}
-      /> */}
+      />
     </Stack.Navigator>
   );
 };

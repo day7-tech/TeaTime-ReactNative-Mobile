@@ -63,7 +63,6 @@ const FilterOptions = ({mediaUri, mediaType}) => {
           data={FILTERS}
           horizontal
           renderItem={renderItem}
-          keyExtractor={item => item.name}
           ItemSeparatorComponent={() => <View style={styles.separator} />}
         />
       </View>

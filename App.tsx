@@ -14,11 +14,11 @@ import ModalNavigator from './src/navigators/ModalNavigator';
 
 function App(): JSX.Element {
   return (
-    <BottomSheetModalProvider>
-      <GestureHandlerRootView style={styles.container}>
+    <GestureHandlerRootView style={styles.container}>
+      <BottomSheetModalProvider>
         <ModalNavigator />
-      </GestureHandlerRootView>
-    </BottomSheetModalProvider>
+      </BottomSheetModalProvider>
+    </GestureHandlerRootView>
   );
 }
 

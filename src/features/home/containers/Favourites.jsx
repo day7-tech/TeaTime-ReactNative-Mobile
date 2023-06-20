@@ -10,6 +10,7 @@ const Favourites = ({isFocused}) => {
   const flatListRef = useRef(null);
   const tabBarHeight = useBottomTabBarHeight();
   const [currentVideoId, setCurrentVideoId] = useState(null);
+  const [isScrolling, setIsScrolling] = useState(false);
 
   /**
    * Load more videos.
@@ -35,6 +36,7 @@ const Favourites = ({isFocused}) => {
         isFavourites={true}
         height={SCREEN_HEIGHT - tabBarHeight}
         currentVideoId={currentVideoId}
+        isScrolling={isScrolling}
       />
     );
   };
@@ -45,7 +47,6 @@ const Favourites = ({isFocused}) => {
       setCurrentVideoId(null);
     }
   }, [videos.length]);
-
   // Function to play the first video
   const playFirstVideo = useCallback(() => {
     if (videos.length > 0) {
@@ -78,6 +79,14 @@ const Favourites = ({isFocused}) => {
     [videos],
   );
 
+  const handleScrollBegin = useCallback(() => {
+    setIsScrolling(true);
+  }, []);
+
+  const handleScrollEnd = useCallback(() => {
+    setIsScrolling(false);
+  }, []);
+
   return (
     <View>
       <FlatList
@@ -92,6 +101,8 @@ const Favourites = ({isFocused}) => {
         snapToInterval={SCREEN_HEIGHT - tabBarHeight}
         showsVerticalScrollIndicator={false}
         onScroll={handleScroll}
+        onScrollBeginDrag={handleScrollBegin}
+        onScrollEndDrag={handleScrollEnd}
       />
     </View>
   );

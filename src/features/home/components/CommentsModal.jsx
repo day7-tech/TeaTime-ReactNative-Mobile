@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, {useCallback, useState} from 'react';
 import {
   FlatList,
   Image,
@@ -7,70 +7,68 @@ import {
   Pressable,
   StyleSheet,
   View,
-} from "react-native";
-import { getBottomSpace } from "react-native-iphone-x-helper";
-import AppTextInput from "../../../components/AppTextInput";
-import BottomModal from "../../../components/BottomModal";
-import Typography from "../../../components/Typography/Typography";
-import UserComment from "../../../components/UserComment";
-import { Colors } from "../../../utils/styles";
+} from 'react-native';
+import {getBottomSpace} from 'react-native-iphone-x-helper';
+import AppTextInput from '../../../components/AppTextInput';
+import BottomModal from '../../../components/BottomModal';
+import Typography from '../../../components/Typography/Typography';
+import UserComment from '../../../components/UserComment';
+import {Colors} from '../../../utils/styles';
 
-const CommentsModal = ({ commentsModalRef, userDetails }) => {
-  const [commentText, setCommentText] = useState("");
+const CommentsModal = ({commentsModalRef, userDetails}) => {
+  const [commentText, setCommentText] = useState('');
 
   const onPostPress = useCallback(() => {
-    console.lot("on Comment Press");
+    console.lot('on Comment Press');
   }, []);
   return (
     <BottomModal
       bottomSheetContainerStyle={styles.bottomSheetContainer}
       bottomSheetModalRef={commentsModalRef}
-      containerStyle={styles.bottomModalContainer}
-    >
+      containerStyle={styles.bottomModalContainer}>
       <FlatList
         data={[1, 2, 3, 4]}
-        keyExtractor={({ item }) => item}
+        keyExtractor={({item}) => item}
         showsVerticalScrollIndicator={false}
-        renderItem={({ item, index }) => {
+        renderItem={({item, index}) => {
           return (
             <View key={index}>
               <UserComment
                 userImage={userDetails.uploader.image}
                 userName={userDetails.uploader.name}
-                comment={"Helllo Hi how are you?"}
+                comment={'Helllo Hi how are you?'}
               />
               <UserComment
                 userImage={userDetails.uploader.image}
                 userName={userDetails.uploader.name}
                 comment={
-                  "Helllo Hi how are you? I am good. what about you? had you lunch"
+                  'Helllo Hi how are you? I am good. what about you? had you lunch'
                 }
               />
               <UserComment
                 userImage={userDetails.uploader.image}
                 userName={userDetails.uploader.name}
-                comment={"Helllo "}
+                comment={'Helllo '}
               />
             </View>
           );
         }}
       />
       <KeyboardAvoidingView
-        behavior={Platform.OS === "ios" ? "padding" : undefined}
+        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
         keyboardVerticalOffset={
-          Platform.OS === "ios" ? getBottomSpace() + 180 : 0
+          Platform.OS === 'ios' ? getBottomSpace() + 180 : 0
         }
-        style={styles.keyboardAvoidingContainer}
-      >
+        style={styles.keyboardAvoidingContainer}>
         <Image
-          source={{ uri: userDetails.channel.image }}
+          source={{uri: userDetails.channel.image}}
           style={styles.userImage}
         />
         <AppTextInput
           value={commentText}
           onChangeText={setCommentText}
           textStyle={styles.textStyle}
-          placeholder={"Search"}
+          placeholder={'Search'}
           autoCorrect={false}
           suffixComponent={
             <Pressable style={styles.postButton} onPress={onPostPress}>
@@ -100,9 +98,9 @@ const styles = StyleSheet.create({
     height: 50,
     backgroundColor: Colors.grey,
     borderRadius: 10,
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
     flex: 1,
     paddingHorizontal: 10,
   },
@@ -113,15 +111,15 @@ const styles = StyleSheet.create({
     marginRight: 10,
   },
   inputContainer: {
-    flexDirection: "row",
-    alignItems: "center",
+    flexDirection: 'row',
+    alignItems: 'center',
     marginBottom: getBottomSpace(),
   },
   textInput: {
-    alignItems: "center",
+    alignItems: 'center',
   },
   textStyle: {
-    width: "100%",
+    width: '100%',
   },
   postText: {
     color: Colors.primary,
@@ -129,11 +127,11 @@ const styles = StyleSheet.create({
     fontWeight: 600,
   },
   postButton: {
-    height: "100%",
-    justifyContent: "center",
+    height: '100%',
+    justifyContent: 'center',
   },
   keyboardAvoidingContainer: {
-    flexDirection: "row",
-    alignItems: "center",
+    flexDirection: 'row',
+    alignItems: 'center',
   },
 });

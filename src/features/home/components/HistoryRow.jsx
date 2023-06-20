@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, {FC} from 'react';
 import {
   Image,
   StyleProp,
@@ -6,11 +6,11 @@ import {
   Text,
   View,
   ViewStyle,
-} from "react-native";
-import { Colors } from "../../../utils/styles";
-import ClockIcon from "./../../../../assets/images/clock.png";
+} from 'react-native';
+import {Colors} from '../../../utils/styles';
+import ClockIcon from './../../../../assets/images/clock.png';
 
-const HistoryRow = ({ style, searchedText }) => {
+const HistoryRow = ({style, searchedText}) => {
   return (
     <View style={[styles.container, style]}>
       <Image source={ClockIcon} style={styles.image} />
@@ -24,8 +24,8 @@ const HistoryRow = ({ style, searchedText }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    flexDirection: "row",
-    alignItems: "center",
+    flexDirection: 'row',
+    alignItems: 'center',
     marginVertical: 5,
   },
   image: {

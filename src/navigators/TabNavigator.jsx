@@ -18,6 +18,8 @@ import {
   ROUTE_NOTIFICATIONS_SCREEN,
   ROUTE_PROFILE_NAVIGATOR,
 } from './RouteNames';
+import NotificationScreens from '../features/notifications/containers/NotificationScreen';
+import GroupsScreen from '../features/groups/containers/GroupsScreen';
 
 const Tab = createBottomTabNavigator();
 
@@ -59,7 +61,7 @@ const TabNavigator = props => {
 
       {/* Groups Tab */}
       <Tab.Screen
-        component={HomeScreen}
+        component={GroupsScreen}
         name={ROUTE_GROUPS_SCREEN}
         options={{
           tabBarLabel: ({color}) => (
@@ -85,7 +87,7 @@ const TabNavigator = props => {
 
       {/* Profile Tab */}
       <Tab.Screen
-        component={HomeScreen}
+        component={NotificationScreens}
         name={ROUTE_NOTIFICATIONS_SCREEN}
         options={{
           tabBarLabel: ({color}) => (

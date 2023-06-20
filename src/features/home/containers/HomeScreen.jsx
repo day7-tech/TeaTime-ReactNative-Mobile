@@ -1,4 +1,3 @@
-import {useIsFocused} from '@react-navigation/native';
 import React, {useCallback} from 'react';
 import {
   Image,
@@ -18,16 +17,19 @@ import Moments from './Moments';
 
 // Create two components to render as the two tabs
 // Create two components to render as the two tabs
+
+// Define memoized versions of the `Moments` and `Favourites` components
+const MemoizedMoments = React.memo(Moments);
+const MemoizedFavourites = React.memo(Favourites);
 const FirstRoute = ({isFocused}) => {
-  return <Moments isFocused={isFocused} />;
+  return <MemoizedMoments isFocused={isFocused} />;
 };
 
 const SecondRoute = ({isFocused}) => {
-  return <Favourites isFocused={isFocused} />;
+  return <MemoizedFavourites isFocused={isFocused} />;
 };
 
 const HomeScreen = ({navigation}) => {
-  const isFocused = useIsFocused();
   // Set up state to track the selected tab
   const [index, setIndex] = React.useState(0);
   // Define an array of route objects, one for each tab
@@ -38,13 +40,9 @@ const HomeScreen = ({navigation}) => {
 
   // Define a function to render the appropriate tab component based on the current index
   const renderScene = SceneMap({
-    moments: useCallback(() => <FirstRoute isFocused={index === 1} />, [index]),
-    favourites: useCallback(
-      () => <SecondRoute isFocused={index === 0} />,
-      [index],
-    ),
+    moments: () => <FirstRoute isFocused={index === 1} />,
+    favourites: () => <SecondRoute isFocused={index === 0} />,
   });
-
   // Define a function to render the tab bar
   const renderTabBar = props => {
     return (

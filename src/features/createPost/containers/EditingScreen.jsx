@@ -20,6 +20,7 @@ import FiltersModal from '../components/FiltersModal';
 import SongSelectionModal from '../components/SongSelectionModal';
 import StickerSelectionModal from '../components/StickerSelectionModal';
 import TrimVideoModal from '../components/TrimVideoModal';
+import Typography from '../../../components/Typography/Typography';
 
 const EditingScreen = ({route}) => {
   const navigation = useNavigation();
@@ -38,6 +39,7 @@ const EditingScreen = ({route}) => {
   const [isVideoPlay, setIsVideoPlay] = useState(true);
 
   const onClosePress = useCallback(() => {
+    console.log('Hello');
     navigation.goBack();
   }, [navigation]);
 
@@ -112,6 +114,11 @@ const EditingScreen = ({route}) => {
     setIsVideoPlay(true);
     filtersModalRef?.current?.close();
   }, []);
+
+  const onDonePress = useCallback(() => {
+    navigation.goBack();
+  }, [navigation]);
+
   console.log('fileUri', fileUri);
   return (
     <SafeAreaView style={styles.container}>
@@ -127,7 +134,7 @@ const EditingScreen = ({route}) => {
           style={styles.media}
           resizeMode="cover"
           shouldPlay={isVideoPlay} // Set to false to pause the video initially
-          isLooping={true}
+          repeat={true}
         />
       )}
       <View style={styles.topContainer}>
@@ -137,8 +144,18 @@ const EditingScreen = ({route}) => {
           </Pressable>
         )}
         {selectedSong && (
-          <Pressable style={styles.songView} onPress={onMusicPress}>
-            <Image source={FavImage} style={styles.songImage} />
+          <Pressable onPress={onMusicPress} style={styles.songContainer}>
+            <View style={styles.songView}>
+              <Image source={FavImage} style={styles.songImage} />
+            </View>
+            <Typography style={styles.songText}>
+              {selectedSong.item.name}
+            </Typography>
+          </Pressable>
+        )}
+        {!isTextModalVisible && (
+          <Pressable onPress={onDonePress} style={styles.doneButton}>
+            <Typography style={styles.doneText}>Done</Typography>
           </Pressable>
         )}
       </View>
@@ -200,6 +217,7 @@ const EditingScreen = ({route}) => {
         fileUri={fileUri}
         onCloseModalPress={onCloseFiltersModalPress}
         mediaType={mediaType}
+        onDonePress={onDonePress}
       />
     </SafeAreaView>
   );
@@ -219,24 +237,39 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   closeButton: {
-    padding: HORIZONTAL_MARGIN,
+    position: 'absolute',
+    left: HORIZONTAL_MARGIN,
+    zIndex: 1,
   },
   topContainer: {
-    flexDirection: 'row',
     alignItems: 'center',
+    zIndex: 1,
   },
   bottomContainer: {
     marginBottom: 40,
   },
-  songView: {
-    borderColor: Colors.white,
-    borderWidth: 2,
-    position: 'absolute',
-    left: (SCREEN_WIDTH - 30) / 2,
-    borderRadius: 5,
-  },
+  songView: {},
   songImage: {
     width: 30,
     height: 30,
+    borderColor: Colors.white,
+    borderWidth: 2,
+    borderRadius: 5,
+  },
+  songContainer: {
+    position: 'absolute',
+    alignItems: 'center',
+  },
+  songText: {
+    textAlign: 'center',
+  },
+  doneButton: {
+    position: 'absolute',
+    right: HORIZONTAL_MARGIN,
+    zIndex: 1,
+  },
+  doneText: {
+    fontWeight: 'bold',
+    fontSize: 16,
   },
 });
