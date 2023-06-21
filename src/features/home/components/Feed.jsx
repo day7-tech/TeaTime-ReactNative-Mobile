@@ -185,11 +185,11 @@ const Feed = ({item, isFavourites, height, currentVideoId, isScrolling}) => {
           source={{uri: item.uri}}
           style={styles.video}
           resizeMode={'cover'}
-          repeat={shouldPlay ? true : false}
           paused={!shouldPlay}
           onLoad={handleVideoLoad}
           isMuted={false}
           volume={0.9}
+          repeat={shouldPlay ? true : false}
         />
       </TouchableOpacity>
       {/* Feed details section */}

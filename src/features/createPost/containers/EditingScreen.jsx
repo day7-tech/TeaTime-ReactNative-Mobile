@@ -26,7 +26,6 @@ const EditingScreen = ({route}) => {
   const navigation = useNavigation();
   const {fileUri, mediaType} = route.params;
   const [isTextModalVisible, setTextModalVisible] = useState(false);
-  const [isMusicModalVisible, setMusicModalVisible] = useState(false);
   const [displayText, setDisplayText] = useState('');
   const [displayColor, setDisplayColor] = useState(Colors.white);
   const [displayTextSize, setDisplayTextSize] = useState(20);
@@ -39,7 +38,6 @@ const EditingScreen = ({route}) => {
   const [isVideoPlay, setIsVideoPlay] = useState(true);
 
   const onClosePress = useCallback(() => {
-    console.log('Hello');
     navigation.goBack();
   }, [navigation]);
 
@@ -119,7 +117,6 @@ const EditingScreen = ({route}) => {
     navigation.goBack();
   }, [navigation]);
 
-  console.log('fileUri', fileUri);
   return (
     <SafeAreaView style={styles.container}>
       {mediaType === 'image' ? (
@@ -133,7 +130,8 @@ const EditingScreen = ({route}) => {
           source={{uri: fileUri}}
           style={styles.media}
           resizeMode="cover"
-          shouldPlay={isVideoPlay} // Set to false to pause the video initially
+          isMuted={false}
+          volume={0.9}
           repeat={true}
         />
       )}

@@ -2,12 +2,12 @@ import {
   BottomSheetBackdrop,
   BottomSheetModal,
   BottomSheetScrollView,
-} from "@gorhom/bottom-sheet";
-import React, { useCallback } from "react";
-import { StyleSheet } from "react-native";
-import { getBottomSpace } from "react-native-iphone-x-helper";
-import { HORIZONTAL_MARGIN } from "../utils/constants";
-import { Colors } from "../utils/styles";
+} from '@gorhom/bottom-sheet';
+import React, {useCallback} from 'react';
+import {StyleSheet} from 'react-native';
+import {getBottomSpace} from 'react-native-iphone-x-helper';
+import {HORIZONTAL_MARGIN} from '../utils/constants';
+import {Colors} from '../utils/styles';
 
 /**
  * Component that represents a bottom modal.
@@ -23,7 +23,7 @@ const BottomModal = ({
   onClose,
   containerStyle,
   bottomSheetContainerStyle,
-  snapPoints = ["80%"],
+  snapPoints = ['80%'],
 }) => {
   /**
    * Renders the backdrop for the bottom modal.
@@ -31,7 +31,7 @@ const BottomModal = ({
    * @returns {JSX.Element} - The rendered backdrop component.
    */
   const renderBackdrop = useCallback(
-    (props) => (
+    props => (
       <BottomSheetBackdrop
         {...props}
         opacity={0.5}
@@ -39,7 +39,7 @@ const BottomModal = ({
         disappearsOnIndex={-1}
       />
     ),
-    []
+    [],
   );
 
   return (
@@ -50,12 +50,13 @@ const BottomModal = ({
       enablePanDownToClose={true}
       onDismiss={onClose}
       backdropComponent={renderBackdrop}
-      backgroundStyle={[styles.bottomSheetContainer, bottomSheetContainerStyle]}
-    >
+      backgroundStyle={[
+        styles.bottomSheetContainer,
+        bottomSheetContainerStyle,
+      ]}>
       <BottomSheetScrollView
         contentContainerStyle={[styles.contentContainer, containerStyle]}
-        showsVerticalScrollIndicator={false}
-      >
+        showsVerticalScrollIndicator={false}>
         {children}
       </BottomSheetScrollView>
     </BottomSheetModal>

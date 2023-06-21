@@ -1,7 +1,7 @@
 import Video from 'react-native-video';
 
 import React, {useEffect, useRef, useState} from 'react';
-import {Image, Pressable, StyleSheet, View} from 'react-native';
+import {Image, Platform, Pressable, StyleSheet, View} from 'react-native';
 import BottomModal from '../../../components/BottomModal';
 
 import PauseIcon from '../../../../assets/images/pause.png';
@@ -13,6 +13,7 @@ import {Colors} from '../../../utils/styles';
 import TrimTimeOptions from './TrimTimeOptions';
 import {createThumbnail} from 'react-native-create-thumbnail';
 import {ProcessingManager} from 'react-native-video-processing';
+import {FFmpegKit} from 'ffmpeg-kit-react-native';
 
 const TrimVideoModal = ({
   trimVideoModalRef,
@@ -27,13 +28,10 @@ const TrimVideoModal = ({
   const [isPlay, setPlay] = useState(false);
 
   const [videoDuration, setVideoDuration] = useState(null);
+  const [trimmedUri, setTrimmedUri] = useState(null);
   const videoRef = useRef(null);
 
   useEffect(() => {
-    ProcessingManager.getVideoInfo(fileUri).then(
-      ({duration, size, frameRate, bitrate}) =>
-        console.log('duration', duration, size, frameRate, bitrate),
-    );
     createThumbnail({
       url: fileUri,
       timeStamp: startFrame,
@@ -41,7 +39,6 @@ const TrimVideoModal = ({
       .then(response => setThumbnails(response.path))
       .catch(err => console.log({err}));
   }, [fileUri, startFrame]);
-  console.log('thumbnails', thumbnails, videoDuration);
 
   const getThumbnailAsync = async () => {
     //   try {
@@ -67,25 +64,36 @@ const TrimVideoModal = ({
     setVideoDuration(durationMillis);
   };
 
-  const trimVideo = async () => {
-    const options = {
-      startTime: startFrame,
-      endTime: endFrame,
-    };
-    console.log('videoUri', videoUri, options);
-    try {
-      ProcessingManager.trim(videoUri, options) // like VideoPlayer trim options
-        .then(data => console.log('Trimmed vide', data));
-      // const {uri} = await getThumbnailAsync(videoUri, {
-      //   time: startFrame, // Use startFrame as the time for trimming
-      // });
+  const formatPath = path => {
+    const secondDotIndex = path.lastIndexOf('.');
+    console.log('SeconfDotIndx', secondDotIndex);
+    const newPath = Platform.select({
+      ios: path.split('.')[0],
+      android: path.substring(0, secondDotIndex),
+    });
+    console.log('SeconfDotIndx newpath', newPath);
 
-      // console.log('Trimmed video URI:', uri);
+    return newPath;
+  };
+
+  const trimVideo = async () => {
+    try {
+      const newPath = formatPath(trimmedUri ?? videoUri);
+      const outputPath = `${newPath}_trim.mp4`;
+      console.log('Start', startFrame, endFrame);
+      const startTime = startFrame / 1000; // Convert start time to seconds
+      const duration = (endFrame - startFrame) / 1000; // Convert duration to seconds
+      const command = `-y -i ${
+        trimmedUri ?? videoUri
+      } -ss ${startTime} -t ${duration} ${outputPath}`;
+      await FFmpegKit.execute(command);
+      // return outputPath;
+      setTrimmedUri(outputPath);
     } catch (error) {
       console.error('Error trimming video:', error);
     }
   };
-
+  console.log('trimm', trimmedUri, videoUri, startFrame, endFrame);
   const handleTrimInterval = trimIntervalTime => {
     setStartFrame(0);
     setEndFrame(trimIntervalTime);
@@ -98,6 +106,7 @@ const TrimVideoModal = ({
 
   const onLeftHandleChange = value => {
     setStartFrame(value);
+    trimVideo();
     if (trimInterval !== null && endFrame - value !== trimInterval) {
       setTrimInterval(null);
     }
@@ -105,6 +114,7 @@ const TrimVideoModal = ({
 
   const onRightHandleChange = value => {
     setEndFrame(value);
+    trimVideo();
     if (trimInterval !== null && value - startFrame !== trimInterval) {
       setTrimInterval(null);
     }
@@ -119,13 +129,12 @@ const TrimVideoModal = ({
       bottomSheetModalRef={trimVideoModalRef}
       containerStyle={{flex: 1, paddingHorizontal: 0}}
       snapPoints={['100%']}>
-      {videoUri && (
+      {(videoUri || trimmedUri) && (
         <Video
           ref={videoRef}
-          source={{uri: videoUri}}
+          source={{uri: trimmedUri ?? videoUri}}
           style={styles.media}
           resizeMode="cover"
-          shouldPlay={isPlay} // Set to false to pause the video initially
           repeat={true}
           onLoad={data => {
             onPlaybackStatusUpdate(data);

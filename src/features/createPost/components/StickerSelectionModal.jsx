@@ -17,7 +17,7 @@ const StickerSelectionModal = ({
   return (
     <BottomModal
       bottomSheetModalRef={stickerSelectionModalRef}
-      snapPoints={['95%']}
+      snapPoints={['98%']}
       bottomSheetContainerStyle={styles.container}
       containerStyle={styles.bottomContainer}>
       <BlurView blurAmount={40}>

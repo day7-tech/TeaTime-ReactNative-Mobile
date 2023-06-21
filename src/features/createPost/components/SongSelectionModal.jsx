@@ -28,7 +28,6 @@ const SongSelectionModal = ({
 
   useEffect(() => {
     return () => {
-      // Stop the song playback when the modal is closed
       stopAudioPlayback();
     };
   }, [stopAudioPlayback]);

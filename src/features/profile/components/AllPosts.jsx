@@ -5,9 +5,7 @@ import {generateDummyVideoPosts} from '../../../services/generateRandomContent';
 const AllPosts = ({}) => {
   const [videos, setVideos] = useState(() => generateDummyVideoPosts(10));
 
-  const onPostPress = useCallback(() => {
-    console.log('Hello');
-  }, []);
+  const onPostPress = useCallback(() => {}, []);
   const VideoThumbnail = ({thumbnailUri, item}) => {
     const [, setIsLoaded] = useState(false);
     const [, setLoadError] = useState(false);

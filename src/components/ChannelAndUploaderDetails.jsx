@@ -1,7 +1,7 @@
-import { Image, Pressable, StyleSheet, View } from "react-native";
-import React from "react";
-import Typography from "./Typography/Typography";
-import { Colors } from "../utils/styles";
+import {Image, Pressable, StyleSheet, View} from 'react-native';
+import React from 'react';
+import Typography from './Typography/Typography';
+import {Colors} from '../utils/styles';
 
 /**
  * Component that displays channel and uploader details.
@@ -21,8 +21,8 @@ const ChannelAndUploaderDetails = ({
   return (
     <Pressable style={styles.channelDetailsContainer} onPress={onPress}>
       <View style={styles.userDetails}>
-        <Image source={{ uri: uploaderImage }} style={styles.uploaderImage} />
-        <Image source={{ uri: channelImage }} style={styles.channelImage} />
+        <Image source={{uri: uploaderImage}} style={styles.uploaderImage} />
+        <Image source={{uri: channelImage}} style={styles.channelImage} />
       </View>
       <View style={styles.textContainer}>
         <Typography style={styles.uploaderName} numberOfLines={1}>
@@ -43,18 +43,18 @@ const styles = StyleSheet.create({
     width: 26,
     height: 26,
     borderRadius: 26,
-    position: "absolute",
+    position: 'absolute',
     bottom: -2,
     right: 5,
   },
   uploaderName: {
-    fontWeight: "bold",
+    fontWeight: 'bold',
     color: Colors.white,
     paddingBottom: 5,
   },
   channelDetailsContainer: {
-    flexDirection: "row",
-    alignItems: "center",
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   uploaderImage: {
     marginRight: 15,
