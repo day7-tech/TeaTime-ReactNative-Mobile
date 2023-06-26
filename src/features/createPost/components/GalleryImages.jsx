@@ -12,6 +12,7 @@ const GalleryImages = ({mediaType}) => {
       try {
         let permissionStatus = '';
 
+        // Checking permission status based on the platform
         if (Platform.OS === 'android') {
           permissionStatus = await check(
             PERMISSIONS.ANDROID.READ_EXTERNAL_STORAGE,
@@ -21,10 +22,12 @@ const GalleryImages = ({mediaType}) => {
         }
 
         if (permissionStatus === RESULTS.GRANTED) {
+          // Launching image library if permission is granted
           const media = await ImagePicker.launchImageLibrary({
             mediaType: mediaType,
           });
           if (!media.didCancel && !media.error) {
+            // Setting the selected photo in the state
             setPhotos([media.assets[0].uri]);
           }
         } else {
@@ -35,13 +38,16 @@ const GalleryImages = ({mediaType}) => {
             permissionType = PERMISSIONS.IOS.PHOTO_LIBRARY_ADD_ONLY;
           }
 
+          // Requesting permission if not granted
           const result = await request(permissionType);
           console.log('result', result);
           if (result === RESULTS.GRANTED) {
+            // Launching image library if permission is granted
             const media = await ImagePicker.launchImageLibrary({
               mediaType: mediaType,
             });
             if (!media.didCancel && !media.error) {
+              // Setting the selected photo in the state
               setPhotos([media.assets[0].uri]);
             }
           } else {
@@ -55,7 +61,7 @@ const GalleryImages = ({mediaType}) => {
 
     handleSelectPhoto();
   }, [mediaType]);
-  console.log(photos);
+
   return (
     <View>
       {photos.length > 0 &&

@@ -1,9 +1,9 @@
-import { StyleSheet, Text, View } from "react-native";
-import React, { useEffect } from "react";
-import Success from "../../../components/Success/Success";
-import UserCard from "../../../components/UserCard/UserCard";
-import Typography from "../../../components/Typography/Typography";
-import { ROUTE_TAB_NAVIGATOR } from "../../../navigators/RouteNames";
+import React, {useEffect} from 'react';
+import {StyleSheet, View} from 'react-native';
+import Success from '../../../components/Success/Success';
+import Typography from '../../../components/Typography/Typography';
+import UserCard from '../../../components/UserCard/UserCard';
+import {ROUTE_TAB_NAVIGATOR} from '../../../navigators/RouteNames';
 
 /**
  * Component that renders the screen for successful recognition sending.
@@ -11,8 +11,8 @@ import { ROUTE_TAB_NAVIGATOR } from "../../../navigators/RouteNames";
  * @param {object} navigation - The navigation object provided by the navigator.
  * @returns {JSX.Element} - The SendRecognitionSuccess component.
  */
-const SendRecognitionSuccess = ({ route, navigation }) => {
-  const { post } = route.params;
+const SendRecognitionSuccess = ({route, navigation}) => {
+  const {post} = route.params;
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -20,7 +20,7 @@ const SendRecognitionSuccess = ({ route, navigation }) => {
     }, 1000);
 
     return () => clearTimeout(timer);
-  }, []);
+  }, [navigation]);
 
   return (
     <Success
@@ -51,19 +51,19 @@ export default SendRecognitionSuccess;
 
 const styles = StyleSheet.create({
   title: {
-    fontWeight: "bold",
+    fontWeight: 'bold',
   },
   container: {
     flex: 1,
-    flexDirection: "column",
-    justifyContent: "space-between",
-    alignItems: "center",
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+    alignItems: 'center',
   },
   centre: {
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "center",
-    alignItems: "center",
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
     marginTop: 10,
   },
   whimsical: {
@@ -74,8 +74,8 @@ const styles = StyleSheet.create({
   },
   paragraph: {
     fontSize: 11,
-    textAlign: "center",
-    maxWidth: "60%",
+    textAlign: 'center',
+    maxWidth: '60%',
     marginBottom: 20,
     lineHeight: 13,
   },

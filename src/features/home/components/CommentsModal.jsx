@@ -19,41 +19,45 @@ const CommentsModal = ({commentsModalRef, userDetails}) => {
   const [commentText, setCommentText] = useState('');
 
   const onPostPress = useCallback(() => {
-    console.lot('on Comment Press');
+    console.log('on Comment Press');
   }, []);
+
   return (
+    // Render the bottom modal container
     <BottomModal
       bottomSheetContainerStyle={styles.bottomSheetContainer}
       bottomSheetModalRef={commentsModalRef}
       containerStyle={styles.bottomModalContainer}>
+      {/* Render the comments list */}
       <FlatList
         data={[1, 2, 3, 4]}
-        keyExtractor={({item}) => item}
+        keyExtractor={(item, index) => index.toString()}
         showsVerticalScrollIndicator={false}
-        renderItem={({item, index}) => {
-          return (
-            <View key={index}>
-              <UserComment
-                userImage={userDetails.uploader.image}
-                userName={userDetails.uploader.name}
-                comment={'Helllo Hi how are you?'}
-              />
-              <UserComment
-                userImage={userDetails.uploader.image}
-                userName={userDetails.uploader.name}
-                comment={
-                  'Helllo Hi how are you? I am good. what about you? had you lunch'
-                }
-              />
-              <UserComment
-                userImage={userDetails.uploader.image}
-                userName={userDetails.uploader.name}
-                comment={'Helllo '}
-              />
-            </View>
-          );
-        }}
+        renderItem={({item, index}) => (
+          <View key={index}>
+            {/* Render each user comment */}
+            <UserComment
+              userImage={userDetails.uploader.image}
+              userName={userDetails.uploader.name}
+              comment={'Hello, Hi, how are you?'}
+            />
+            <UserComment
+              userImage={userDetails.uploader.image}
+              userName={userDetails.uploader.name}
+              comment={
+                'Hello, Hi, how are you? I am good. What about you? Have you had lunch?'
+              }
+            />
+            <UserComment
+              userImage={userDetails.uploader.image}
+              userName={userDetails.uploader.name}
+              comment={'Hello'}
+            />
+          </View>
+        )}
       />
+
+      {/* Render the comment input and post button */}
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : undefined}
         keyboardVerticalOffset={
@@ -124,7 +128,7 @@ const styles = StyleSheet.create({
   postText: {
     color: Colors.primary,
     fontSize: 16,
-    fontWeight: 600,
+    fontWeight: '600',
   },
   postButton: {
     height: '100%',

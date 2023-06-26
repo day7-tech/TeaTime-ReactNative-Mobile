@@ -1,16 +1,14 @@
-import React from "react";
+import React from 'react';
 import {
   Image,
   ImageSourcePropType,
   Pressable,
   StyleProp,
   StyleSheet,
-  Text,
-  View,
   ViewStyle,
-} from "react-native";
-import { Colors } from "../utils/styles";
-import Typography from "./Typography/Typography";
+} from 'react-native';
+import {Colors} from '../utils/styles';
+import Typography from './Typography/Typography';
 
 /**
  * Component representing a feed option.
@@ -20,15 +18,14 @@ import Typography from "./Typography/Typography";
  * @param {Function} onPress - Function to handle the press event.
  * @returns {JSX.Element} - The FeedOption component.
  */
-const FeedOption = ({ style, imageIcon, label, onPress, textStyle }) => {
+const FeedOption = ({style, imageIcon, label, onPress, textStyle}) => {
   return (
     <Pressable style={[styles.container, style]} onPress={onPress}>
       <Image source={imageIcon} />
       <Typography
         style={[styles.label, textStyle]}
         numberOfLines={1}
-        ellipsizeMode="tail"
-      >
+        ellipsizeMode="tail">
         {label}
       </Typography>
     </Pressable>
@@ -38,12 +35,12 @@ const FeedOption = ({ style, imageIcon, label, onPress, textStyle }) => {
 const styles = StyleSheet.create({
   container: {
     marginBottom: 10,
-    alignItems: "center",
+    alignItems: 'center',
   },
   label: {
     color: Colors.white,
     marginVertical: 8,
-    textAlign: "center",
+    textAlign: 'center',
   },
 });
 

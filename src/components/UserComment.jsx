@@ -1,14 +1,13 @@
-import { Image, StyleSheet, Text, View } from "react-native";
-import React from "react";
-import Typography from "./Typography/Typography";
-import { Colors } from "../utils/styles";
-import { HORIZONTAL_MARGIN } from "../utils/constants";
+import React from 'react';
+import {Image, StyleSheet, View} from 'react-native';
+import {Colors} from '../utils/styles';
+import Typography from './Typography/Typography';
 
-const UserComment = ({ userImage, userName, comment }) => {
+const UserComment = ({userImage, userName, comment}) => {
   return (
     <View style={styles.container}>
       <View style={styles.imageContainer}>
-        <Image source={{ uri: userImage }} style={styles.commentUserImage} />
+        <Image source={{uri: userImage}} style={styles.commentUserImage} />
       </View>
       <View style={styles.commentContainer}>
         <Typography style={styles.userName}>{userName}</Typography>
@@ -22,7 +21,7 @@ export default UserComment;
 
 const styles = StyleSheet.create({
   container: {
-    flexDirection: "row",
+    flexDirection: 'row',
     marginVertical: 8,
   },
   commentUserImage: {

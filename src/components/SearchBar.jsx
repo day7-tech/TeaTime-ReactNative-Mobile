@@ -1,28 +1,33 @@
-import React, { FC } from "react";
-import {
-  Image,
-  Platform,
-  StyleProp,
-  StyleSheet,
-  TextStyle,
-  View,
-  ViewStyle,
-} from "react-native";
-import { Colors } from "../utils/styles";
-import SearchIcon from "./../../assets/images/search.png";
-import AppTextInput from "./AppTextInput";
+import React from 'react';
+import {Image, StyleSheet, View} from 'react-native';
+import {Colors} from '../utils/styles';
+import SearchIcon from './../../assets/images/search.png';
+import AppTextInput from './AppTextInput';
 
+/**
+ * SearchBar component that displays a search input field with an optional prefix component.
+ *
+ * @param {Object} props - Component props.
+ * @param {string} props.searchText - The current search text.
+ * @param {function} props.setSearchText - Callback function to set the search text.
+ * @param {Object} props.style - Custom style for the search bar container.
+ * @param {Object} props.textStyle - Custom style for the search text input.
+ * @param {JSX.Element} props.PrefixComponent - Optional prefix component to display before the search icon.
+ * @param {Object} props.rest - Additional props passed to the AppTextInput component.
+ * @returns {JSX.Element} - SearchBar component.
+ */
 const SearchBar = ({
   searchText,
   setSearchText,
   style,
   textStyle,
-  PreffixComponent,
+  PrefixComponent,
   ...rest
 }) => {
   return (
     <View style={[styles.container, style]}>
-      {PreffixComponent ?? (
+      {/* Display the PrefixComponent if provided, otherwise display the default search icon */}
+      {PrefixComponent ?? (
         <Image source={SearchIcon} style={styles.searchIcon} />
       )}
       <View style={styles.inputContainer}>
@@ -30,7 +35,7 @@ const SearchBar = ({
           value={searchText}
           onChangeText={setSearchText}
           style={[styles.searchText, textStyle]}
-          placeholder={"Search"}
+          placeholder={'Search'}
           autoCorrect={false}
           {...rest}
         />
@@ -43,8 +48,8 @@ const styles = StyleSheet.create({
   clearButton: {
     height: 20,
     width: 20,
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
     borderRadius: 6,
     marginLeft: 18,
   },
@@ -52,8 +57,8 @@ const styles = StyleSheet.create({
     height: 50,
     backgroundColor: Colors.grey,
     borderRadius: 10,
-    flexDirection: "row",
-    alignItems: "center",
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   inputContainer: {
     flex: 1,

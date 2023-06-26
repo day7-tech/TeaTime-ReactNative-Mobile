@@ -1,36 +1,34 @@
+import React, {useCallback, useState} from 'react';
 import {
+  Image,
+  Keyboard,
+  KeyboardAvoidingView,
   Pressable,
   StyleSheet,
-  Text,
-  View,
-  KeyboardAvoidingView,
   TouchableWithoutFeedback,
-  Keyboard,
-  Image,
-} from "react-native";
-import React, { useCallback, useState } from "react";
-import { SafeAreaView } from "react-native-safe-area-context";
-import Typography from "../../../components/Typography/Typography";
-import { Colors } from "../../../utils/styles";
-import { HORIZONTAL_MARGIN } from "../../../utils/constants";
-import AppTextInput from "../../../components/AppTextInput";
-import GradientSwitch from "../../../components/GradientSwitch";
-import BackIcon from "../../../../assets/images/back.png";
-import GradientBtn from "../../../components/Buttons/GradientBtn";
+  View,
+} from 'react-native';
+import BackIcon from '../../../../assets/images/back.png';
+import AppTextInput from '../../../components/AppTextInput';
+import GradientBtn from '../../../components/Buttons/GradientBtn';
+import GradientSwitch from '../../../components/GradientSwitch';
+import Typography from '../../../components/Typography/Typography';
+import {HORIZONTAL_MARGIN} from '../../../utils/constants';
+import {Colors} from '../../../utils/styles';
 
-const Notes = ({ onSavePress }) => {
-  const [notes, setNotes] = useState("");
+const Notes = ({onSavePress}) => {
+  const [notes, setNotes] = useState('');
 
   const handleOutsidePress = () => {
     Keyboard.dismiss();
   };
 
   const onSharePress = useCallback(() => {
-    console.log("onSharePress");
-  });
+    console.log('onSharePress');
+  }, []);
 
   return (
-    <KeyboardAvoidingView style={{ flex: 1 }} behavior="padding">
+    <KeyboardAvoidingView style={{flex: 1}} behavior="padding">
       <TouchableWithoutFeedback onPress={handleOutsidePress}>
         <View style={styles.container}>
           <View style={styles.topButtonContainer}>
@@ -84,10 +82,10 @@ const styles = StyleSheet.create({
     paddingHorizontal: HORIZONTAL_MARGIN,
   },
   textContainer: {
-    backgroundColor: "#FFFFFF0F",
+    backgroundColor: '#FFFFFF0F',
     borderRadius: 8,
     height: 130,
-    alignItems: "flex-start",
+    alignItems: 'flex-start',
     padding: 20,
   },
   textStyle: {
@@ -96,37 +94,37 @@ const styles = StyleSheet.create({
   saveText: {
     color: Colors.primary,
     fontSize: 16,
-    fontWeight: "bold",
+    fontWeight: 'bold',
   },
   topButtonContainer: {
     padding: HORIZONTAL_MARGIN,
-    flexDirection: "row",
-    justifyContent: "flex-end",
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
   },
   title: {
-    fontWeight: "bold",
+    fontWeight: 'bold',
     fontSize: 20,
     lineHeight: 24,
     marginVertical: 10,
   },
   comment: {
-    backgroundColor: "#FFFFFF0F",
+    backgroundColor: '#FFFFFF0F',
     height: 60,
-    flexDirection: "row",
-    justifyContent: "space-between",
+    flexDirection: 'row',
+    justifyContent: 'space-between',
     padding: 5,
-    alignItems: "center",
+    alignItems: 'center',
     borderRadius: 8,
     marginVertical: 10,
     paddingHorizontal: 20,
   },
   commentRadioText: {
-    fontWeight: "600",
+    fontWeight: '600',
     fontSize: 17,
     lineHeight: 22,
   },
   backIcon: {
-    transform: [{ rotate: "180deg" }],
+    transform: [{rotate: '180deg'}],
     tintColor: Colors.white,
   },
   buttonStyle: {

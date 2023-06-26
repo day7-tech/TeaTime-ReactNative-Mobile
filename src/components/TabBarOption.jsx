@@ -1,5 +1,5 @@
-import React from "react";
-import { Image, View } from "react-native";
+import React from 'react';
+import {Image, View} from 'react-native';
 
 /**
  * Component representing a tab bar option.
@@ -9,11 +9,11 @@ import { Image, View } from "react-native";
  * @param {number} height - The height of the tab bar option.
  * @returns {JSX.Element} - The TabBarOption component.
  */
-const TabBarOption = ({ imageIcon, color, style, height }) => {
+const TabBarOption = ({imageIcon, color, style, height}) => {
   const tabHeight = height;
 
   return (
-    <View style={{ height: tabHeight }}>
+    <View style={{height: tabHeight}}>
       <Image
         source={imageIcon}
         style={[

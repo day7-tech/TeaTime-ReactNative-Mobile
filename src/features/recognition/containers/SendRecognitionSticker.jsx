@@ -1,21 +1,22 @@
-import React, { useCallback } from "react";
+import React, {useCallback} from 'react';
 import {
   Image,
   Keyboard,
   KeyboardAvoidingView,
+  Platform,
   SafeAreaView,
   StyleSheet,
   TextInput,
   TouchableWithoutFeedback,
   View,
-} from "react-native";
-import { getBottomSpace } from "react-native-iphone-x-helper";
-import Typography from "../../../components/Typography/Typography";
-import Stickers from "../../../utils/Stickers";
-import GradientBtn from "../../../components/Buttons/GradientBtn";
-import { HORIZONTAL_MARGIN, SCREEN_WIDTH } from "../../../utils/constants";
-import { ROUTE_RECOGNITION_SUCCESS_SCREEN } from "../../../navigators/RouteNames";
-import { Colors } from "../../../utils/styles";
+} from 'react-native';
+import {getBottomSpace} from 'react-native-iphone-x-helper';
+import GradientBtn from '../../../components/Buttons/GradientBtn';
+import Typography from '../../../components/Typography/Typography';
+import {ROUTE_RECOGNITION_SUCCESS_SCREEN} from '../../../navigators/RouteNames';
+import Stickers from '../../../utils/Stickers';
+import {HORIZONTAL_MARGIN} from '../../../utils/constants';
+import {Colors} from '../../../utils/styles';
 
 /**
  * Component that renders the screen for sending a recognition sticker.
@@ -23,16 +24,16 @@ import { Colors } from "../../../utils/styles";
  * @param {object} navigation - The navigation object provided by the navigator.
  * @returns {JSX.Element} - The SendRecognitionSticker component.
  */
-const SendRecognitionSticker = ({ route, navigation }) => {
-  const { post, sticker } = route.params;
+const SendRecognitionSticker = ({route, navigation}) => {
+  const {post, sticker} = route.params;
 
   /**
    * Function that dismisses the keyboard and navigates to the recognition success screen.
    */
   const send = useCallback(() => {
     Keyboard.dismiss();
-    navigation.navigate(ROUTE_RECOGNITION_SUCCESS_SCREEN, { post });
-  }, [navigation]);
+    navigation.navigate(ROUTE_RECOGNITION_SUCCESS_SCREEN, {post});
+  }, [navigation, post]);
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -44,15 +45,13 @@ const SendRecognitionSticker = ({ route, navigation }) => {
           <Image source={Stickers[sticker]} style={styles.stickerImage} />
         </View>
         <KeyboardAvoidingView
-          style={{ flex: 1 }}
-          behavior={Platform.OS === "ios" ? "padding" : undefined}
-          keyboardVerticalOffset={Platform.OS === "ios" ? getBottomSpace() : 0}
-        >
+          style={{flex: 1}}
+          behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+          keyboardVerticalOffset={Platform.OS === 'ios' ? getBottomSpace() : 0}>
           <View
             style={{
               marginHorizontal: HORIZONTAL_MARGIN,
-            }}
-          >
+            }}>
             {/* Container for the input text */}
             <View style={styles.inputTextContainer}>
               <TextInput
@@ -90,30 +89,30 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 16,
     margin: HORIZONTAL_MARGIN,
-    textAlign: "center",
+    textAlign: 'center',
   },
   input: {
-    fontFamily: "Outfit-Regular",
+    fontFamily: 'Outfit-Regular',
     color: Colors.lightGrey,
-    backgroundColor: "#222222",
+    backgroundColor: '#222222',
     borderRadius: 10,
     padding: 10,
     height: 180,
-    textAlignVertical: "top",
+    textAlignVertical: 'top',
     borderColor: Colors.lightGrey,
     borderWidth: 0.25,
   },
   imageContainer: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   centerContainer: {
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   optionalText: {
-    textAlign: "center",
+    textAlign: 'center',
     color: Colors.lightGrey,
     marginVertical: 15,
   },

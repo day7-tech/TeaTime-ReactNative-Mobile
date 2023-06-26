@@ -1,15 +1,28 @@
-import {StyleSheet, Text, View} from 'react-native';
 import React from 'react';
-import FeedOption from '../../../components/FeedOption';
+import {StyleSheet, View} from 'react-native';
 import AIMagicIcon from '../../../../assets/images/AI-magic.png';
-import MusicIcon from '../../../../assets/images/music.png';
 import FiltersIcon from '../../../../assets/images/filters.png';
-import TextIcon from '../../../../assets/images/text.png';
+import MusicIcon from '../../../../assets/images/music.png';
 import StickerIcon from '../../../../assets/images/sticker.png';
+import TextIcon from '../../../../assets/images/text.png';
 import TrimIcon from '../../../../assets/images/trim.png';
-import {Colors} from '../../../utils/styles';
+import FeedOption from '../../../components/FeedOption';
 import {HORIZONTAL_MARGIN} from '../../../utils/constants';
+import {Colors} from '../../../utils/styles';
 
+/**
+ * EditingOptions component that displays various editing options for media.
+ *
+ * @param {Object} props - Component props.
+ * @param {function} props.onMusicPress - Callback function when the music option is pressed.
+ * @param {function} props.onFiltersPress - Callback function when the filters option is pressed.
+ * @param {function} props.onAIMagicPress - Callback function when the AI magic option is pressed.
+ * @param {function} props.onStickerPress - Callback function when the sticker option is pressed.
+ * @param {function} props.onTextPress - Callback function when the text option is pressed.
+ * @param {string} props.mediaType - The type of media (e.g., 'video', 'image').
+ * @param {function} props.onTrimPress - Callback function when the trim option is pressed (only for videos).
+ * @returns {JSX.Element} - EditingOptions component.
+ */
 const EditingOptions = ({
   onMusicPress,
   onFiltersPress,
@@ -69,8 +82,6 @@ const EditingOptions = ({
   );
 };
 
-export default EditingOptions;
-
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
@@ -91,3 +102,5 @@ const styles = StyleSheet.create({
     marginBottom: 0,
   },
 });
+
+export default EditingOptions;

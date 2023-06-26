@@ -7,6 +7,16 @@ import Animated, {
 } from 'react-native-reanimated';
 import Typography from '../../../components/Typography/Typography';
 
+/**
+ * DraggableText component that displays draggable text with gesture-based transformations.
+ *
+ * @param {Object} props - Component props.
+ * @param {string} props.inputValue - The text value to display.
+ * @param {string} props.textColor - The color of the text.
+ * @param {number} props.fontSize - The font size of the text.
+ * @param {function} props.onEditTextPress - Callback function when the text is pressed for editing.
+ * @returns {JSX.Element} - DraggableText component.
+ */
 const DraggableText = ({inputValue, textColor, fontSize, onEditTextPress}) => {
   const offset = useSharedValue({x: 0, y: 0});
   const start = useSharedValue({x: 0, y: 0});

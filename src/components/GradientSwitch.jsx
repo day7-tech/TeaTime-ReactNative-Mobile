@@ -2,12 +2,20 @@ import React, {useState} from 'react';
 import {Switch, View, StyleSheet} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 
+/**
+ * GradientSwitch component that displays a switch with a gradient background.
+ *
+ * @returns {JSX.Element} - GradientSwitch component.
+ */
 const GradientSwitch = () => {
   const [isEnabled, setIsEnabled] = useState(false);
+
+  // Toggle the switch state
   const toggleSwitch = () => setIsEnabled(previousState => !previousState);
 
   return (
     <View style={styles.container}>
+      {/* Linear gradient for the background */}
       <LinearGradient
         colors={[
           '#5A189A',
@@ -18,6 +26,7 @@ const GradientSwitch = () => {
         end={[0, 1]}
         style={styles.gradientContainer}>
         <View style={styles.switchContainer}>
+          {/* Switch component */}
           <Switch
             trackColor={{false: 'transparent', true: 'transparent'}}
             thumbColor={isEnabled ? '#FFFFFF' : '#FFFFFF'}

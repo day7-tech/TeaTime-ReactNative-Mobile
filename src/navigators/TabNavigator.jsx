@@ -2,7 +2,9 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import React from 'react';
 import TabBarOption from '../components/TabBarOption';
 import Typography from '../components/Typography/Typography';
+import GroupsScreen from '../features/groups/containers/GroupsScreen';
 import HomeScreen from '../features/home/containers/HomeScreen';
+import NotificationScreens from '../features/notifications/containers/NotificationScreen';
 import {Colors} from '../utils/styles';
 import BellIcon from './../../assets/images/bell.png';
 import AddIcon from './../../assets/images/floating_add.png';
@@ -18,14 +20,12 @@ import {
   ROUTE_NOTIFICATIONS_SCREEN,
   ROUTE_PROFILE_NAVIGATOR,
 } from './RouteNames';
-import NotificationScreens from '../features/notifications/containers/NotificationScreen';
-import GroupsScreen from '../features/groups/containers/GroupsScreen';
 
 const Tab = createBottomTabNavigator();
 
 // TabNavigator: Manages the bottom tab navigation in the app
 const TabNavigator = props => {
-  const hide = props.routeName != ROUTE_CREATE_POST_STACK_NAVIGATOR;
+  const hide = props.routeName !== ROUTE_CREATE_POST_STACK_NAVIGATOR;
   return (
     <Tab.Navigator
       initialRouteName={ROUTE_HOME_SCREEN}

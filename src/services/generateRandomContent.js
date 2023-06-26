@@ -1,4 +1,4 @@
-import { faker } from "@faker-js/faker";
+import {faker} from '@faker-js/faker';
 
 // Generates an array of dummy video posts
 // Parameters:
@@ -80,4 +80,4 @@ function lorem(length = 20) {
   return faker.lorem.paragraph(length);
 }
 
-export { generateDummyVideoPosts, lorem, generateRandomMusic };
+export {generateDummyVideoPosts, lorem, generateRandomMusic};

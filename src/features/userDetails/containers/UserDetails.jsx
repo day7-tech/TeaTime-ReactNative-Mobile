@@ -51,27 +51,29 @@ const UserDetails = ({route, navigation}) => {
    * @param {string} thumbnailUri - The URI of the video thumbnail.
    * @returns {JSX.Element} - The VideoThumbnail component.
    */
-  const VideoThumbnail = ({thumbnailUri, item}) => {
-    const [, setIsLoaded] = useState(false);
-    const [, setLoadError] = useState(false);
-
-    return (
-      <Pressable
-        style={styles.thumbnailContainer}
-        onPress={() => onPostPress(item)}>
-        <Image
-          source={{uri: thumbnailUri}}
-          style={styles.thumbnail}
-          resizeMode={'cover'}
-          onLoad={() => setIsLoaded(true)}
-          onError={() => {
-            setIsLoaded(true);
-            setLoadError(true);
-          }}
-        />
-      </Pressable>
-    );
-  };
+  const [, setIsLoaded] = useState(false);
+  const [, setLoadError] = useState(false);
+  const VideoThumbnail = useCallback(
+    ({thumbnailUri, item}) => {
+      return (
+        <Pressable
+          style={styles.thumbnailContainer}
+          onPress={() => onPostPress(item)}>
+          <Image
+            source={{uri: thumbnailUri}}
+            style={styles.thumbnail}
+            resizeMode={'cover'}
+            onLoad={() => setIsLoaded(true)}
+            onError={() => {
+              setIsLoaded(true);
+              setLoadError(true);
+            }}
+          />
+        </Pressable>
+      );
+    },
+    [onPostPress],
+  );
 
   return (
     <SafeAreaView style={styles.container}>

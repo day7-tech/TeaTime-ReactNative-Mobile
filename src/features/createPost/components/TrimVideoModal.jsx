@@ -4,6 +4,8 @@ import React, {useEffect, useRef, useState} from 'react';
 import {Image, Platform, Pressable, StyleSheet, View} from 'react-native';
 import BottomModal from '../../../components/BottomModal';
 
+import {FFmpegKit} from 'ffmpeg-kit-react-native';
+import {createThumbnail} from 'react-native-create-thumbnail';
 import PauseIcon from '../../../../assets/images/pause.png';
 import PlayIcon from '../../../../assets/images/play.png';
 import Trimmer from '../../../components/MyTrimmer/Trimmer';
@@ -11,9 +13,6 @@ import Typography from '../../../components/Typography/Typography';
 import {HORIZONTAL_MARGIN} from '../../../utils/constants';
 import {Colors} from '../../../utils/styles';
 import TrimTimeOptions from './TrimTimeOptions';
-import {createThumbnail} from 'react-native-create-thumbnail';
-import {ProcessingManager} from 'react-native-video-processing';
-import {FFmpegKit} from 'ffmpeg-kit-react-native';
 
 const TrimVideoModal = ({
   trimVideoModalRef,
@@ -41,12 +40,6 @@ const TrimVideoModal = ({
   }, [fileUri, startFrame]);
 
   const getThumbnailAsync = async () => {
-    //   try {
-    //     const thumbnailOptions = {
-    //       time: [startFrame, endFrame], // Use an array to specify multiple times for thumbnail generation
-    //       quality: 1, // Adjust thumbnail quality if needed
-    //     };
-
     const thumbnails = await createThumbnail({
       url: fileUri,
       timeStamp: startFrame,
@@ -54,9 +47,6 @@ const TrimVideoModal = ({
 
     console.log(thumbnails);
     setThumbnails(thumbnails);
-    //   } catch (error) {
-    //     console.error('Error generating thumbnails:', error);
-    //   }
   };
 
   const onPlaybackStatusUpdate = status => {
@@ -66,12 +56,10 @@ const TrimVideoModal = ({
 
   const formatPath = path => {
     const secondDotIndex = path.lastIndexOf('.');
-    console.log('SeconfDotIndx', secondDotIndex);
     const newPath = Platform.select({
       ios: path.split('.')[0],
       android: path.substring(0, secondDotIndex),
     });
-    console.log('SeconfDotIndx newpath', newPath);
 
     return newPath;
   };

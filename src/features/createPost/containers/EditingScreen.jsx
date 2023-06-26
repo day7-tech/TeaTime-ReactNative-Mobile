@@ -6,6 +6,7 @@ import Video from 'react-native-video';
 import CloseIcon from '../../../../assets/images/close.png';
 import FavImage from '../../../../assets/images/favourites.png';
 import DraggableImage from '../../../components/DraggableImage';
+import Typography from '../../../components/Typography/Typography';
 import Stickers from '../../../utils/Stickers';
 import {
   HORIZONTAL_MARGIN,
@@ -20,7 +21,6 @@ import FiltersModal from '../components/FiltersModal';
 import SongSelectionModal from '../components/SongSelectionModal';
 import StickerSelectionModal from '../components/StickerSelectionModal';
 import TrimVideoModal from '../components/TrimVideoModal';
-import Typography from '../../../components/Typography/Typography';
 
 const EditingScreen = ({route}) => {
   const navigation = useNavigation();

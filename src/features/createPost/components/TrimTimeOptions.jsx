@@ -1,5 +1,5 @@
-import React, {useState} from 'react';
-import {View, Pressable, StyleSheet} from 'react-native';
+import React from 'react';
+import {Pressable, StyleSheet, View} from 'react-native';
 import Typography from '../../../components/Typography/Typography';
 import {Colors} from '../../../utils/styles';
 

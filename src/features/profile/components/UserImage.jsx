@@ -1,8 +1,8 @@
-import { Image, StyleSheet, Text, View } from "react-native";
-import React from "react";
+import React from 'react';
+import {Image, StyleSheet} from 'react-native';
 
-const UserImage = ({ imageUri }) => {
-  return <Image source={{ uri: imageUri }} style={styles.userImage} />;
+const UserImage = ({imageUri}) => {
+  return <Image source={{uri: imageUri}} style={styles.userImage} />;
 };
 
 export default UserImage;

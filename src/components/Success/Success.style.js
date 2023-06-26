@@ -1,24 +1,24 @@
-import { StyleSheet } from "react-native";
+import {StyleSheet} from 'react-native';
 import {
   horizontalPaddingValue,
   verticalPaddingValue,
-} from "../../utils/constants";
+} from '../../utils/constants';
 
 const styles = StyleSheet.create({
   container: {
-    width: "100%",
-    height: "100%",
+    width: '100%',
+    height: '100%',
   },
   gradient: {
-    display: "flex",
+    display: 'flex',
     flexGrow: 1,
-    flexDirection: "column",
-    alignItems: "center",
+    flexDirection: 'column',
+    alignItems: 'center',
     paddingHorizontal: horizontalPaddingValue,
     paddingVertical: verticalPaddingValue,
   },
   image: {
-    marginTop: "35%",
+    marginTop: '35%',
     height: 180,
     width: 180,
   },

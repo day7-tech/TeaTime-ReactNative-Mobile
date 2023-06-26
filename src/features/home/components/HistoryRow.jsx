@@ -1,12 +1,5 @@
-import React, {FC} from 'react';
-import {
-  Image,
-  StyleProp,
-  StyleSheet,
-  Text,
-  View,
-  ViewStyle,
-} from 'react-native';
+import React from 'react';
+import {Image, StyleSheet, Text, View} from 'react-native';
 import {Colors} from '../../../utils/styles';
 import ClockIcon from './../../../../assets/images/clock.png';
 

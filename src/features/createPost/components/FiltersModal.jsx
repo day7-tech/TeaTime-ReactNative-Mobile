@@ -17,6 +17,7 @@ const FiltersModal = ({
       bottomSheetModalRef={filtersModalRef}
       containerStyle={{flex: 1, paddingHorizontal: 0}}
       snapPoints={['100%']}>
+      {/* Top container with close button and done button */}
       <View style={styles.topContainer}>
         <TouchableOpacity
           style={styles.modalCloseButton}
@@ -30,6 +31,7 @@ const FiltersModal = ({
         </TouchableOpacity>
       </View>
 
+      {/* Container for the filter options */}
       <View style={{flex: 1}}>
         <FilterOptions mediaUri={fileUri} mediaType={mediaType} />
       </View>

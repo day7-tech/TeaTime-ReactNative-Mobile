@@ -18,6 +18,15 @@ import CustomSlider from '../../../components/CustomSlider';
 import {HORIZONTAL_MARGIN} from '../../../utils/constants';
 import {Colors} from '../../../utils/styles';
 
+/**
+ * EditPostTextModal component that allows editing post text.
+ *
+ * @param {Object} props - Component props.
+ * @param {boolean} props.isModalVisible - Determines if the modal is visible.
+ * @param {function} props.onCloseModalPress - Callback function when the close modal button is pressed.
+ * @param {function} props.onDonePress - Callback function when the done button is pressed.
+ * @returns {JSX.Element} - EditPostTextModal component.
+ */
 const EditPostTextModal = ({
   isModalVisible,
   onCloseModalPress,

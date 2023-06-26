@@ -1,12 +1,15 @@
-import React, {useEffect, useMemo, useRef, useState} from 'react';
+import React, {useEffect, useMemo, useState} from 'react';
 import {Image, StyleSheet, TouchableOpacity, View} from 'react-native';
+import Sound from 'react-native-sound';
 import CheckIcon from '../../../assets/images/check.png';
 import PauseIcon from '../../../assets/images/pause.png';
 import PlayIcon from '../../../assets/images/play.png';
 import SongBackgroundImage from '../../../assets/images/song-background.png';
 import Typography from '../Typography/Typography';
-import Sound from 'react-native-sound';
 
+/**
+ * Component for rendering the play or pause icon based on the playback state.
+ */
 function PlayOrPause({isPlaying, size}) {
   return (
     <Image
@@ -16,6 +19,9 @@ function PlayOrPause({isPlaying, size}) {
   );
 }
 
+/**
+ * Component for rendering a song card.
+ */
 export default function SongCard({
   uri,
   name,
@@ -25,6 +31,7 @@ export default function SongCard({
   isSelected,
   setIsSelected,
 }) {
+  // Create a new Sound instance with the provided audio URI
   const sound = useMemo(
     () =>
       new Sound(uri, '', error => {
@@ -34,6 +41,7 @@ export default function SongCard({
       }),
     [uri],
   );
+
   const [isLoaded, setIsLoaded] = useState(false);
   const [currentSound, setCurrentSound] = useState(null);
 
@@ -49,16 +57,21 @@ export default function SongCard({
       }
     };
 
+    // Load the audio when the component mounts
     if (!isLoaded) {
       loadAudio();
     }
 
     return () => {
+      // Clean up the Sound instance when the component unmounts
       isUnmounted = true;
       sound.release();
     };
   }, [isLoaded, sound]);
 
+  /**
+   * Toggle playback of the audio.
+   */
   const togglePlayback = async () => {
     try {
       if (isLoaded) {

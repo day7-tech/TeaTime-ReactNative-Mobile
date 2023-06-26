@@ -1,9 +1,9 @@
-import {StyleSheet, Text, View} from 'react-native';
 import React, {useCallback, useEffect, useState} from 'react';
-import FeedOption from '../../../components/FeedOption';
+import {StyleSheet, View} from 'react-native';
 import LikeIcon from '../../../../assets/images/like.png';
 import LikedIcon from '../../../../assets/images/liked.png';
 import ShareIcon from '../../../../assets/images/share.png';
+import FeedOption from '../../../components/FeedOption';
 
 const MomentsFeedOptions = ({item, defaultLikes, isLiked}) => {
   const [like, setLike] = useState(false);

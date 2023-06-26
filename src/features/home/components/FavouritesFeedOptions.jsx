@@ -1,12 +1,10 @@
-import {StyleSheet, Text, View} from 'react-native';
 import React, {useCallback, useEffect, useState} from 'react';
+import {StyleSheet, View} from 'react-native';
+import CommentsIcon from '../../../../assets/images/comments.png';
 import LikeIcon from '../../../../assets/images/like.png';
 import LikedIcon from '../../../../assets/images/liked.png';
-import ShareIcon from '../../../../assets/images/share.png';
-import ThanksIcon from '../../../../assets/images/thanks.png';
-import CommentsIcon from '../../../../assets/images/comments.png';
-import CommentedIcon from '../../../../assets/images/commented.png';
 import ReplyIcon from '../../../../assets/images/reply.png';
+import ThanksIcon from '../../../../assets/images/thanks.png';
 import FeedOption from '../../../components/FeedOption';
 
 // FavouritesFeedOptions: Component for displaying feed options in the Favourites screen

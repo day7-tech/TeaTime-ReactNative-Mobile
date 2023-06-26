@@ -1,21 +1,10 @@
 import React from 'react';
-import {
-  Image,
-  ImageSourcePropType,
-  StyleProp,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-  ViewStyle,
-} from 'react-native';
-import {Colors} from '../utils/styles';
-import Typography from './Typography/Typography';
-import FeedCaption from './FeedCaption';
-import MomentsFeedOptions from '../features/home/components/MomentsFeedOptions';
-import ChannelDetails from './ChannelDetails';
-import ChannelAndUploaderDetails from './ChannelAndUploaderDetails';
+import {StyleProp, StyleSheet, View, ViewStyle} from 'react-native';
 import FavouritesFeedOptions from '../features/home/components/FavouritesFeedOptions';
+import MomentsFeedOptions from '../features/home/components/MomentsFeedOptions';
+import ChannelAndUploaderDetails from './ChannelAndUploaderDetails';
+import ChannelDetails from './ChannelDetails';
+import FeedCaption from './FeedCaption';
 
 /**
  * Component that displays the details of a feed item.
