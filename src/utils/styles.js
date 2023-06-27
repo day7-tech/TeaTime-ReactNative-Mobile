@@ -18,4 +18,5 @@ export const Colors = {
   darkPink: '#D10869',
   red: '#F60000',
   skyBlue: '#3897F0',
+  primariesShade03: '#FEE9F3',
 };

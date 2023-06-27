@@ -8,10 +8,10 @@ import BackIcon from '../../../assets/images/back.png';
  * @param {object} style - The additional styles to apply to the button.
  * @returns {JSX.Element} - The Back component.
  */
-const Back = ({onPress, style, backArrowImage = BackIcon}) => {
+const Back = ({onPress, style, backArrowImage = BackIcon, iconStyle}) => {
   return (
     <TouchableOpacity onPress={onPress} style={[styles.hitArea, style]}>
-      <Image source={backArrowImage} style={styles.icon} />
+      <Image source={backArrowImage} style={[styles.icon, iconStyle]} />
     </TouchableOpacity>
   );
 };

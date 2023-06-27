@@ -3,7 +3,11 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import React from 'react';
 import {Colors} from '../utils/styles';
 import AuthenticatedNavigator from './AuthenticatedNavigator';
-import {ROUTE_AUTHENTICATED_NAVIGATOR} from './RouteNames';
+import {
+  ROUTE_AUTHENTICATED_NAVIGATOR,
+  ROUTE_AUTHENTICATION_NAVIGATOR,
+} from './RouteNames';
+import AuthenticationNavigator from './AuthenticationNavigator';
 
 // Create a native stack navigator
 const ModalStack = createNativeStackNavigator();
@@ -26,6 +30,14 @@ const ModalNavigator = () => {
   return (
     <NavigationContainer theme={TransparentTheme}>
       <ModalStack.Navigator>
+        <ModalStack.Screen
+          name={ROUTE_AUTHENTICATION_NAVIGATOR}
+          component={AuthenticationNavigator}
+          options={{
+            headerShown: false, // Hide the header for the screen
+          }}
+        />
+
         <ModalStack.Screen
           name={ROUTE_AUTHENTICATED_NAVIGATOR}
           component={AuthenticatedNavigator}

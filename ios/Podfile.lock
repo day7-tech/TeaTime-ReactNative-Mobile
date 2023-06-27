@@ -355,6 +355,10 @@ PODS:
     - React-Core
   - react-native-create-thumbnail (1.6.4):
     - React-Core
+  - react-native-date-picker (4.2.13):
+    - React-Core
+  - react-native-floating-label-input (1.4.2):
+    - React-Core
   - react-native-image-filter-kit (0.8.0):
     - Bolts/Tasks (= 1.9.0)
     - React
@@ -464,6 +468,8 @@ PODS:
     - React-Core
   - RNCMaskedView (0.1.11):
     - React
+  - RNDateTimePicker (7.2.0):
+    - React-Core
   - RNFastImage (8.6.3):
     - React-Core
     - SDWebImage (~> 5.11.1)
@@ -576,6 +582,8 @@ DEPENDENCIES:
   - React-logger (from `../node_modules/react-native/ReactCommon/logger`)
   - "react-native-blur (from `../node_modules/@react-native-community/blur`)"
   - react-native-create-thumbnail (from `../node_modules/react-native-create-thumbnail`)
+  - react-native-date-picker (from `../node_modules/react-native-date-picker`)
+  - react-native-floating-label-input (from `../node_modules/react-native-floating-label-input`)
   - react-native-image-filter-kit (from `../node_modules/react-native-image-filter-kit`)
   - react-native-image-picker (from `../node_modules/react-native-image-picker`)
   - react-native-pager-view (from `../node_modules/react-native-pager-view`)
@@ -597,6 +605,7 @@ DEPENDENCIES:
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
   - ReactNativeCameraKit (from `../node_modules/react-native-camera-kit`)
   - "RNCMaskedView (from `../node_modules/@react-native-community/masked-view`)"
+  - "RNDateTimePicker (from `../node_modules/@react-native-community/datetimepicker`)"
   - RNFastImage (from `../node_modules/react-native-fast-image`)
   - RNFS (from `../node_modules/react-native-fs`)
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
@@ -682,6 +691,10 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@react-native-community/blur"
   react-native-create-thumbnail:
     :path: "../node_modules/react-native-create-thumbnail"
+  react-native-date-picker:
+    :path: "../node_modules/react-native-date-picker"
+  react-native-floating-label-input:
+    :path: "../node_modules/react-native-floating-label-input"
   react-native-image-filter-kit:
     :path: "../node_modules/react-native-image-filter-kit"
   react-native-image-picker:
@@ -724,6 +737,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-camera-kit"
   RNCMaskedView:
     :path: "../node_modules/@react-native-community/masked-view"
+  RNDateTimePicker:
+    :path: "../node_modules/@react-native-community/datetimepicker"
   RNFastImage:
     :path: "../node_modules/react-native-fast-image"
   RNFS:
@@ -788,6 +803,8 @@ SPEC CHECKSUMS:
   React-logger: 342f358b8decfbf8f272367f4eacf4b6154061be
   react-native-blur: cfdad7b3c01d725ab62a8a729f42ea463998afa2
   react-native-create-thumbnail: e022bcdcba8a0b4529a50d3fa1a832ec921be39d
+  react-native-date-picker: 04e866ba4e7857f83abd504ad42e787f0f02ae00
+  react-native-floating-label-input: 70b2864337fa690c6d71d75dad66d8ec1d6bf162
   react-native-image-filter-kit: d79137549eb44f8215b7f2be5e77213f605e2c92
   react-native-image-picker: 709d04e7df67bd3a90f376c3eedb2e8b8334dd04
   react-native-pager-view: 0ccb8bf60e2ebd38b1f3669fa3650ecce81db2df
@@ -809,6 +826,7 @@ SPEC CHECKSUMS:
   ReactCommon: 85c98ab0a509e70bf5ee5d9715cf68dbf495b84c
   ReactNativeCameraKit: 9d46a5d7dd544ca64aa9c03c150d2348faf437eb
   RNCMaskedView: 0e1bc4bfa8365eba5fbbb71e07fbdc0555249489
+  RNDateTimePicker: 3942382593f104af226ad9c56e16166960c7ae30
   RNFastImage: 5c9c9fed9c076e521b3f509fe79e790418a544e8
   RNFS: 4ac0f0ea233904cb798630b3c077808c06931688
   RNGestureHandler: f75d81410b40aaa99e71ae8f8bb7a88620c95042

@@ -9,7 +9,7 @@ export default function ProgressBar({value}) {
   return (
     <NativeBaseProvider>
       {/* Center the progress bar */}
-      <Center flex={1}>
+      <Center>
         <Center w="100%">
           {/* Use a Box component to constrain the width */}
           <Box w="100%" maxW="400">
