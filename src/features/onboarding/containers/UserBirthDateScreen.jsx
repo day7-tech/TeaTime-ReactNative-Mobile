@@ -87,6 +87,7 @@ const UserBirthDateScreen = ({navigation}) => {
                 inputTextContainer={styles.inputTextContainer}
                 rightComponent={<Image source={DropDownIcon} />}
                 editable={false}
+                returnKeyType="done"
               />
             </View>
           </View>

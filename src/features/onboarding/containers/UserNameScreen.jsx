@@ -1,5 +1,5 @@
 import {Image, Pressable, StyleSheet, Text, View} from 'react-native';
-import React, {useCallback} from 'react';
+import React, {useCallback, useRef, useState} from 'react';
 import KeyboardDismissWrapper from '../../../components/KeyboardDismissWrapper';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import Typography from '../../../components/Typography/Typography';
@@ -17,6 +17,7 @@ import * as Progress from 'react-native-progress';
 import {ROUTE_USER_BIRTHDATE_SCREEN} from '../../../navigators/RouteNames';
 
 const UserNameScreen = ({navigation}) => {
+  const [isLastNameFocused, setIsLastNameFocused] = useState(false);
   const validationSchema = Yup.object().shape({
     firstName: Yup.string().required('First name is required'),
     lastName: Yup.string().required('Last name is required'),
@@ -30,7 +31,7 @@ const UserNameScreen = ({navigation}) => {
   const onBackPress = useCallback(() => {
     navigation.goBack();
   }, [navigation]);
-
+  const lastNameRef = useRef(null);
   return (
     <KeyboardDismissWrapper style={styles.container} behavior="padding">
       <SafeAreaView style={styles.safeArea}>
@@ -62,6 +63,8 @@ const UserNameScreen = ({navigation}) => {
                   onChangeText={handleChange('firstName')}
                   placeholder={'Enter first name'}
                   inputTextContainer={styles.inputTextContainer}
+                  onSubmitEditing={() => lastNameRef.current?.focus()}
+                  returnKeyType="next"
                 />
                 {errors.firstName && touched.firstName && (
                   <Text style={styles.errorText}>{errors.firstName}</Text>
@@ -71,6 +74,9 @@ const UserNameScreen = ({navigation}) => {
                   onChangeText={handleChange('lastName')}
                   placeholder={'Enter last name'}
                   inputTextContainer={styles.inputTextContainer}
+                  returnKeyType="done"
+                  ref={lastNameRef}
+                  onSubmitEditing={handleSubmit}
                 />
                 {errors.lastName && touched.lastName && (
                   <Text style={styles.errorText}>{errors.lastName}</Text>

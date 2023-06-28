@@ -50,6 +50,8 @@ const VerifyEmailScreen = ({navigation}) => {
           onChangeText={handleEmailChange}
           placeholder={'Enter email address'}
           inputTextContainer={styles.inputTextContainer}
+          returnKeyType="done"
+          onSubmitEditing={onConfirmEmailPress}
         />
         <GradientBtn
           btnInfo={'Continue'}
