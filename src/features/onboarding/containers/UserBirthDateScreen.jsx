@@ -83,7 +83,6 @@ const UserBirthDateScreen = ({navigation}) => {
               </View>
               <AppFloatingTextInput
                 value={formatDate(birthDate)}
-                // onChangeText={setBirthDate}
                 placeholder={'Birthday'}
                 inputTextContainer={styles.inputTextContainer}
                 rightComponent={<Image source={DropDownIcon} />}
@@ -101,6 +100,7 @@ const UserBirthDateScreen = ({navigation}) => {
       </KeyboardDismissWrapper>
       <DatePicker
         modal
+        mode="date"
         open={isDatePickerVisible}
         date={birthDate}
         onConfirm={handleConfirm}
