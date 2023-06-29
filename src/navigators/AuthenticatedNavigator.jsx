@@ -4,6 +4,7 @@ import {StyleSheet} from 'react-native';
 import SearchScreen from '../features/home/containers/SearchScreen';
 import RecogniseStackNavigator from './RecogniseStackNavigator';
 import {
+  ROUTE_PROFILE_SETTINGS_STACK_NAVIGATOR,
   ROUTE_RECOGNITION_STACK_NAVIGATOR,
   ROUTE_SEARCH_SCREEN,
   ROUTE_TAB_NAVIGATOR,
@@ -11,6 +12,7 @@ import {
 } from './RouteNames';
 import TabNavigator from './TabNavigator';
 import UserDetailsStackNavigator from './UserDetailsStackNavigator';
+import ProfileSettingsStackNavigator from './ProfileSettingsStackNavigator';
 
 const Stack = createNativeStackNavigator();
 
@@ -20,6 +22,13 @@ const Stack = createNativeStackNavigator();
 const AuthenticatedNavigator = () => {
   return (
     <Stack.Navigator>
+      <Stack.Screen
+        component={ProfileSettingsStackNavigator}
+        name={ROUTE_PROFILE_SETTINGS_STACK_NAVIGATOR}
+        options={{
+          headerShown: false, // Hide the header for the screen
+        }}
+      />
       <Stack.Screen
         component={TabNavigator}
         name={ROUTE_TAB_NAVIGATOR}

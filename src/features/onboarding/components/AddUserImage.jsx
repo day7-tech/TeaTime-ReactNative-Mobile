@@ -1,9 +1,9 @@
-import {Image, Modal, Pressable, StyleSheet, Text, View} from 'react-native';
 import React, {useState} from 'react';
-import {Colors} from '../../../utils/styles';
-import AddImageIcon from '../../../../assets/images/floating_button.png';
-import {PERMISSIONS, RESULTS, check, request} from 'react-native-permissions';
+import {Image, Modal, Pressable, StyleSheet, Text, View} from 'react-native';
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
+import {PERMISSIONS, RESULTS, request} from 'react-native-permissions';
+import AddImageIcon from '../../../../assets/images/floating_button.png';
+import {Colors} from '../../../utils/styles';
 
 const AddUserImage = () => {
   const [imageUri, setImageUri] = useState(null);

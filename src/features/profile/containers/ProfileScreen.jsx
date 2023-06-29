@@ -6,7 +6,11 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import {SceneMap, TabView} from 'react-native-tab-view';
 import SettingIcon from '../../../../assets/images/settings.png';
 import Typography from '../../../components/Typography/Typography';
-import {ROUTE_SETTINGS} from '../../../navigators/RouteNames';
+import {
+  ROUTE_AUTHENTICATED_NAVIGATOR,
+  ROUTE_PROFILE_SETTINGS_STACK_NAVIGATOR,
+  ROUTE_SETTINGS,
+} from '../../../navigators/RouteNames';
 import {generateDummyVideoPosts} from '../../../services/generateRandomContent';
 import {HORIZONTAL_MARGIN, SCREEN_WIDTH} from '../../../utils/constants';
 import {Colors} from '../../../utils/styles';
@@ -76,7 +80,14 @@ const ProfileScreen = () => {
           </LinearGradient>
         </View>
         <TouchableOpacity
-          onPress={() => navigation.navigate(ROUTE_SETTINGS)}
+          onPress={() =>
+            navigation.navigate(ROUTE_AUTHENTICATED_NAVIGATOR, {
+              screen: ROUTE_PROFILE_SETTINGS_STACK_NAVIGATOR,
+              params: {
+                screen: ROUTE_SETTINGS,
+              },
+            })
+          }
           style={styles.settingsIcon}>
           <Image source={SettingIcon} />
         </TouchableOpacity>
@@ -111,6 +122,7 @@ const styles = StyleSheet.create({
     height: 120,
     borderRadius: 120,
     overflow: 'hidden',
+    marginTop: 30,
   },
   gradient: {
     flex: 1,
