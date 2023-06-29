@@ -22,12 +22,7 @@ const FamilyMemberNetwork = ({navigation, route}) => {
     },
   ];
 
-  const onFamilyMemberPress = useCallback(
-    userDetails => {
-      navigation.navigate();
-    },
-    [navigation],
-  );
+  const onFamilyMemberPress = useCallback(userDetails => {}, []);
 
   const renderItem = useCallback(
     ({item, index}) => {
@@ -44,6 +39,8 @@ const FamilyMemberNetwork = ({navigation, route}) => {
     [onFamilyMemberPress],
   );
 
+  const onAddFamilyMembersPress = useCallback(() => {}, []);
+
   return (
     <View style={styles.container}>
       <Typography style={styles.infoText}>
@@ -52,8 +49,10 @@ const FamilyMemberNetwork = ({navigation, route}) => {
       </Typography>
       <Typography style={styles.title}>Family Groups</Typography>
       <FlatList data={familyGroupData} renderItem={renderItem} />
-      <Pressable style={styles.buttonContainer}>
-        <Typography style={styles.buttonText}>Add Network Members</Typography>
+      <Pressable
+        style={styles.buttonContainer}
+        onPress={onAddFamilyMembersPress}>
+        <Typography style={styles.buttonText}>Add Family Members</Typography>
       </Pressable>
     </View>
   );
