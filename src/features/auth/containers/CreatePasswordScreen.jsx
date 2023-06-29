@@ -10,8 +10,12 @@ import {HORIZONTAL_MARGIN} from '../../../utils/constants';
 import Back from '../../../components/Navigation/Back';
 import BackArrowIcon from '../../../../assets/images/arrow-left.png';
 import {ROUTE_VERIFICATION_CODE_SCREEN} from '../../../navigators/RouteNames';
+import {signUp} from '../../../api/authApi';
+import {setAuthToken} from '../store/AuthActions';
+import {useDispatch} from 'react-redux';
 
 const CreatePasswordScreen = ({navigation, route}) => {
+  const dispatch = useDispatch();
   const [password, setPassword] = useState('');
   const {emailAddress} = route.params;
 
@@ -19,9 +23,19 @@ const CreatePasswordScreen = ({navigation, route}) => {
     navigation.goBack();
   }, [navigation]);
 
-  const onConfirmPasswordPress = useCallback(() => {
-    navigation.navigate(ROUTE_VERIFICATION_CODE_SCREEN, {emailAddress});
-  }, [emailAddress, navigation]);
+  const onConfirmPasswordPress = useCallback(async () => {
+    try {
+      const response = await signUp(emailAddress, password, 'markus');
+
+      // Assuming the response contains the authentication token
+      const token = response.token;
+      dispatch(setAuthToken(token));
+      navigation.navigate(ROUTE_VERIFICATION_CODE_SCREEN, {emailAddress});
+      console.log('Signup successful');
+    } catch (error) {
+      console.log('Signup failed:', error);
+    }
+  }, [dispatch, emailAddress, navigation, password]);
 
   return (
     <KeyboardDismissWrapper style={styles.container} behavior="padding">
