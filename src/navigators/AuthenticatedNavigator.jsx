@@ -23,13 +23,6 @@ const AuthenticatedNavigator = () => {
   return (
     <Stack.Navigator>
       <Stack.Screen
-        component={ProfileSettingsStackNavigator}
-        name={ROUTE_PROFILE_SETTINGS_STACK_NAVIGATOR}
-        options={{
-          headerShown: false, // Hide the header for the screen
-        }}
-      />
-      <Stack.Screen
         component={TabNavigator}
         name={ROUTE_TAB_NAVIGATOR}
         options={{
@@ -53,6 +46,13 @@ const AuthenticatedNavigator = () => {
       <Stack.Screen
         component={UserDetailsStackNavigator}
         name={ROUTE_USER_DETAILS_STACK_NAVIGATOR}
+        options={{
+          headerShown: false, // Hide the header for the screen
+        }}
+      />
+      <Stack.Screen
+        component={ProfileSettingsStackNavigator}
+        name={ROUTE_PROFILE_SETTINGS_STACK_NAVIGATOR}
         options={{
           headerShown: false, // Hide the header for the screen
         }}

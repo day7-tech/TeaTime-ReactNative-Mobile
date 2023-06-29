@@ -31,15 +31,15 @@ const ModalNavigator = () => {
     <NavigationContainer theme={TransparentTheme}>
       <ModalStack.Navigator>
         <ModalStack.Screen
-          name={ROUTE_AUTHENTICATED_NAVIGATOR}
-          component={AuthenticatedNavigator}
+          name={ROUTE_AUTHENTICATION_NAVIGATOR}
+          component={AuthenticationNavigator}
           options={{
             headerShown: false, // Hide the header for the screen
           }}
         />
         <ModalStack.Screen
-          name={ROUTE_AUTHENTICATION_NAVIGATOR}
-          component={AuthenticationNavigator}
+          name={ROUTE_AUTHENTICATED_NAVIGATOR}
+          component={AuthenticatedNavigator}
           options={{
             headerShown: false, // Hide the header for the screen
           }}
