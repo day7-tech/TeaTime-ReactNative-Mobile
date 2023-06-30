@@ -43,6 +43,8 @@ const CreatePasswordScreen = ({navigation, route}) => {
             placeholder={'Password'}
             inputTextContainer={styles.inputTextContainer}
             secureTextEntry={true}
+            returnKeyType="done"
+            onSubmitEditing={onConfirmPasswordPress}
           />
         </View>
 
