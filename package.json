@@ -21,6 +21,7 @@
     "@react-navigation/native": "^6.1.6",
     "@react-navigation/native-stack": "^6.9.12",
     "@react-navigation/stack": "^6.3.16",
+    "axios": "^1.4.0",
     "ffmpeg-kit-react-native": "^5.1.0",
     "formik": "^2.4.2",
     "patch-package": "^7.0.0",
@@ -53,6 +54,11 @@
     "react-native-video": "^6.0.0-alpha.6",
     "react-native-video-processing": "^1.7.2",
     "react-native-vision-camera": "^2.15.4",
+    "react-redux": "^8.1.1",
+    "redux": "^4.2.1",
+    "redux-logger": "^3.0.6",
+    "redux-persist": "^6.0.0",
+    "redux-thunk": "^2.4.2",
     "yup": "^1.2.0"
   },
   "devDependencies": {
