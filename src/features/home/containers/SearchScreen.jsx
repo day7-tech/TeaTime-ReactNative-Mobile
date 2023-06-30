@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, {useCallback, useState} from 'react';
 import {
   FlatList,
   Image,
@@ -7,31 +7,31 @@ import {
   StyleSheet,
   TouchableOpacity,
   View,
-} from "react-native";
-import BackIcon from "../../../../assets/images/back.png";
-import ChannelDetails from "../../../components/ChannelDetails";
-import SearchBar from "../../../components/SearchBar";
-import { generateDummyVideoPosts } from "../../../services/generateRandomContent";
-import { HORIZONTAL_MARGIN } from "../../../utils/constants";
-import { Colors } from "../../../utils/styles";
-import HistoryRow from "../components/HistoryRow";
+} from 'react-native';
+import BackIcon from '../../../../assets/images/back.png';
+import ChannelDetails from '../../../components/ChannelDetails';
+import SearchBar from '../../../components/SearchBar';
+import {generateDummyVideoPosts} from '../../../services/generateRandomContent';
+import {HORIZONTAL_MARGIN} from '../../../utils/constants';
+import {Colors} from '../../../utils/styles';
+import HistoryRow from '../components/HistoryRow';
 
-const SearchScreen = ({ navigation }) => {
-  const [searchText, setSearchText] = useState("");
+const SearchScreen = ({navigation}) => {
+  const [searchText, setSearchText] = useState('');
   const [videos, setVideos] = useState(() => generateDummyVideoPosts(10));
   const onBackPress = useCallback(() => {
     navigation.goBack();
   }, [navigation]);
 
-  const renderHistoryItem = useCallback(({ item, index }) => {
+  const renderHistoryItem = useCallback(({item, index}) => {
     return (
       <View key={index}>
-        <HistoryRow searchedText={"Bloom aged care"} />
+        <HistoryRow searchedText={'Bloom aged care'} />
       </View>
     );
   }, []);
 
-  const renderSearchItem = useCallback(({ item, index }) => {
+  const renderSearchItem = useCallback(({item, index}) => {
     return (
       <View key={index} style={styles.searchResultContainer}>
         <ChannelDetails
@@ -58,7 +58,7 @@ const SearchScreen = ({ navigation }) => {
         </View>
         <FlatList
           data={videos}
-          keyExtractor={(item) => item.commentCount.toString()}
+          keyExtractor={item => item.commentCount.toString()}
           renderItem={searchText ? renderSearchItem : renderHistoryItem}
           style={styles.flatlistContainer}
           extraData={videos}
@@ -80,14 +80,14 @@ const styles = StyleSheet.create({
     paddingHorizontal: HORIZONTAL_MARGIN,
   },
   headerContainer: {
-    flexDirection: "row",
-    alignItems: "center",
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   flatlistContainer: {
     marginTop: 10,
   },
   back: {
-    justifyContent: "center",
+    justifyContent: 'center',
   },
   icon: {
     marginRight: 10,

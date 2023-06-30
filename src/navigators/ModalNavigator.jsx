@@ -37,7 +37,6 @@ const ModalNavigator = () => {
             headerShown: false, // Hide the header for the screen
           }}
         />
-
         <ModalStack.Screen
           name={ROUTE_AUTHENTICATED_NAVIGATOR}
           component={AuthenticatedNavigator}

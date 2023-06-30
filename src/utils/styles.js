@@ -19,4 +19,6 @@ export const Colors = {
   red: '#F60000',
   skyBlue: '#3897F0',
   primariesShade03: '#FEE9F3',
+  textSecondary: '#485358',
+  success: '#72A502',
 };

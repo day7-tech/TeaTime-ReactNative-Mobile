@@ -20,7 +20,7 @@ export const ROUTE_CREATE_POST_OPTIONS = 'create_post_options';
 export const ROUTE_GRADIENT_TEXT_POST = 'gradient_text_post';
 export const ROUTE_EDITING = 'editing';
 export const ROUTE_PROFILE_NAVIGATOR = 'profile_navigator';
-export const ROUTE_SETTINGS = 'settings';
+
 export const ROUTE_WELCOME_SCREEN = 'welcome_screen';
 export const ROUTE_VERIFY_EMAIL_SCREEN = 'verify_email_screen';
 export const ROUTE_CREATE_PASSWORD_SCREEN = 'create_password_screen';
@@ -28,3 +28,11 @@ export const ROUTE_VERIFICATION_CODE_SCREEN = 'verification_code_screen';
 export const ROUTE_USER_NAME_SCREEN = 'user_name_screen';
 export const ROUTE_USER_BIRTHDATE_SCREEN = 'user_birthdate_screen';
 export const ROUTE_USER_PROFILE_IMAGE_SCREEN = 'user_profile_image_screen';
+export const ROUTE_PROFILE_SETTINGS_STACK_NAVIGATOR =
+  'profile_settings_stack_navigator';
+export const ROUTE_SETTINGS = 'settings';
+export const ROUTE_EDIT_PROFILE = 'edit_profile';
+export const ROUTE_MY_FAMILY = 'my_family';
+export const ROUTE_ACCOUNT_SETTINGS = 'account_settings';
+export const ROUTE_ABOUT = 'about';
+export const ROUTE_FAMILY_MEMBERS_NETWORK = 'family_members_network';
