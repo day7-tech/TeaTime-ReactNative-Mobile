@@ -1,10 +1,45 @@
 import API from './api';
-export const signUp = async (email, password, username) => {
+export const signUp = async (password, name, dob, userId) => {
   try {
     const response = await API.post('/user/signup', {
+      password,
+      name,
+      dob,
+      userId,
+    });
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const logout = async () => {
+  try {
+    const response = await API.post('/user/logout');
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const login = async (email, password) => {
+  try {
+    const response = await API.post('/user/login', {
       email,
       password,
-      username,
+    });
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const sendVerificationEmail = async email => {
+  try {
+    const response = await API.post('/user/send-verification-email', {
+      email,
     });
 
     return response.data;

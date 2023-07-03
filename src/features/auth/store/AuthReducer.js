@@ -1,4 +1,6 @@
+// authReducer.js
 import {
+  SET_USER_ID,
   SET_AUTH_TOKEN,
   LOGOUT,
   TOKEN_EXPIRED,
@@ -7,6 +9,8 @@ import {
 
 const initialState = {
   authToken: null,
+  userID: null,
+  email: null,
   isAuthenticated: false,
   isAuthCompleted: false,
 };
@@ -19,16 +23,26 @@ const authReducer = (state = initialState, action) => {
         authToken: action.payload,
         isAuthenticated: true,
       };
+    case SET_USER_ID:
+      return {
+        ...state,
+        userID: action.payload.userID,
+        email: action.payload.email,
+      };
     case LOGOUT:
       return {
         ...state,
         authToken: null,
+        userID: null,
+        email: null,
         isAuthenticated: false,
       };
     case TOKEN_EXPIRED:
       return {
         ...state,
         authToken: null,
+        userID: null,
+        email: null,
         isAuthenticated: false,
       };
     case COMPLETED_AUTH:

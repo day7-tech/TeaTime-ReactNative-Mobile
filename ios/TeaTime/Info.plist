@@ -35,16 +35,34 @@
 			</dict>
 		</dict>
 	</dict>
+	<key>NSAppleMusicUsageDescription</key>
+	<string>$(PRODUCT_NAME) integrates with Apple Music to offer a curated tea playlist for a relaxing tea session. Granting access will allow $(PRODUCT_NAME) to access your Apple Music library and provide you with a delightful musical ambiance while enjoying your tea.</string>
+	<key>NSBluetoothAlwaysUsageDescription</key>
+	<string>$(PRODUCT_NAME) requires constant access to Bluetooth for seamless connectivity with smart tea devices and accessories. Granting access will ensure $(PRODUCT_NAME) can maintain a reliable and uninterrupted connection with your tea brewing equipment.</string>
+	<key>NSBluetoothPeripheralUsageDescription</key>
+	<string>$(PRODUCT_NAME) utilizes Bluetooth to connect with smart tea devices and accessories. Granting access will enable $(PRODUCT_NAME) to enhance your tea experience by providing advanced features and controls for brewing tea.</string>
+	<key>NSCalendarsUsageDescription</key>
+	<string>$(PRODUCT_NAME) needs access to your calendar to schedule tea reminders and events. Granting access will enable $(PRODUCT_NAME) to seamlessly integrate with your calendar and provide a personalized tea experience.</string>
 	<key>NSCameraUsageDescription</key>
 	<string>$(PRODUCT_NAME) needs access to your Camera.</string>
+	<key>NSContactsUsageDescription</key>
+	<string>$(PRODUCT_NAME) requires access to your contacts to allow you to invite friends for tea gatherings and events. Granting access will enable $(PRODUCT_NAME) to provide a convenient way for you to connect and share your tea moments with others.</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>$(PRODUCT_NAME) uses your location to provide localized tea recommendations, tea-related events, and tea shop suggestions. Granting access will enable $(PRODUCT_NAME) to offer a personalized tea experience based on your location.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>YOUR TEXT</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>$(PRODUCT_NAME) needs access to your Microphone.</string>
+	<key>NSMotionUsageDescription</key>
+	<string>$(PRODUCT_NAME) utilizes motion data to detect your movements and gestures for interactive tea brewing experiences. Granting access will enable $(PRODUCT_NAME) to provide a unique and immersive way to interact with your tea brewing process.</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
 	<string>This app requires access to the photo library to select and display photos</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>This app requires access to the photo library to select and display photos</string>
+	<key>NSSiriUsageDescription</key>
+	<string>$(PRODUCT_NAME) integrates with Siri to provide a hands-free tea experience. Granting access will enable $(PRODUCT_NAME) to work seamlessly with Siri, allowing you to use voice commands to control and manage your tea brewing process.</string>
+	<key>NSSpeechRecognitionUsageDescription</key>
+	<string>$(PRODUCT_NAME) supports speech recognition to enable voice commands for controlling tea brewing and settings. Granting access will allow $(PRODUCT_NAME) to listen and respond to your voice instructions, enhancing the ease and convenience of using the app.</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Outfit-Black.ttf</string>
@@ -58,7 +76,7 @@
 		<string>Outfit-Thin.ttf</string>
 	</array>
 	<key>UILaunchStoryboardName</key>
-	<string>LaunchScreen</string>
+	<string>BootSplash.storyboard</string>
 	<key>UIRequiredDeviceCapabilities</key>
 	<array>
 		<string>armv7</string>

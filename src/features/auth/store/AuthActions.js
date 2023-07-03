@@ -3,6 +3,9 @@ import {
   LOGOUT,
   TOKEN_EXPIRED,
   COMPLETED_AUTH,
+  START_LOADING,
+  STOP_LOADING,
+  SET_USER_ID,
 } from './AuthTypes';
 
 // Action creator to set the authentication token
@@ -24,4 +27,19 @@ export const tokenExpired = () => ({
 // Action creator to mark authentication as completed
 export const completedAuth = () => ({
   type: COMPLETED_AUTH,
+});
+
+export const setUserID = (userID, email) => ({
+  type: SET_USER_ID,
+  payload: {userID, email},
+});
+
+// Action creator to start loading
+export const startLoading = () => ({
+  type: START_LOADING,
+});
+
+// Action creator to stop loading
+export const stopLoading = () => ({
+  type: STOP_LOADING,
 });

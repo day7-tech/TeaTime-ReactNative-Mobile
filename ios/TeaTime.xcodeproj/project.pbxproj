@@ -13,6 +13,7 @@
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		6CB7943D29D6F11714F16EAC /* libPods-TeaTime-TeaTimeTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 242BF0C31A17962FD0ACEFAA /* libPods-TeaTime-TeaTimeTests.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
+		CE1FF73E2A52FA76006CF8BD /* BootSplash.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CE1FF73D2A52FA76006CF8BD /* BootSplash.storyboard */; };
 		CE8B6DCF2A2D838400AB22FA /* Outfit-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CE8B6DC62A2D838400AB22FA /* Outfit-Medium.ttf */; };
 		CE8B6DD02A2D838400AB22FA /* Outfit-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CE8B6DC72A2D838400AB22FA /* Outfit-Light.ttf */; };
 		CE8B6DD12A2D838400AB22FA /* Outfit-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CE8B6DC82A2D838400AB22FA /* Outfit-ExtraBold.ttf */; };
@@ -53,6 +54,7 @@
 		7A4DA5193F2169D80090DF80 /* Pods-TeaTime.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TeaTime.release.xcconfig"; path = "Target Support Files/Pods-TeaTime/Pods-TeaTime.release.xcconfig"; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = TeaTime/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		BB05A58EF1AA2E179BCDB2CB /* Pods-TeaTime-TeaTimeTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TeaTime-TeaTimeTests.release.xcconfig"; path = "Target Support Files/Pods-TeaTime-TeaTimeTests/Pods-TeaTime-TeaTimeTests.release.xcconfig"; sourceTree = "<group>"; };
+		CE1FF73D2A52FA76006CF8BD /* BootSplash.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = BootSplash.storyboard; path = TeaTime/BootSplash.storyboard; sourceTree = "<group>"; };
 		CE8B6DC62A2D838400AB22FA /* Outfit-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Outfit-Medium.ttf"; path = "../assets/fonts/Outfit-Medium.ttf"; sourceTree = "<group>"; };
 		CE8B6DC72A2D838400AB22FA /* Outfit-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Outfit-Light.ttf"; path = "../assets/fonts/Outfit-Light.ttf"; sourceTree = "<group>"; };
 		CE8B6DC82A2D838400AB22FA /* Outfit-ExtraBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Outfit-ExtraBold.ttf"; path = "../assets/fonts/Outfit-ExtraBold.ttf"; sourceTree = "<group>"; };
@@ -109,6 +111,7 @@
 			children = (
 				CE8B6DC52A2D834900AB22FA /* Resources */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
+				CE1FF73D2A52FA76006CF8BD /* BootSplash.storyboard */,
 				13B07FB01A68108700A75B9A /* AppDelegate.mm */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
@@ -284,6 +287,7 @@
 				CE8B6DD02A2D838400AB22FA /* Outfit-Light.ttf in Resources */,
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				CE8B6DD62A2D838400AB22FA /* Outfit-Bold.ttf in Resources */,
+				CE1FF73E2A52FA76006CF8BD /* BootSplash.storyboard in Resources */,
 				CE8B6DD52A2D838400AB22FA /* Outfit-Regular.ttf in Resources */,
 				CE8B6DD22A2D838400AB22FA /* Outfit-SemiBold.ttf in Resources */,
 				CE8B6DD32A2D838400AB22FA /* Outfit-Thin.ttf in Resources */,
@@ -481,6 +485,8 @@
 			baseConfigurationReference = 381510DB3EA6B8B99AD32250 /* Pods-TeaTime-TeaTimeTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
+				DEVELOPMENT_TEAM = WD3QK9N8MH;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
@@ -508,7 +514,9 @@
 			baseConfigurationReference = BB05A58EF1AA2E179BCDB2CB /* Pods-TeaTime-TeaTimeTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				COPY_PHASE_STRIP = NO;
+				DEVELOPMENT_TEAM = WD3QK9N8MH;
 				INFOPLIST_FILE = TeaTimeTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
 				LD_RUNPATH_SEARCH_PATHS = (

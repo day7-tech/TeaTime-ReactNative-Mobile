@@ -7,11 +7,15 @@ import BackArrowIcon from '../../../../assets/images/arrow-left.png';
 import {HORIZONTAL_MARGIN, SCREEN_WIDTH} from '../../../utils/constants';
 import {Colors} from '../../../utils/styles';
 import SmoothPinCodeInput from 'react-native-smooth-pincode-input';
-import {ROUTE_USER_NAME_SCREEN} from '../../../navigators/RouteNames';
+import {
+  ROUTE_CREATE_PASSWORD_SCREEN,
+  ROUTE_USER_NAME_SCREEN,
+} from '../../../navigators/RouteNames';
+import {useSelector} from 'react-redux';
 const PIN_CODE_LENGTH = 5;
 
 const VerificationCodeScreen = ({navigation, route}) => {
-  const {emailAddress} = route.params;
+  const {email} = useSelector(state => state.auth);
   const [verificationCode, setVerificationCode] = useState('');
 
   const onBackPress = useCallback(() => {
@@ -28,7 +32,7 @@ const VerificationCodeScreen = ({navigation, route}) => {
 
   const onFulfill = () => {
     Keyboard.dismiss();
-    navigation.navigate(ROUTE_USER_NAME_SCREEN);
+    navigation.navigate(ROUTE_CREATE_PASSWORD_SCREEN);
   };
 
   return (
@@ -43,7 +47,7 @@ const VerificationCodeScreen = ({navigation, route}) => {
             Enter the code sent to
           </Typography>
           <Typography style={[styles.infoText, styles.emailValue]}>
-            {emailAddress}
+            {'email'}
           </Typography>
           <SmoothPinCodeInput
             value={verificationCode}

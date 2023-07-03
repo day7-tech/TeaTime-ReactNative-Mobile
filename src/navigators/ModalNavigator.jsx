@@ -3,6 +3,7 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import React from 'react';
 import {Colors} from '../utils/styles';
 import AuthenticatedNavigator from './AuthenticatedNavigator';
+import RNBootSplash from 'react-native-bootsplash';
 import {
   ROUTE_AUTHENTICATED_NAVIGATOR,
   ROUTE_AUTHENTICATION_NAVIGATOR,
@@ -28,7 +29,9 @@ const ModalNavigator = () => {
   };
 
   return (
-    <NavigationContainer theme={TransparentTheme}>
+    <NavigationContainer
+      theme={TransparentTheme}
+      onReady={() => RNBootSplash.hide()}>
       <ModalStack.Navigator>
         <ModalStack.Screen
           name={ROUTE_AUTHENTICATION_NAVIGATOR}

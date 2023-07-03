@@ -15,23 +15,51 @@ import {Colors} from '../../../utils/styles';
 import AppFloatingTextInput from '../../../components/AppFloatingTextInput';
 import GradientBtn from '../../../components/Buttons/GradientBtn';
 import {HORIZONTAL_MARGIN} from '../../../utils/constants';
-import {ROUTE_CREATE_PASSWORD_SCREEN} from '../../../navigators/RouteNames';
+import {
+  ROUTE_CREATE_PASSWORD_SCREEN,
+  ROUTE_VERIFICATION_CODE_SCREEN,
+} from '../../../navigators/RouteNames';
 import KeyboardDismissWrapper from '../../../components/KeyboardDismissWrapper';
+import {sendVerificationEmail} from '../../../api/authApi';
+import {useDispatch} from 'react-redux';
+import {setUserID, startLoading, stopLoading} from '../store/AuthActions';
 const VerifyEmailScreen = ({navigation}) => {
   const [emailAddress, setEmailAddress] = useState('');
-
+  const dispatch = useDispatch();
   const handleEmailChange = email => {
     setEmailAddress(email);
   };
-  const onConfirmEmailPress = useCallback(() => {
+  const onConfirmEmailPress = useCallback(async () => {
     if (emailAddress.trim() === '') {
       console.log('Invalid email address');
       return;
     }
 
-    // Navigate to the desired screen (replace 'ROUTE_CREATE_PASSWORD_SCREEN' with the actual route name)
-    navigation.navigate(ROUTE_CREATE_PASSWORD_SCREEN, {emailAddress});
-  }, [emailAddress, navigation]);
+    try {
+      // Call the verifyEmail function from the authAPI module
+      dispatch(startLoading());
+      const response = await sendVerificationEmail(emailAddress);
+
+      // Assuming the response data includes a success property indicating the success of the email verification
+      if (response.success) {
+        const {userID} = response;
+
+        // Dispatch the setUserID action to store the userID in Redux
+        dispatch(setUserID(userID, emailAddress));
+        // Email verified successfully, navigate to the next screen
+        navigation.navigate(ROUTE_VERIFICATION_CODE_SCREEN);
+      } else {
+        console.log('Failed to verify email.');
+        // Handle error or display a message to the user accordingly
+      }
+    } catch (error) {
+      console.error('Error verifying email:', error);
+      // Handle error or display a message to the user accordingly
+    } finally {
+      navigation.navigate(ROUTE_VERIFICATION_CODE_SCREEN);
+      dispatch(stopLoading()); // Dispatch the stopLoading action in the finally block
+    }
+  }, [dispatch, emailAddress, navigation]);
 
   return (
     <KeyboardDismissWrapper style={styles.container} behavior="padding">
