@@ -1,3 +1,4 @@
+import axios from 'axios';
 import API from './api';
 export const signUp = async (password, name, dob, userId) => {
   try {

@@ -39,9 +39,9 @@ const VerifyEmailScreen = ({navigation}) => {
       // Call the verifyEmail function from the authAPI module
       dispatch(startLoading());
       const response = await sendVerificationEmail(emailAddress);
-
+      console.log('response', response);
       // Assuming the response data includes a success property indicating the success of the email verification
-      if (response.success) {
+      if (response) {
         const {userID} = response;
 
         // Dispatch the setUserID action to store the userID in Redux
@@ -56,7 +56,6 @@ const VerifyEmailScreen = ({navigation}) => {
       console.error('Error verifying email:', error);
       // Handle error or display a message to the user accordingly
     } finally {
-      navigation.navigate(ROUTE_VERIFICATION_CODE_SCREEN);
       dispatch(stopLoading()); // Dispatch the stopLoading action in the finally block
     }
   }, [dispatch, emailAddress, navigation]);

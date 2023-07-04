@@ -4,7 +4,9 @@ import {store} from '../store';
 
 const API = axios.create({
   baseURL: Config.API_BASE_URL,
-  timeout: 5000, // Set the timeout value as per your requirements
+  headers: {
+    'Content-Type': 'application/x-www-form-urlencoded',
+  },
 });
 
 API.interceptors.request.use(
@@ -23,5 +25,4 @@ API.interceptors.request.use(
     return Promise.reject(error);
   },
 );
-
 export default API;

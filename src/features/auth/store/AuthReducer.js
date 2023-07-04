@@ -1,10 +1,11 @@
-// authReducer.js
 import {
   SET_USER_ID,
   SET_AUTH_TOKEN,
   LOGOUT,
   TOKEN_EXPIRED,
   COMPLETED_AUTH,
+  START_LOADING,
+  STOP_LOADING,
 } from './AuthTypes';
 
 const initialState = {
@@ -13,6 +14,7 @@ const initialState = {
   email: null,
   isAuthenticated: false,
   isAuthCompleted: false,
+  isLoading: false,
 };
 
 const authReducer = (state = initialState, action) => {
@@ -49,6 +51,16 @@ const authReducer = (state = initialState, action) => {
       return {
         ...state,
         isAuthCompleted: true,
+      };
+    case START_LOADING:
+      return {
+        ...state,
+        isLoading: true,
+      };
+    case STOP_LOADING:
+      return {
+        ...state,
+        isLoading: false,
       };
     default:
       return state;

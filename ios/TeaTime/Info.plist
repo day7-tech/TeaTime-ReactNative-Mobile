@@ -63,6 +63,12 @@
 	<string>$(PRODUCT_NAME) integrates with Siri to provide a hands-free tea experience. Granting access will enable $(PRODUCT_NAME) to work seamlessly with Siri, allowing you to use voice commands to control and manage your tea brewing process.</string>
 	<key>NSSpeechRecognitionUsageDescription</key>
 	<string>$(PRODUCT_NAME) supports speech recognition to enable voice commands for controlling tea brewing and settings. Granting access will allow $(PRODUCT_NAME) to listen and respond to your voice instructions, enhancing the ease and convenience of using the app.</string>
+	<key>NSAppTransportSecurity</key>
+<dict>
+  <key>NSAllowsArbitraryLoads</key>
+  <true/>
+</dict>
+
 	<key>UIAppFonts</key>
 	<array>
 		<string>Outfit-Black.ttf</string>
