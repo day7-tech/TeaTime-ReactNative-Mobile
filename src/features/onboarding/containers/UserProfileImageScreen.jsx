@@ -11,7 +11,8 @@ import GradientBtn from '../../../components/Buttons/GradientBtn';
 import AddUserImage from '../components/AddUserImage';
 import {ROUTE_AUTHENTICATED_NAVIGATOR} from '../../../navigators/RouteNames';
 
-const UserProfileImageScreen = ({navigation}) => {
+const UserProfileImageScreen = ({navigation, route}) => {
+  const {name, password, dob} = route.params;
   const onBackPress = useCallback(() => {
     navigation.goBack();
   }, [navigation]);

@@ -4,6 +4,7 @@ import {
   Animated,
   TouchableWithoutFeedback,
   Vibration,
+  ActivityIndicator,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import Typography from '../Typography/Typography';
@@ -13,6 +14,7 @@ export default function GradientBtn({
   btnTextColor,
   onPress,
   shouldVibrate = false,
+  isLoading = false,
 }) {
   const styles = StyleSheet.create({
     btnContainer: {
@@ -67,7 +69,11 @@ export default function GradientBtn({
           start={{x: 0, y: 0.5}}
           end={{x: 1, y: 0.5}}
           style={styles.btnContainer}>
-          <Typography style={styles.btnText}>{btnInfo}</Typography>
+          {isLoading ? (
+            <ActivityIndicator color="white" />
+          ) : (
+            <Typography style={styles.btnText}>{btnInfo}</Typography>
+          )}
         </LinearGradient>
       </Animated.View>
     </TouchableWithoutFeedback>

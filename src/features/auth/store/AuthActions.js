@@ -29,9 +29,9 @@ export const completedAuth = () => ({
   type: COMPLETED_AUTH,
 });
 
-export const setUserID = (userID, email) => ({
+export const setUserID = (userId, email) => ({
   type: SET_USER_ID,
-  payload: {userID, email},
+  payload: {userId, email},
 });
 
 // Action creator to start loading

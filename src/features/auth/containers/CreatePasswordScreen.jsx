@@ -23,12 +23,11 @@ const CreatePasswordScreen = ({navigation, route}) => {
       .required('Confirm Password is required'),
   });
 
-  const handleSubmit = values => {
+  const onSubmit = values => {
     try {
       navigation.navigate(ROUTE_USER_NAME_SCREEN, {
         password: values.password,
       });
-      console.log('Signup successful');
     } catch (error) {
       console.log('Signup failed:', error);
     }
@@ -47,8 +46,15 @@ const CreatePasswordScreen = ({navigation, route}) => {
             confirmPassword: '',
           }}
           validationSchema={validationSchema}
-          onSubmit={handleSubmit}>
-          {({values, handleChange, handleBlur, errors, touched}) => (
+          onSubmit={onSubmit}>
+          {({
+            submitForm,
+            values,
+            handleChange,
+            handleBlur,
+            errors,
+            touched,
+          }) => (
             <>
               <Pressable onPress={onBackPress}>
                 <Image source={BackArrowIcon} />
@@ -59,7 +65,7 @@ const CreatePasswordScreen = ({navigation, route}) => {
                   Let’s create your password for
                 </Typography>
                 <Typography style={[styles.infoText, styles.emailValue]}>
-                  {'email'}
+                  {email}
                 </Typography>
 
                 <AppFloatingTextInput
@@ -85,6 +91,7 @@ const CreatePasswordScreen = ({navigation, route}) => {
                   inputTextContainer={styles.inputTextContainer}
                   secureTextEntry={true}
                   returnKeyType="done"
+                  onSubmitEditing={submitForm}
                 />
                 {touched.confirmPassword && errors.confirmPassword && (
                   <Typography style={styles.errorText}>
@@ -96,7 +103,7 @@ const CreatePasswordScreen = ({navigation, route}) => {
               <GradientBtn
                 btnInfo={'Continue'}
                 btnTextColor={Colors.white}
-                onPress={handleSubmit}
+                onPress={submitForm}
               />
             </>
           )}

@@ -21,10 +21,11 @@ import {
 } from '../../../navigators/RouteNames';
 import KeyboardDismissWrapper from '../../../components/KeyboardDismissWrapper';
 import {sendVerificationEmail} from '../../../api/authApi';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {setUserID, startLoading, stopLoading} from '../store/AuthActions';
 const VerifyEmailScreen = ({navigation}) => {
   const [emailAddress, setEmailAddress] = useState('');
+  const {isLoading} = useSelector(state => state.auth);
   const dispatch = useDispatch();
   const handleEmailChange = email => {
     setEmailAddress(email);
@@ -39,13 +40,13 @@ const VerifyEmailScreen = ({navigation}) => {
       // Call the verifyEmail function from the authAPI module
       dispatch(startLoading());
       const response = await sendVerificationEmail(emailAddress);
-      console.log('response', response);
+
       // Assuming the response data includes a success property indicating the success of the email verification
       if (response) {
-        const {userID} = response;
-
+        const {userId, code} = response;
+        console.log('code===>', code);
         // Dispatch the setUserID action to store the userID in Redux
-        dispatch(setUserID(userID, emailAddress));
+        dispatch(setUserID(userId, emailAddress));
         // Email verified successfully, navigate to the next screen
         navigation.navigate(ROUTE_VERIFICATION_CODE_SCREEN);
       } else {
@@ -84,6 +85,7 @@ const VerifyEmailScreen = ({navigation}) => {
           btnInfo={'Continue'}
           btnTextColor={Colors.white}
           onPress={onConfirmEmailPress}
+          isLoading={isLoading}
         />
       </SafeAreaView>
     </KeyboardDismissWrapper>

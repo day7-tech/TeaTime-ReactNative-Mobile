@@ -1,31 +1,30 @@
-import {
-  Image,
-  Pressable,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
 import React, {useCallback, useState} from 'react';
-import KeyboardDismissWrapper from '../../../components/KeyboardDismissWrapper';
-import {SafeAreaView} from 'react-native-safe-area-context';
-import Typography from '../../../components/Typography/Typography';
+import {Image, Pressable, StyleSheet, View} from 'react-native';
+import DatePicker from 'react-native-date-picker';
 import * as Progress from 'react-native-progress';
-import {HORIZONTAL_MARGIN, SCREEN_WIDTH} from '../../../utils/constants';
-import {Colors} from '../../../utils/styles';
-import AppFloatingTextInput from '../../../components/AppFloatingTextInput';
-import GradientBtn from '../../../components/Buttons/GradientBtn';
+import {SafeAreaView} from 'react-native-safe-area-context';
 import BackArrowIcon from '../../../../assets/images/arrow-left.png';
 import DropDownIcon from '../../../../assets/images/dropdown.png';
-import DatePicker from 'react-native-date-picker';
+import AppFloatingTextInput from '../../../components/AppFloatingTextInput';
+import GradientBtn from '../../../components/Buttons/GradientBtn';
+import KeyboardDismissWrapper from '../../../components/KeyboardDismissWrapper';
+import Typography from '../../../components/Typography/Typography';
 import {ROUTE_USER_PROFILE_IMAGE_SCREEN} from '../../../navigators/RouteNames';
+import {HORIZONTAL_MARGIN, SCREEN_WIDTH} from '../../../utils/constants';
+import {Colors} from '../../../utils/styles';
 
-const UserBirthDateScreen = ({navigation}) => {
+const UserBirthDateScreen = ({navigation, route}) => {
+  const {name, password} = route.params;
   const [birthDate, setBirthDate] = useState(new Date());
-  const onSubmitPress = useCallback(() => {
-    navigation.navigate(ROUTE_USER_PROFILE_IMAGE_SCREEN);
-  }, [navigation]);
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
+
+  const onSubmitPress = useCallback(() => {
+    navigation.navigate(ROUTE_USER_PROFILE_IMAGE_SCREEN, {
+      name: name,
+      password: password,
+      dob: birthDate,
+    });
+  }, [birthDate, name, navigation, password]);
 
   const onBackPress = useCallback(() => {
     navigation.goBack();

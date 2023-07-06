@@ -1,4 +1,12 @@
-import {Image, Keyboard, Pressable, StyleSheet, Text, View} from 'react-native';
+import {
+  ActivityIndicator,
+  Image,
+  Keyboard,
+  Pressable,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
 import React, {useCallback, useState} from 'react';
 import KeyboardDismissWrapper from '../../../components/KeyboardDismissWrapper';
 import {SafeAreaView} from 'react-native-safe-area-context';
@@ -11,18 +19,46 @@ import {
   ROUTE_CREATE_PASSWORD_SCREEN,
   ROUTE_USER_NAME_SCREEN,
 } from '../../../navigators/RouteNames';
-import {useSelector} from 'react-redux';
-const PIN_CODE_LENGTH = 5;
+import {useDispatch, useSelector} from 'react-redux';
+import {startLoading, stopLoading} from '../store/AuthActions';
+import {sendVerificationEmail, verifyCode} from '../../../api/authApi';
+import {debounce} from 'lodash';
+import GradientBtn from '../../../components/Buttons/GradientBtn';
+const PIN_CODE_LENGTH = 6;
 
 const VerificationCodeScreen = ({navigation, route}) => {
-  const {email} = useSelector(state => state.auth);
+  const {email, userId, isLoading} = useSelector(state => state.auth);
+  const dispatch = useDispatch();
   const [verificationCode, setVerificationCode] = useState('');
 
   const onBackPress = useCallback(() => {
     navigation.goBack();
   }, [navigation]);
 
-  const onResendPress = useCallback(() => {}, []);
+  const onResendPress = useCallback(async () => {
+    try {
+      // Call the verifyEmail function from the authAPI module
+      dispatch(startLoading());
+      const response = await sendVerificationEmail(email);
+
+      // Assuming the response data includes a success property indicating the success of the email verification
+      if (response) {
+        const {code} = response;
+        console.log('code===>', code);
+        // Dispatch the setUserID action to store the userID in Redux
+        // Email verified successfully, navigate to the next screen
+        navigation.navigate(ROUTE_CREATE_PASSWORD_SCREEN);
+      } else {
+        console.log('Failed to verify email.');
+        // Handle error or display a message to the user accordingly
+      }
+    } catch (error) {
+      console.error('Error verifying email:', error);
+      // Handle error or display a message to the user accordingly
+    } finally {
+      dispatch(stopLoading()); // Dispatch the stopLoading action in the finally block
+    }
+  }, [dispatch, email, navigation]);
 
   const onFocus = useCallback(() => {
     if (verificationCode.length === PIN_CODE_LENGTH) {
@@ -32,8 +68,30 @@ const VerificationCodeScreen = ({navigation, route}) => {
 
   const onFulfill = () => {
     Keyboard.dismiss();
-    navigation.navigate(ROUTE_CREATE_PASSWORD_SCREEN);
   };
+
+  const onConfirmVerificationCodePress = useCallback(async () => {
+    try {
+      dispatch(startLoading());
+      setTimeout(async () => {
+        try {
+          const response = await verifyCode(verificationCode, userId);
+          if (response) {
+            navigation.navigate(ROUTE_CREATE_PASSWORD_SCREEN);
+          } else {
+            console.log('Failed to verify email.');
+          }
+        } catch (error) {
+          console.error('Error verifying email:', error);
+        } finally {
+          dispatch(stopLoading());
+        }
+      }, 0);
+    } catch (error) {
+      console.error('Error verifying email:', error);
+      dispatch(stopLoading());
+    }
+  }, [dispatch, navigation, userId, verificationCode]);
 
   return (
     <KeyboardDismissWrapper style={styles.container} behavior="padding">
@@ -46,9 +104,11 @@ const VerificationCodeScreen = ({navigation, route}) => {
           <Typography style={styles.infoText}>
             Enter the code sent to
           </Typography>
-          <Typography style={[styles.infoText, styles.emailValue]}>
-            {'email'}
-          </Typography>
+          {email && (
+            <Typography style={[styles.infoText, styles.emailValue]}>
+              {email}
+            </Typography>
+          )}
           <SmoothPinCodeInput
             value={verificationCode}
             onTextChange={setVerificationCode}
@@ -61,11 +121,21 @@ const VerificationCodeScreen = ({navigation, route}) => {
             textStyle={styles.cellText}
             containerStyle={styles.cellsContainer}
             cellSpacing={15}
-            cellSize={(SCREEN_WIDTH - 50) / 6}
+            cellSize={(SCREEN_WIDTH - 50) / 7}
           />
         </View>
+        <GradientBtn
+          btnInfo={'Continue'}
+          btnTextColor={Colors.white}
+          onPress={onConfirmVerificationCodePress}
+          isLoading={isLoading}
+        />
         <Pressable style={styles.btnContainer} onPress={onResendPress}>
-          <Typography style={styles.btnText}>Resend</Typography>
+          {isLoading ? (
+            <ActivityIndicator color="white" />
+          ) : (
+            <Typography style={styles.btnText}>Resend</Typography>
+          )}
         </Pressable>
       </SafeAreaView>
     </KeyboardDismissWrapper>

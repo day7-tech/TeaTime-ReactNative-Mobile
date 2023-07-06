@@ -10,7 +10,7 @@ import {
 
 const initialState = {
   authToken: null,
-  userID: null,
+  userId: null,
   email: null,
   isAuthenticated: false,
   isAuthCompleted: false,
@@ -28,14 +28,14 @@ const authReducer = (state = initialState, action) => {
     case SET_USER_ID:
       return {
         ...state,
-        userID: action.payload.userID,
+        userId: action.payload.userId,
         email: action.payload.email,
       };
     case LOGOUT:
       return {
         ...state,
         authToken: null,
-        userID: null,
+        userId: null,
         email: null,
         isAuthenticated: false,
       };
@@ -43,7 +43,7 @@ const authReducer = (state = initialState, action) => {
       return {
         ...state,
         authToken: null,
-        userID: null,
+        userId: null,
         email: null,
         isAuthenticated: false,
       };

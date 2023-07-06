@@ -48,3 +48,17 @@ export const sendVerificationEmail = async email => {
     throw error;
   }
 };
+
+export const verifyCode = async (code, userId) => {
+  console.log('verifyCode===>', code, userId);
+  try {
+    const response = await API.post('/user/verify', {
+      code,
+      userId,
+    });
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};

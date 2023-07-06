@@ -1,32 +1,30 @@
-import {Image, Pressable, StyleSheet, Text, View} from 'react-native';
-import React, {useCallback, useRef, useState} from 'react';
-import KeyboardDismissWrapper from '../../../components/KeyboardDismissWrapper';
-import {SafeAreaView} from 'react-native-safe-area-context';
-import Typography from '../../../components/Typography/Typography';
-import AppFloatingTextInput from '../../../components/AppFloatingTextInput';
 import {Formik} from 'formik';
-import * as Yup from 'yup';
-import GradientBtn from '../../../components/Buttons/GradientBtn';
-import {Colors} from '../../../utils/styles';
-import {
-  HORIZONTAL_MARGIN,
-  SCREEN_HEIGHT,
-  SCREEN_WIDTH,
-} from '../../../utils/constants';
+import React, {useCallback, useRef, useState} from 'react';
+import {StyleSheet, Text, View} from 'react-native';
 import * as Progress from 'react-native-progress';
+import {SafeAreaView} from 'react-native-safe-area-context';
+import * as Yup from 'yup';
+import AppFloatingTextInput from '../../../components/AppFloatingTextInput';
+import GradientBtn from '../../../components/Buttons/GradientBtn';
+import KeyboardDismissWrapper from '../../../components/KeyboardDismissWrapper';
+import Typography from '../../../components/Typography/Typography';
 import {ROUTE_USER_BIRTHDATE_SCREEN} from '../../../navigators/RouteNames';
+import {HORIZONTAL_MARGIN, SCREEN_WIDTH} from '../../../utils/constants';
+import {Colors} from '../../../utils/styles';
 
-const UserNameScreen = ({navigation}) => {
-  const [isLastNameFocused, setIsLastNameFocused] = useState(false);
+const UserNameScreen = ({navigation, route}) => {
+  const {password} = route.params;
   const validationSchema = Yup.object().shape({
     firstName: Yup.string().required('First name is required'),
     lastName: Yup.string().required('Last name is required'),
   });
 
-  const handleSubmit = values => {
+  const onSubmit = values => {
     // Handle form submission
-    console.log(values);
-    navigation.navigate(ROUTE_USER_BIRTHDATE_SCREEN);
+    navigation.navigate(ROUTE_USER_BIRTHDATE_SCREEN, {
+      name: values.firstName + ' ' + values.lastName,
+      password: password,
+    });
   };
   const onBackPress = useCallback(() => {
     navigation.goBack();
@@ -38,8 +36,15 @@ const UserNameScreen = ({navigation}) => {
         <Formik
           initialValues={{firstName: '', lastName: ''}}
           validationSchema={validationSchema}
-          onSubmit={handleSubmit}>
-          {({values, handleChange, handleSubmit, errors, touched}) => (
+          onSubmit={onSubmit}>
+          {({
+            submitForm,
+            values,
+            handleChange,
+            handleSubmit,
+            errors,
+            touched,
+          }) => (
             <>
               <View style={styles.upperContainer}>
                 <Typography style={styles.title}>
@@ -76,7 +81,7 @@ const UserNameScreen = ({navigation}) => {
                   inputTextContainer={styles.inputTextContainer}
                   returnKeyType="done"
                   ref={lastNameRef}
-                  onSubmitEditing={handleSubmit}
+                  onSubmitEditing={submitForm}
                 />
                 {errors.lastName && touched.lastName && (
                   <Text style={styles.errorText}>{errors.lastName}</Text>
@@ -86,7 +91,7 @@ const UserNameScreen = ({navigation}) => {
               <GradientBtn
                 btnInfo={'Continue'}
                 btnTextColor={Colors.white}
-                onPress={handleSubmit}
+                onPress={submitForm}
               />
             </>
           )}
