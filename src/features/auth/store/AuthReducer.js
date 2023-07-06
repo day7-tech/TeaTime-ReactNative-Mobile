@@ -6,10 +6,12 @@ import {
   COMPLETED_AUTH,
   START_LOADING,
   STOP_LOADING,
+  SET_REFRESH_TOKEN,
 } from './AuthTypes';
 
 const initialState = {
   authToken: null,
+  refreshToken: null, // New addition: refresh token state
   userId: null,
   email: null,
   isAuthenticated: false,
@@ -25,6 +27,11 @@ const authReducer = (state = initialState, action) => {
         authToken: action.payload,
         isAuthenticated: true,
       };
+    case SET_REFRESH_TOKEN: // New case: set the refresh token in state
+      return {
+        ...state,
+        refreshToken: action.payload,
+      };
     case SET_USER_ID:
       return {
         ...state,
@@ -35,6 +42,7 @@ const authReducer = (state = initialState, action) => {
       return {
         ...state,
         authToken: null,
+        refreshToken: null, // Reset the refresh token as well
         userId: null,
         email: null,
         isAuthenticated: false,
@@ -43,6 +51,7 @@ const authReducer = (state = initialState, action) => {
       return {
         ...state,
         authToken: null,
+        refreshToken: null, // Reset the refresh token as well
         userId: null,
         email: null,
         isAuthenticated: false,

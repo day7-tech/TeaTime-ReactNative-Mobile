@@ -1,4 +1,3 @@
-import axios from 'axios';
 import API from './api';
 export const signUp = async (password, name, dob, userId) => {
   try {
@@ -50,7 +49,6 @@ export const sendVerificationEmail = async email => {
 };
 
 export const verifyCode = async (code, userId) => {
-  console.log('verifyCode===>', code, userId);
   try {
     const response = await API.post('/user/verify', {
       code,

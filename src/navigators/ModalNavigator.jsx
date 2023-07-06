@@ -9,6 +9,7 @@ import {
   ROUTE_AUTHENTICATION_NAVIGATOR,
 } from './RouteNames';
 import AuthenticationNavigator from './AuthenticationNavigator';
+import {useSelector} from 'react-redux';
 
 // Create a native stack navigator
 const ModalStack = createNativeStackNavigator();
@@ -28,10 +29,20 @@ const ModalNavigator = () => {
     },
   };
 
+  // Get the authToken and refreshToken from the Redux store
+  const {authToken, refreshToken} = useSelector(state => state.auth);
+
+  // Determine the initial route name based on the presence of tokens
+  const initialRouteName =
+    authToken && refreshToken
+      ? ROUTE_AUTHENTICATED_NAVIGATOR
+      : ROUTE_AUTHENTICATION_NAVIGATOR;
+
   return (
     <NavigationContainer
       theme={TransparentTheme}
-      onReady={() => RNBootSplash.hide()}>
+      onReady={() => RNBootSplash.hide()}
+      initialState={{routes: [{name: initialRouteName}]}}>
       <ModalStack.Navigator>
         <ModalStack.Screen
           name={ROUTE_AUTHENTICATION_NAVIGATOR}

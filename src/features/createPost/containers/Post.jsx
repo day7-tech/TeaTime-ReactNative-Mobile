@@ -113,11 +113,9 @@ const Post = ({onClosePress}) => {
       aspect: [4, 3],
       quality: 1,
     });
-    console.log('result', result);
     if (!result.canceled) {
       // Do something with the selected image or video
       const tempFileUri = await saveFileToLocal(result.assets[0].uri);
-      console.log('tempFileUri', tempFileUri);
       navigation.navigate(ROUTE_EDITING, {
         fileUri: tempFileUri,
         mediaType: 'image',

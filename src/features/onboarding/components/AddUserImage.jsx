@@ -35,7 +35,6 @@ const AddUserImage = () => {
 
       launchImageLibrary(options, response => {
         if (!response.didCancel && !response.error) {
-          console.log(response.assets);
           setImageUri(response.assets[0]?.uri);
         }
       });

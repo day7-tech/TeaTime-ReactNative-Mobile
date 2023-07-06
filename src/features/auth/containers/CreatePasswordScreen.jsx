@@ -1,8 +1,8 @@
-import {Formik, useFormik} from 'formik';
+import {Formik} from 'formik';
 import React, {useCallback} from 'react';
-import {Image, Pressable, StyleSheet, Text, View} from 'react-native';
+import {Image, Pressable, StyleSheet, View} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import {useDispatch, useSelector} from 'react-redux';
+import {useSelector} from 'react-redux';
 import * as Yup from 'yup';
 import BackArrowIcon from '../../../../assets/images/arrow-left.png';
 import AppFloatingTextInput from '../../../components/AppFloatingTextInput';

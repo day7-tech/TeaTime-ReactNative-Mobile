@@ -135,7 +135,6 @@ const Feed = ({item, isFavourites, height, currentVideoId, isScrolling}) => {
    * Navigates to the user details screen.
    */
   const onUserDetailsPress = useCallback(() => {
-    console.log('Hello');
     navigation.navigate(ROUTE_AUTHENTICATED_NAVIGATOR, {
       screen: ROUTE_USER_DETAILS_STACK_NAVIGATOR,
       params: {
@@ -158,7 +157,6 @@ const Feed = ({item, isFavourites, height, currentVideoId, isScrolling}) => {
   const [shouldPlay, setShouldPlay] = useState(false);
 
   useEffect(() => {
-    console.log(currentVideoId, item.id, isVideoLoaded, isPlaying);
     if (
       currentVideoId === item.id &&
       isVideoLoaded &&

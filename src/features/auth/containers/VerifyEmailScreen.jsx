@@ -1,65 +1,129 @@
-import {
-  Image,
-  Keyboard,
-  KeyboardAvoidingView,
-  StyleSheet,
-  Text,
-  TouchableWithoutFeedback,
-  View,
-} from 'react-native';
+import {Formik} from 'formik';
 import React, {useCallback, useState} from 'react';
-import AppIcon from '../../../../assets/images/app-icon.png';
+import {Image, Keyboard, StyleSheet, View} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import Typography from '../../../components/Typography/Typography';
-import {Colors} from '../../../utils/styles';
+import {useDispatch, useSelector} from 'react-redux';
+import * as Yup from 'yup';
+import AppIcon from '../../../../assets/images/app-icon.png';
+import {login, sendVerificationEmail} from '../../../api/authApi';
 import AppFloatingTextInput from '../../../components/AppFloatingTextInput';
 import GradientBtn from '../../../components/Buttons/GradientBtn';
-import {HORIZONTAL_MARGIN} from '../../../utils/constants';
+import KeyboardDismissWrapper from '../../../components/KeyboardDismissWrapper';
+import Typography from '../../../components/Typography/Typography';
 import {
-  ROUTE_CREATE_PASSWORD_SCREEN,
+  ROUTE_AUTHENTICATED_NAVIGATOR,
   ROUTE_VERIFICATION_CODE_SCREEN,
 } from '../../../navigators/RouteNames';
-import KeyboardDismissWrapper from '../../../components/KeyboardDismissWrapper';
-import {sendVerificationEmail} from '../../../api/authApi';
-import {useDispatch, useSelector} from 'react-redux';
-import {setUserID, startLoading, stopLoading} from '../store/AuthActions';
+import {HORIZONTAL_MARGIN} from '../../../utils/constants';
+import {Colors} from '../../../utils/styles';
+import {
+  setAuthToken,
+  setRefreshToken,
+  setUserID,
+  startLoading,
+  stopLoading,
+} from '../store/AuthActions';
+
+const validationSchema = Yup.object().shape({
+  email: Yup.string()
+    .email('Invalid email address')
+    .required('Email is required'),
+  password: Yup.string().when('emailExists', {
+    is: true,
+    then: Yup.string().required('Password is required'),
+  }),
+});
+
 const VerifyEmailScreen = ({navigation}) => {
-  const [emailAddress, setEmailAddress] = useState('');
   const {isLoading} = useSelector(state => state.auth);
+  const [emailExists, setEmailExists] = useState(false);
   const dispatch = useDispatch();
-  const handleEmailChange = email => {
-    setEmailAddress(email);
-  };
-  const onConfirmEmailPress = useCallback(async () => {
-    if (emailAddress.trim() === '') {
-      console.log('Invalid email address');
-      return;
-    }
 
-    try {
-      // Call the verifyEmail function from the authAPI module
-      dispatch(startLoading());
-      const response = await sendVerificationEmail(emailAddress);
+  const onLoginPress = useCallback(
+    async values => {
+      try {
+        dispatch(startLoading());
+        const {email, password} = values;
+        console.log(email, password);
+        // Call the login API with email and password
+        const loginResponse = await login(email, password);
 
-      // Assuming the response data includes a success property indicating the success of the email verification
-      if (response) {
-        const {userId, code} = response;
-        console.log('code===>', code);
-        // Dispatch the setUserID action to store the userID in Redux
-        dispatch(setUserID(userId, emailAddress));
-        // Email verified successfully, navigate to the next screen
-        navigation.navigate(ROUTE_VERIFICATION_CODE_SCREEN);
-      } else {
-        console.log('Failed to verify email.');
+        // Assuming the login response contains a success property
+        if (loginResponse) {
+          const {token, refreshToken} = loginResponse; // Assuming the response contains the token and refresh token
+          dispatch(setAuthToken(token)); // Set the authentication token in Redux
+          dispatch(setRefreshToken(refreshToken)); // Set the refresh token in Redux
+          // Handle the successful login and navigate to the desired screen
+          console.log('Login successful');
+          navigation.navigate(ROUTE_AUTHENTICATED_NAVIGATOR);
+        } else {
+          // Handle the case when login fails
+          console.log('Login failed');
+          // Handle error or display a message to the user accordingly
+        }
+      } catch (error) {
+        console.error('Error logging in:', error);
         // Handle error or display a message to the user accordingly
+      } finally {
+        dispatch(stopLoading());
       }
-    } catch (error) {
-      console.error('Error verifying email:', error);
-      // Handle error or display a message to the user accordingly
-    } finally {
-      dispatch(stopLoading()); // Dispatch the stopLoading action in the finally block
-    }
-  }, [dispatch, emailAddress, navigation]);
+    },
+    [dispatch, navigation],
+  );
+
+  const onConfirmEmailPress = useCallback(
+    async values => {
+      const {email} = values;
+
+      if (email.trim() === '') {
+        console.log('Invalid email address');
+        return;
+      }
+
+      try {
+        dispatch(startLoading());
+        const response = await sendVerificationEmail(email);
+
+        if (response) {
+          const {userId, code} = response;
+          console.log('code===>', code);
+          dispatch(setUserID(userId, email));
+          navigation.navigate(ROUTE_VERIFICATION_CODE_SCREEN);
+        } else {
+          console.log('Failed to verify email.');
+          // Handle error or display a message to the user accordingly
+        }
+      } catch (error) {
+        if (
+          error.response &&
+          error.response.status === 404 &&
+          error.response.data === 'email already exists'
+        ) {
+          setEmailExists(true);
+          console.log('Email already exists.', error.response.data);
+          // Handle the case when email already exists
+        } else {
+          console.log('Error verifying email:', error);
+          // Handle other errors or display a generic error message
+        }
+      } finally {
+        dispatch(stopLoading());
+      }
+    },
+    [dispatch, navigation],
+  );
+
+  const onSubmit = useCallback(
+    async values => {
+      Keyboard.dismiss();
+      if (emailExists) {
+        onLoginPress(values); // Call handleLogin if emailExists is true
+      } else {
+        onConfirmEmailPress(values); // Call onConfirmEmailPress if emailExists is false
+      }
+    },
+    [emailExists, onConfirmEmailPress, onLoginPress],
+  );
 
   return (
     <KeyboardDismissWrapper style={styles.container} behavior="padding">
@@ -72,21 +136,61 @@ const VerifyEmailScreen = ({navigation}) => {
             one.
           </Typography>
         </View>
-
-        <AppFloatingTextInput
-          value={emailAddress}
-          onChangeText={handleEmailChange}
-          placeholder={'Enter email address'}
-          inputTextContainer={styles.inputTextContainer}
-          returnKeyType="done"
-          onSubmitEditing={onConfirmEmailPress}
-        />
-        <GradientBtn
-          btnInfo={'Continue'}
-          btnTextColor={Colors.white}
-          onPress={onConfirmEmailPress}
-          isLoading={isLoading}
-        />
+        <Formik
+          initialValues={{email: '', password: ''}}
+          validationSchema={validationSchema}
+          onSubmit={onSubmit}>
+          {({
+            submitForm,
+            values,
+            handleChange,
+            handleBlur,
+            errors,
+            touched,
+          }) => (
+            <>
+              <AppFloatingTextInput
+                value={values.email}
+                onChangeText={text => {
+                  handleChange('email')(text);
+                  if (emailExists) {
+                    setEmailExists(false);
+                    handleChange('password')('');
+                  }
+                }}
+                onBlur={handleBlur('email')}
+                placeholder={'Enter email address'}
+                inputTextContainer={styles.inputTextContainer}
+                returnKeyType={!emailExists ? 'done' : 'next'}
+                error={touched.email && errors.email}
+                errorText={errors.email}
+                onSubmitEditing={!emailExists && submitForm}
+              />
+              {emailExists && (
+                <>
+                  <AppFloatingTextInput
+                    value={values.password}
+                    onChangeText={handleChange('password')}
+                    onBlur={handleBlur('password')}
+                    placeholder={'Password'}
+                    inputTextContainer={styles.inputTextContainer}
+                    secureTextEntry={true}
+                    error={touched.password && errors.password}
+                    errorText={errors.password}
+                    returnKeyType="next"
+                    onSubmitEditing={submitForm}
+                  />
+                </>
+              )}
+              <GradientBtn
+                btnInfo={'Continue'}
+                btnTextColor={Colors.white}
+                onPress={submitForm}
+                isLoading={isLoading}
+              />
+            </>
+          )}
+        </Formik>
       </SafeAreaView>
     </KeyboardDismissWrapper>
   );
@@ -126,5 +230,9 @@ const styles = StyleSheet.create({
   },
   inputTextContainer: {
     marginBottom: 20,
+  },
+  errorText: {
+    marginTop: 5,
+    color: Colors.red,
   },
 });

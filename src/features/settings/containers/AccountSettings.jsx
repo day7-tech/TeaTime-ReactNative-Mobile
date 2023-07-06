@@ -22,15 +22,12 @@ const AccountSettings = () => {
       />
       <View style={styles.divider} />
       <SettingOptions optionName="Password" onPress={onMobileNumberPress} />
-      <View style={styles.subContainer}>
-        <SettingOptions optionName="Logout" onPress={onMobileNumberPress} />
-        <View style={styles.divider} />
-        <SettingOptions
-          optionNameStyle={styles.deleteText}
-          optionName="Delete account"
-          onPress={onMobileNumberPress}
-        />
-      </View>
+      <View style={styles.divider} />
+      <SettingOptions
+        optionNameStyle={styles.deleteText}
+        optionName="Delete account"
+        onPress={onMobileNumberPress}
+      />
     </View>
   );
 };

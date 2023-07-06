@@ -1,25 +1,41 @@
-import {Image, Pressable, StyleSheet, Text, View} from 'react-native';
 import React, {useCallback} from 'react';
-import KeyboardDismissWrapper from '../../../components/KeyboardDismissWrapper';
-import {SafeAreaView} from 'react-native-safe-area-context';
-import BackArrowIcon from '../../../../assets/images/arrow-left.png';
-import Typography from '../../../components/Typography/Typography';
+import {Image, Pressable, StyleSheet, View} from 'react-native';
 import * as Progress from 'react-native-progress';
+import {SafeAreaView} from 'react-native-safe-area-context';
+import {useDispatch, useSelector} from 'react-redux';
+import BackArrowIcon from '../../../../assets/images/arrow-left.png';
+import {signUp} from '../../../api/authApi';
+import GradientBtn from '../../../components/Buttons/GradientBtn';
+import KeyboardDismissWrapper from '../../../components/KeyboardDismissWrapper';
+import Typography from '../../../components/Typography/Typography';
 import {HORIZONTAL_MARGIN, SCREEN_WIDTH} from '../../../utils/constants';
 import {Colors} from '../../../utils/styles';
-import GradientBtn from '../../../components/Buttons/GradientBtn';
+import {startLoading, stopLoading} from '../../auth/store/AuthActions';
 import AddUserImage from '../components/AddUserImage';
-import {ROUTE_AUTHENTICATED_NAVIGATOR} from '../../../navigators/RouteNames';
 
 const UserProfileImageScreen = ({navigation, route}) => {
+  const dispatch = useDispatch();
   const {name, password, dob} = route.params;
+  const {userId} = useSelector(state => state.auth);
   const onBackPress = useCallback(() => {
     navigation.goBack();
   }, [navigation]);
 
-  const onCompletePress = useCallback(() => {
-    navigation.navigate(ROUTE_AUTHENTICATED_NAVIGATOR);
-  }, [navigation]);
+  const onCompletePress = useCallback(async () => {
+    try {
+      dispatch(startLoading());
+
+      const response = await signUp(password, name, dob, userId);
+      // Handle the response or perform any necessary actions
+      if (response) {
+        navigation.popToTop();
+      }
+    } catch (error) {
+      // Handle the error
+    } finally {
+      dispatch(stopLoading());
+    }
+  }, [dispatch, dob, name, navigation, password, userId]);
 
   return (
     <KeyboardDismissWrapper style={styles.container} behavior="padding">

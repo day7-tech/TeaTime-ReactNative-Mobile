@@ -6,12 +6,18 @@ import {
   START_LOADING,
   STOP_LOADING,
   SET_USER_ID,
+  SET_REFRESH_TOKEN,
 } from './AuthTypes';
 
 // Action creator to set the authentication token
 export const setAuthToken = token => ({
   type: SET_AUTH_TOKEN,
   payload: token,
+});
+
+export const setRefreshToken = refreshToken => ({
+  type: SET_REFRESH_TOKEN,
+  payload: refreshToken,
 });
 
 // Action creator to perform logout
