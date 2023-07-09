@@ -1,6 +1,6 @@
 import {useNavigation} from '@react-navigation/native';
 import React, {useCallback, useEffect, useRef, useState} from 'react';
-import {StyleSheet, TouchableOpacity, View} from 'react-native';
+import {Image, StyleSheet, TouchableOpacity, View} from 'react-native';
 import Video from 'react-native-video';
 import FeedDetails from '../../../components/FeedDetails';
 import {
@@ -19,6 +19,9 @@ import {
 import {Colors} from '../../../utils/styles';
 import RecognitionStickersModal from '../../recognition/containers/RecognitionStickersModal';
 import CommentsModal from './CommentsModal';
+import Typography from '../../../components/Typography/Typography';
+import {useDispatch, useSelector} from 'react-redux';
+import {likePost, unlikePost} from '../../../api/homeApi';
 
 /**
  * Feed: Component for displaying a feed item.
@@ -27,8 +30,8 @@ import CommentsModal from './CommentsModal';
  * @param {boolean} isFavourites - Indicates if the feed item is in favorites.
  */
 const Feed = ({item, isFavourites, height, currentVideoId, isScrolling}) => {
-  console.log('item', item);
   const navigation = useNavigation();
+  const dispatch = useDispatch();
   const [isPlaying, setIsPlaying] = useState(false);
   const [isVideoLoaded, setIsVideoLoaded] = useState(false);
   const videoRef = useRef(null);
@@ -37,7 +40,6 @@ const Feed = ({item, isFavourites, height, currentVideoId, isScrolling}) => {
 
   // Get the height of the bottom tab bar
   const [like, setLike] = useState(false);
-  const [likeCount, setLikeCount] = useState(item.likeCount);
   const recognitionModalRef = useRef(null);
   const commentsModalRef = useRef(null);
 
@@ -54,7 +56,9 @@ const Feed = ({item, isFavourites, height, currentVideoId, isScrolling}) => {
     if (lastTapRef.current && now - lastTapRef.current < DOUBLE_TAP_DELAY) {
       clearTimeout(doubleTapTimerRef.current);
       doubleTapTimerRef.current = null;
-      handleLike();
+      {
+        isLiked ? handleUnlikePost() : handleLikePost();
+      }
     } else {
       lastTapRef.current = now;
       doubleTapTimerRef.current = setTimeout(() => {
@@ -63,19 +67,23 @@ const Feed = ({item, isFavourites, height, currentVideoId, isScrolling}) => {
         handlePlayPause();
       }, DOUBLE_TAP_DELAY);
     }
-  }, [handleLike, handlePlayPause]);
+  }, [handleLikePost, handlePlayPause, handleUnlikePost, isLiked]);
 
-  /**
-   * Handle the Like button press.
-   * It toggles the like status and updates the like count accordingly.
-   */
-  const handleLike = useCallback(() => {
-    setLike(prevLike => {
-      const newLike = !prevLike;
-      setLikeCount(prevCount => (newLike ? prevCount + 1 : prevCount - 1));
-      return newLike;
-    });
-  }, []);
+  // Get the like status and count from Redux state
+  const likedPosts = useSelector(state => state.home.posts);
+  const postIndex = likedPosts.findIndex(post => post.id === item.id);
+  const isLiked = postIndex !== -1;
+  const likeCount = item._count.likes;
+
+  // Handle the like button press
+  const handleLikePost = useCallback(() => {
+    likePost(item.id);
+  }, [item.id]);
+
+  // Handle the unlike button press
+  const handleUnlikePost = useCallback(() => {
+    unlikePost(item.id);
+  }, [item.id]);
 
   /**
    * Handle the Play/Pause button press.
@@ -172,27 +180,37 @@ const Feed = ({item, isFavourites, height, currentVideoId, isScrolling}) => {
 
   return (
     <View style={[styles.container, {height: height}]}>
-      {/* Touchable video wrapper */}
-      <TouchableOpacity
-        activeOpacity={1}
-        onPress={handleDoubleTap}
-        ref={doubleTapRef}
-        style={[styles.videoWrapper, {height: height, width: SCREEN_WIDTH}]}>
-        {/* Video component */}
-        <Video
-          ref={videoRef}
-          source={{uri: item.uri}}
-          style={styles.video}
-          resizeMode={'cover'}
-          paused={!shouldPlay}
-          onLoad={handleVideoLoad}
-          isMuted={false}
-          volume={0.9}
-          repeat={shouldPlay ? true : false}
-        />
-      </TouchableOpacity>
+      {item.mediaType === 'video' ? (
+        <TouchableOpacity
+          activeOpacity={1}
+          onPress={handleDoubleTap}
+          ref={doubleTapRef}
+          style={[styles.videoWrapper, {height: height, width: SCREEN_WIDTH}]}>
+          {/* Video component */}
+          <Video
+            ref={videoRef}
+            source={{uri: item.resource}}
+            style={styles.video}
+            resizeMode={'cover'}
+            paused={!shouldPlay}
+            onLoad={handleVideoLoad}
+            isMuted={false}
+            volume={0.9}
+            repeat={shouldPlay ? true : false}
+          />
+        </TouchableOpacity>
+      ) : (
+        <View
+          style={[styles.videoWrapper, {height: height, width: SCREEN_WIDTH}]}>
+          <Image
+            source={{uri: item.resource}}
+            style={styles.video}
+            resizeMode="cover"
+          />
+        </View>
+      )}
       {/* Feed details section */}
-      {/* <View style={styles.postDetails}>
+      <View style={styles.postDetails}>
         <FeedDetails
           item={item}
           defaultLikes={likeCount}
@@ -202,16 +220,16 @@ const Feed = ({item, isFavourites, height, currentVideoId, isScrolling}) => {
           onUserDetailsPress={onUserDetailsPress}
           onCommentsPress={onCommentsPress}
         />
-      </View> */}
+      </View>
       {/* Recognition stickers modal */}
-      <RecognitionStickersModal
+      {/* <RecognitionStickersModal
         recognitionModalRef={recognitionModalRef}
         postDetails={item}
         stickers={Stickers}
         onSendStickerPress={onSendStickerPress}
         onModalClose={onModalClose}
-      />
-      <CommentsModal commentsModalRef={commentsModalRef} userDetails={item} />
+      /> */}
+      {/* <CommentsModal commentsModalRef={commentsModalRef} userDetails={item} /> */}
     </View>
   );
 };

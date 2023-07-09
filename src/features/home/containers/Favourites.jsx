@@ -1,7 +1,6 @@
 import {useBottomTabBarHeight} from '@react-navigation/bottom-tabs';
 import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {FlatList, View} from 'react-native';
-import {generateDummyVideoPosts} from '../../../services/generateRandomContent';
 import {SCREEN_HEIGHT} from '../../../utils/constants';
 import Feed from '../components/Feed';
 import {useSelector} from 'react-redux';
@@ -38,43 +37,43 @@ const Favourites = ({isFocused}) => {
     );
   };
 
-  // // Function to pause the first video
-  // const pauseFirstVideo = useCallback(() => {
-  //   if (videos.length > 0) {
-  //     setCurrentVideoId(null);
-  //   }
-  // }, [videos.length]);
-  // // Function to play the first video
-  // const playFirstVideo = useCallback(() => {
-  //   if (videos.length > 0) {
-  //     setCurrentVideoId(videos[0].id);
-  //   }
-  // }, [videos]);
+  // Function to pause the first video
+  const pauseFirstVideo = useCallback(() => {
+    if (posts.length > 0) {
+      setCurrentVideoId(null);
+    }
+  }, [posts.length]);
+  // Function to play the first video
+  const playFirstVideo = useCallback(() => {
+    if (posts.length > 0) {
+      setCurrentVideoId(posts[0].id);
+    }
+  }, [posts]);
 
   // Pause the first video when isFocused is false
-  // useEffect(() => {
-  //   if (!isFocused) {
-  //     pauseFirstVideo();
-  //   } else {
-  //     playFirstVideo();
-  //   }
-  // }, [isFocused, pauseFirstVideo, playFirstVideo]);
+  useEffect(() => {
+    if (!isFocused) {
+      pauseFirstVideo();
+    } else {
+      playFirstVideo();
+    }
+  }, [isFocused, pauseFirstVideo, playFirstVideo]);
 
-  // const handleScroll = useCallback(
-  //   ({nativeEvent}) => {
-  //     const {layoutMeasurement, contentOffset, contentSize} = nativeEvent;
-  //     const screenHeight = layoutMeasurement.height;
-  //     const scrollPosition = contentOffset.y;
+  const handleScroll = useCallback(
+    ({nativeEvent}) => {
+      const {layoutMeasurement, contentOffset, contentSize} = nativeEvent;
+      const screenHeight = layoutMeasurement.height;
+      const scrollPosition = contentOffset.y;
 
-  //     // Only update the current video ID when the active tab is "favourites"
-  //     const visibleVideoIndex = Math.floor(scrollPosition / screenHeight);
-  //     const visibleVideo = videos[visibleVideoIndex];
-  //     if (visibleVideo) {
-  //       setCurrentVideoId(visibleVideo.id);
-  //     }
-  //   },
-  //   [videos],
-  // );
+      // Only update the current video ID when the active tab is "favourites"
+      const visibleVideoIndex = Math.floor(scrollPosition / screenHeight);
+      const visibleVideo = posts[visibleVideoIndex];
+      if (visibleVideo) {
+        setCurrentVideoId(visibleVideo.id);
+      }
+    },
+    [posts],
+  );
 
   const handleScrollBegin = useCallback(() => {
     setIsScrolling(true);
@@ -97,8 +96,7 @@ const Favourites = ({isFocused}) => {
         decelerationRate={'fast'}
         snapToInterval={SCREEN_HEIGHT - tabBarHeight}
         showsVerticalScrollIndicator={false}
-        //TODO:handleScroll
-        // onScroll={handleScroll}
+        onScroll={handleScroll}
         onScrollBeginDrag={handleScrollBegin}
         onScrollEndDrag={handleScrollEnd}
       />

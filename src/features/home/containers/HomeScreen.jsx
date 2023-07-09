@@ -30,8 +30,8 @@ const FirstRoute = ({isFocused}) => {
 };
 
 const SecondRoute = ({isFocused}) => {
-  // return <MemoizedFavourites isFocused={isFocused} />;
-  return null;
+  return <MemoizedFavourites isFocused={isFocused} />;
+  // return null;
 };
 
 const HomeScreen = ({navigation}) => {

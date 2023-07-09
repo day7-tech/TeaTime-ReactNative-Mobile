@@ -1,7 +1,7 @@
-import {StyleSheet, TouchableOpacity, View} from 'react-native';
 import React, {useState} from 'react';
-import Typography from './Typography/Typography';
+import {StyleSheet, TouchableOpacity, Text} from 'react-native';
 import {Colors} from '../utils/styles';
+import Typography from './Typography/Typography';
 
 /**
  * Component that displays the caption for a feed.
@@ -10,6 +10,7 @@ import {Colors} from '../utils/styles';
  */
 const FeedCaption = ({caption}) => {
   const [isExpanded, setIsExpanded] = useState(false);
+  const [captionLines, setCaptionLines] = useState(0);
 
   /**
    * Handles the press event on the caption.
@@ -19,6 +20,15 @@ const FeedCaption = ({caption}) => {
     setIsExpanded(prev => !prev);
   };
 
+  /**
+   * Callback function to get the number of lines rendered for the caption text.
+   * @param {Object} event - The event object containing the native event details.
+   */
+  const handleTextLayout = event => {
+    const {lines} = event.nativeEvent;
+    setCaptionLines(lines.length);
+  };
+
   return (
     <TouchableOpacity
       onPress={handleCaptionPress}
@@ -26,10 +36,13 @@ const FeedCaption = ({caption}) => {
       style={styles.captionContainer}>
       <Typography
         style={styles.caption}
-        numberOfLines={isExpanded ? undefined : 2}>
+        numberOfLines={isExpanded ? undefined : 2}
+        onTextLayout={handleTextLayout}>
         {caption}
       </Typography>
-      {!isExpanded && <Typography style={styles.moreOption}>More</Typography>}
+      {captionLines > 2 && !isExpanded && (
+        <Typography style={styles.moreOption}>More</Typography>
+      )}
     </TouchableOpacity>
   );
 };
