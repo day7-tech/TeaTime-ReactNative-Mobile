@@ -24,13 +24,10 @@ const authReducer = (state = initialState, action) => {
     case SET_AUTH_TOKEN:
       return {
         ...state,
-        authToken: action.payload,
+        authToken: action.payload.refreshToken,
+        refreshToken: action.payload.refreshToken,
+        userId: action.payload.userId,
         isAuthenticated: true,
-      };
-    case SET_REFRESH_TOKEN: // New case: set the refresh token in state
-      return {
-        ...state,
-        refreshToken: action.payload,
       };
     case SET_USER_ID:
       return {

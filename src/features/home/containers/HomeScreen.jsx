@@ -1,4 +1,4 @@
-import React, {useCallback} from 'react';
+import React, {useCallback, useEffect} from 'react';
 import {
   Image,
   Pressable,
@@ -14,6 +14,9 @@ import {Colors} from '../../../utils/styles';
 import SearchIcon from './../../../../assets/images/search.png';
 import Favourites from './Favourites';
 import Moments from './Moments';
+import {getPostsByChannel} from '../../../api/homeApi';
+import {useDispatch} from 'react-redux';
+import {setPosts} from '../store/HomeActions';
 
 // Create two components to render as the two tabs
 // Create two components to render as the two tabs
@@ -22,21 +25,43 @@ import Moments from './Moments';
 const MemoizedMoments = React.memo(Moments);
 const MemoizedFavourites = React.memo(Favourites);
 const FirstRoute = ({isFocused}) => {
-  return <MemoizedMoments isFocused={isFocused} />;
+  // return <MemoizedMoments isFocused={isFocused} />;
+  return null;
 };
 
 const SecondRoute = ({isFocused}) => {
-  return <MemoizedFavourites isFocused={isFocused} />;
+  // return <MemoizedFavourites isFocused={isFocused} />;
+  return null;
 };
 
 const HomeScreen = ({navigation}) => {
   // Set up state to track the selected tab
   const [index, setIndex] = React.useState(0);
+  const dispatch = useDispatch();
   // Define an array of route objects, one for each tab
   const [routes] = React.useState([
     {key: 'favourites', title: 'Favourites'},
     {key: 'moments', title: 'Moments'},
   ]);
+
+  useEffect(() => {
+    // Function to fetch posts by channel
+    const fetchPostsByChannel = async () => {
+      try {
+        const channelId = 'fa2b8d44-5c79-4646-bb87-ca2146057f5d';
+        const numberOfItems = 10;
+
+        const posts = await getPostsByChannel(channelId, numberOfItems);
+        dispatch(setPosts(posts.posts));
+        console.log(posts); // Handle the fetched posts as needed
+      } catch (error) {
+        console.error(error); // Handle any errors that occur during the API call
+      }
+    };
+
+    // Call the fetchPostsByChannel function when the component mounts
+    fetchPostsByChannel();
+  }, [dispatch]);
 
   // Define a function to render the appropriate tab component based on the current index
   const renderScene = SceneMap({

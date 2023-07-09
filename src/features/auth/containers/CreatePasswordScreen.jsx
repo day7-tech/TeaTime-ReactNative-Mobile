@@ -17,7 +17,12 @@ const CreatePasswordScreen = ({navigation, route}) => {
   const {email} = useSelector(state => state.auth);
 
   const validationSchema = Yup.object().shape({
-    password: Yup.string().required('Password is required'),
+    password: Yup.string()
+      .required('Password is required')
+      .matches(
+        /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+        'Password must contain at least 8 characters including at least one uppercase letter, one lowercase letter, one digit, and one special character',
+      ),
     confirmPassword: Yup.string()
       .oneOf([Yup.ref('password'), null], 'Passwords must match')
       .required('Confirm Password is required'),

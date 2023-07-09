@@ -5,9 +5,11 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {logger} from 'redux-logger'; // Only for development
 
 import authReducer from './features/auth/store/AuthReducer';
+import homeReducer from './features/home/store/HomeReducer';
 
 const rootReducer = combineReducers({
   auth: authReducer,
+  home: homeReducer,
   // Add other reducers here
 });
 

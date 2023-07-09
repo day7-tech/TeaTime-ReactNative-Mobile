@@ -27,6 +27,7 @@ import CommentsModal from './CommentsModal';
  * @param {boolean} isFavourites - Indicates if the feed item is in favorites.
  */
 const Feed = ({item, isFavourites, height, currentVideoId, isScrolling}) => {
+  console.log('item', item);
   const navigation = useNavigation();
   const [isPlaying, setIsPlaying] = useState(false);
   const [isVideoLoaded, setIsVideoLoaded] = useState(false);
@@ -191,7 +192,7 @@ const Feed = ({item, isFavourites, height, currentVideoId, isScrolling}) => {
         />
       </TouchableOpacity>
       {/* Feed details section */}
-      <View style={styles.postDetails}>
+      {/* <View style={styles.postDetails}>
         <FeedDetails
           item={item}
           defaultLikes={likeCount}
@@ -201,7 +202,7 @@ const Feed = ({item, isFavourites, height, currentVideoId, isScrolling}) => {
           onUserDetailsPress={onUserDetailsPress}
           onCommentsPress={onCommentsPress}
         />
-      </View>
+      </View> */}
       {/* Recognition stickers modal */}
       <RecognitionStickersModal
         recognitionModalRef={recognitionModalRef}

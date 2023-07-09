@@ -17,8 +17,7 @@ import {
 import {HORIZONTAL_MARGIN} from '../../../utils/constants';
 import {Colors} from '../../../utils/styles';
 import {
-  setAuthToken,
-  setRefreshToken,
+  setAuthData,
   setUserID,
   startLoading,
   stopLoading,
@@ -50,9 +49,8 @@ const VerifyEmailScreen = ({navigation}) => {
 
         // Assuming the login response contains a success property
         if (loginResponse) {
-          const {token, refreshToken} = loginResponse; // Assuming the response contains the token and refresh token
-          dispatch(setAuthToken(token)); // Set the authentication token in Redux
-          dispatch(setRefreshToken(refreshToken)); // Set the refresh token in Redux
+          const {token, refreshToken, userId} = loginResponse; // Assuming the response contains the token and refresh token
+          dispatch(setAuthData(token, refreshToken, userId)); // Set the authentication token in Redux
           // Handle the successful login and navigate to the desired screen
           console.log('Login successful');
           navigation.navigate(ROUTE_AUTHENTICATED_NAVIGATOR);
@@ -94,10 +92,11 @@ const VerifyEmailScreen = ({navigation}) => {
           // Handle error or display a message to the user accordingly
         }
       } catch (error) {
+        console.log('error==>', error.response);
         if (
           error.response &&
-          error.response.status === 404 &&
-          error.response.data === 'email already exists'
+          error.response.status === 400 &&
+          error.response.data === 'Account has already registered'
         ) {
           setEmailExists(true);
           console.log('Email already exists.', error.response.data);
