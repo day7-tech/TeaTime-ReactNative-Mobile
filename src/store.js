@@ -6,10 +6,12 @@ import {logger} from 'redux-logger'; // Only for development
 
 import authReducer from './features/auth/store/AuthReducer';
 import homeReducer from './features/home/store/HomeReducer';
+import profileReducer from './features/profile/store/ProfileReducer';
 
 const rootReducer = combineReducers({
   auth: authReducer,
   home: homeReducer,
+  profile: profileReducer,
   // Add other reducers here
 });
 

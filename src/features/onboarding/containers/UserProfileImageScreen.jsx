@@ -1,4 +1,4 @@
-import React, {useCallback} from 'react';
+import React, {useCallback, useState} from 'react';
 import {Image, Pressable, StyleSheet, View} from 'react-native';
 import * as Progress from 'react-native-progress';
 import {SafeAreaView} from 'react-native-safe-area-context';
@@ -15,18 +15,32 @@ import AddUserImage from '../components/AddUserImage';
 
 const UserProfileImageScreen = ({navigation, route}) => {
   const dispatch = useDispatch();
-  const {name, password, dob} = route.params;
+  const {firstName, lastName, password, dob} = route.params;
   const {userId} = useSelector(state => state.auth);
+  const [profilePic, setProfilePicUri] = useState({});
+
+  const handleImageSelect = imageObj => {
+    setProfilePicUri(imageObj);
+  };
+
   const onBackPress = useCallback(() => {
     navigation.goBack();
   }, [navigation]);
-
+  console.log(profilePic);
   const onCompletePress = useCallback(async () => {
     try {
       dispatch(startLoading());
 
-      const response = await signUp(password, name, dob, userId);
+      const response = await signUp(
+        password,
+        firstName,
+        lastName,
+        dob,
+        userId,
+        profilePic,
+      );
       // Handle the response or perform any necessary actions
+      console.log('response=>', response);
       if (response) {
         navigation.popToTop();
       }
@@ -35,7 +49,16 @@ const UserProfileImageScreen = ({navigation, route}) => {
     } finally {
       dispatch(stopLoading());
     }
-  }, [dispatch, dob, name, navigation, password, userId]);
+  }, [
+    dispatch,
+    dob,
+    firstName,
+    lastName,
+    navigation,
+    password,
+    profilePic,
+    userId,
+  ]);
 
   return (
     <KeyboardDismissWrapper style={styles.container} behavior="padding">
@@ -57,7 +80,7 @@ const UserProfileImageScreen = ({navigation, route}) => {
           <Typography style={styles.infoText}>
             Add a profile picture so others can identify who you are in the app
           </Typography>
-          <AddUserImage />
+          <AddUserImage onImageSelect={handleImageSelect} />
         </View>
 
         <GradientBtn

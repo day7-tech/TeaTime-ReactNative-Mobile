@@ -22,7 +22,8 @@ const UserNameScreen = ({navigation, route}) => {
   const onSubmit = values => {
     // Handle form submission
     navigation.navigate(ROUTE_USER_BIRTHDATE_SCREEN, {
-      name: values.firstName + ' ' + values.lastName,
+      firstName: values.firstName,
+      lastName: values.lastName,
       password: password,
     });
   };

@@ -14,17 +14,18 @@ import {HORIZONTAL_MARGIN, SCREEN_WIDTH} from '../../../utils/constants';
 import {Colors} from '../../../utils/styles';
 
 const UserBirthDateScreen = ({navigation, route}) => {
-  const {name, password} = route.params;
+  const {firstName, lastName, password} = route.params;
   const [birthDate, setBirthDate] = useState(new Date());
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
 
   const onSubmitPress = useCallback(() => {
     navigation.navigate(ROUTE_USER_PROFILE_IMAGE_SCREEN, {
-      name: name,
+      firstName: firstName,
+      lastName: lastName,
       password: password,
       dob: birthDate,
     });
-  }, [birthDate, name, navigation, password]);
+  }, [birthDate, firstName, lastName, navigation, password]);
 
   const onBackPress = useCallback(() => {
     navigation.goBack();

@@ -1,13 +1,25 @@
 import API from './api';
-export const signUp = async (password, name, dob, userId) => {
+export const signUp = async (
+  password,
+  firstName,
+  lastName,
+  dob,
+  userId,
+  profilePic,
+) => {
   try {
-    const response = await API.post('/user/signup', {
-      password,
-      name,
-      dob,
-      userId,
+    const form = new FormData();
+    form.append('password', password);
+    form.append('firstName', firstName);
+    form.append('lastName', lastName);
+    form.append('dob', dob);
+    form.append('userId', userId);
+    form.append('profilePic', profilePic);
+    const response = await API.post('/user/signup', form, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
     });
-
     return response.data;
   } catch (error) {
     throw error;
@@ -41,7 +53,7 @@ export const sendVerificationEmail = async email => {
     const response = await API.post('/user/send-verification-email', {
       email,
     });
-
+    console.log(response.data, email);
     return response.data;
   } catch (error) {
     throw error;
