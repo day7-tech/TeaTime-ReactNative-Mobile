@@ -39,18 +39,18 @@ const AuthenticationNavigator = () => {
         }}
       />
       <Stack.Screen
-        name={ROUTE_CREATE_PASSWORD_SCREEN}
-        component={CreatePasswordScreen}
-        options={({navigation}) => ({
-          headerShown: false,
-        })}
-      />
-      <Stack.Screen
         name={ROUTE_VERIFICATION_CODE_SCREEN}
         component={VerificationCodeScreen}
         options={{
           headerShown: false, // Hide the header for the screen
         }}
+      />
+      <Stack.Screen
+        name={ROUTE_CREATE_PASSWORD_SCREEN}
+        component={CreatePasswordScreen}
+        options={({navigation}) => ({
+          headerShown: false,
+        })}
       />
       <Stack.Screen
         name={ROUTE_USER_NAME_SCREEN}

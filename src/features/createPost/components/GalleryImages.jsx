@@ -40,7 +40,6 @@ const GalleryImages = ({mediaType}) => {
 
           // Requesting permission if not granted
           const result = await request(permissionType);
-          console.log('result', result);
           if (result === RESULTS.GRANTED) {
             // Launching image library if permission is granted
             const media = await ImagePicker.launchImageLibrary({

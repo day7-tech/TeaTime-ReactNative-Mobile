@@ -67,7 +67,5 @@ const FavouritesFeedOptions = ({
 export default FavouritesFeedOptions;
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 2,
-  },
+  container: {},
 });

@@ -1,26 +1,62 @@
-import {Image, Keyboard, Pressable, StyleSheet, Text, View} from 'react-native';
 import React, {useCallback, useState} from 'react';
-import KeyboardDismissWrapper from '../../../components/KeyboardDismissWrapper';
+import {
+  ActivityIndicator,
+  Image,
+  Keyboard,
+  Pressable,
+  StyleSheet,
+  View,
+} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import Typography from '../../../components/Typography/Typography';
+import SmoothPinCodeInput from 'react-native-smooth-pincode-input';
+import {useDispatch, useSelector} from 'react-redux';
 import BackArrowIcon from '../../../../assets/images/arrow-left.png';
+import {sendVerificationEmail, verifyCode} from '../../../api/authApi';
+import GradientBtn from '../../../components/Buttons/GradientBtn';
+import KeyboardDismissWrapper from '../../../components/KeyboardDismissWrapper';
+import Typography from '../../../components/Typography/Typography';
+import {ROUTE_CREATE_PASSWORD_SCREEN} from '../../../navigators/RouteNames';
 import {HORIZONTAL_MARGIN, SCREEN_WIDTH} from '../../../utils/constants';
 import {Colors} from '../../../utils/styles';
-import SmoothPinCodeInput from 'react-native-smooth-pincode-input';
-import {ROUTE_USER_NAME_SCREEN} from '../../../navigators/RouteNames';
+import {startLoading, stopLoading} from '../store/AuthActions';
 const PIN_CODE_LENGTH = 5;
 
 const VerificationCodeScreen = ({navigation, route}) => {
-  const {emailAddress} = route.params;
+  const {email, userId, isLoading} = useSelector(state => state.auth);
+  const dispatch = useDispatch();
   const [verificationCode, setVerificationCode] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
 
   const onBackPress = useCallback(() => {
     navigation.goBack();
   }, [navigation]);
 
-  const onResendPress = useCallback(() => {}, []);
+  const onResendPress = useCallback(async () => {
+    try {
+      // Call the verifyEmail function from the authAPI module
+      dispatch(startLoading());
+      const response = await sendVerificationEmail(email);
+
+      // Assuming the response data includes a success property indicating the success of the email verification
+      if (response) {
+        const {code} = response;
+        // Dispatch the setUserID action to store the userID in Redux
+        // Email verified successfully, navigate to the next screen
+        navigation.navigate(ROUTE_CREATE_PASSWORD_SCREEN);
+      } else {
+        console.log('Failed to resend code.');
+        // Handle error or display a message to the user accordingly
+      }
+    } catch (error) {
+      console.error('Error resending code:', error);
+      // Handle error or display a message to the user accordingly
+    } finally {
+      dispatch(stopLoading()); // Dispatch the stopLoading action in the finally block
+    }
+  }, [dispatch, email, navigation]);
 
   const onFocus = useCallback(() => {
+    setErrorMessage('');
     if (verificationCode.length === PIN_CODE_LENGTH) {
       setVerificationCode(verificationCode.slice(0, PIN_CODE_LENGTH - 1));
     }
@@ -28,8 +64,41 @@ const VerificationCodeScreen = ({navigation, route}) => {
 
   const onFulfill = () => {
     Keyboard.dismiss();
-    navigation.navigate(ROUTE_USER_NAME_SCREEN);
   };
+
+  const onConfirmVerificationCodePress = useCallback(async () => {
+    try {
+      dispatch(startLoading());
+      setTimeout(async () => {
+        try {
+          const response = await verifyCode(verificationCode, userId);
+          if (response) {
+            navigation.navigate(ROUTE_CREATE_PASSWORD_SCREEN);
+          } else {
+            console.log('Failed to verify email.');
+          }
+        } catch (error) {
+          console.log(error.response);
+          if (
+            error.response &&
+            error.response.status === 400 &&
+            error.response.data === 'Invalid verification code'
+          ) {
+            setErrorMessage(error.response.data);
+            // Handle the case when email already exists
+          } else {
+            console.error('Error verifying email:', error);
+          }
+          console.error('Error verifying email:', error);
+        } finally {
+          dispatch(stopLoading());
+        }
+      }, 0);
+    } catch (error) {
+      console.error('Error verifying email:', error);
+      dispatch(stopLoading());
+    }
+  }, [dispatch, navigation, userId, verificationCode]);
 
   return (
     <KeyboardDismissWrapper style={styles.container} behavior="padding">
@@ -42,9 +111,11 @@ const VerificationCodeScreen = ({navigation, route}) => {
           <Typography style={styles.infoText}>
             Enter the code sent to
           </Typography>
-          <Typography style={[styles.infoText, styles.emailValue]}>
-            {emailAddress}
-          </Typography>
+          {email && (
+            <Typography style={[styles.infoText, styles.emailValue]}>
+              {email}
+            </Typography>
+          )}
           <SmoothPinCodeInput
             value={verificationCode}
             onTextChange={setVerificationCode}
@@ -59,9 +130,22 @@ const VerificationCodeScreen = ({navigation, route}) => {
             cellSpacing={15}
             cellSize={(SCREEN_WIDTH - 50) / 6}
           />
+          {errorMessage && (
+            <Typography style={styles.errorText}>{errorMessage}</Typography>
+          )}
         </View>
+        <GradientBtn
+          btnInfo={'Continue'}
+          btnTextColor={Colors.white}
+          onPress={onConfirmVerificationCodePress}
+          isLoading={isLoading}
+        />
         <Pressable style={styles.btnContainer} onPress={onResendPress}>
-          <Typography style={styles.btnText}>Resend</Typography>
+          {isLoading ? (
+            <ActivityIndicator color="white" />
+          ) : (
+            <Typography style={styles.btnText}>Resend</Typography>
+          )}
         </Pressable>
       </SafeAreaView>
     </KeyboardDismissWrapper>
@@ -131,5 +215,9 @@ const styles = StyleSheet.create({
   cellsContainer: {
     height: 65,
     width: SCREEN_WIDTH - 50,
+  },
+  errorText: {
+    marginTop: 5,
+    color: Colors.red,
   },
 });

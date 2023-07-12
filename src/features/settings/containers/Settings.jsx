@@ -7,13 +7,19 @@ import UserIcon from '../../../../assets/images/user.png';
 import UsersIcon from '../../../../assets/images/users.png';
 import {
   ROUTE_ACCOUNT_SETTINGS,
+  ROUTE_AUTHENTICATION_NAVIGATOR,
   ROUTE_EDIT_PROFILE,
   ROUTE_MY_FAMILY,
 } from '../../../navigators/RouteNames';
 import {Colors} from '../../../utils/styles';
 import SettingOptions from '../components/SettingOptions';
+import {useDispatch} from 'react-redux';
+import {LOGOUT} from '../../auth/store/AuthTypes';
+import {logout} from '../../auth/store/AuthActions';
+import {CommonActions} from '@react-navigation/native';
 
 const Settings = ({navigation}) => {
+  const dispatch = useDispatch();
   const onEditProfilePress = useCallback(() => {
     navigation.navigate(ROUTE_EDIT_PROFILE);
   }, [navigation]);
@@ -27,7 +33,15 @@ const Settings = ({navigation}) => {
   }, [navigation]);
 
   const onAboutPress = useCallback(() => {}, []);
-  const onLogoutPress = useCallback(() => {}, []);
+  const onLogoutPress = useCallback(() => {
+    dispatch(logout());
+    navigation.dispatch(
+      CommonActions.reset({
+        index: 0,
+        routes: [{name: ROUTE_AUTHENTICATION_NAVIGATOR}], // Replace 'InitialScreen' with the name of your initial screen
+      }),
+    );
+  }, [dispatch, navigation]);
   return (
     <View style={styles.container}>
       <SettingOptions

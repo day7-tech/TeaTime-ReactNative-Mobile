@@ -1,5 +1,5 @@
 import {useNavigation} from '@react-navigation/native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Image, StyleSheet, TouchableOpacity, View} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import {SafeAreaView} from 'react-native-safe-area-context';
@@ -16,6 +16,9 @@ import {HORIZONTAL_MARGIN, SCREEN_WIDTH} from '../../../utils/constants';
 import {Colors} from '../../../utils/styles';
 import AllPosts from '../components/AllPosts';
 import UserImage from '../components/UserImage';
+import {getUserDetails} from '../../../api/profileApi';
+import {useDispatch, useSelector} from 'react-redux';
+import {setUserDetails} from '../store/ProfileActions';
 const AllPostsTab = () => {
   return <AllPosts />;
 };
@@ -34,6 +37,9 @@ const renderScene = SceneMap({
 
 const ProfileScreen = () => {
   const navigation = useNavigation();
+  const dispatch = useDispatch();
+  const {userId} = useSelector(state => state.auth);
+  const {userDetails} = useSelector(state => state.profile);
   const [videos, setVideos] = useState(() => generateDummyVideoPosts(1));
   const [index, setIndex] = useState(0);
   // Define an array of route objects, one for each tab
@@ -42,6 +48,20 @@ const ProfileScreen = () => {
     {key: 'myPosts', title: 'My Posts'},
     {key: 'sharedWithMe', title: 'Shared with me'},
   ]);
+  useEffect(() => {
+    // Function to fetch posts by channel
+    const fetchUserDetails = async () => {
+      try {
+        const user = await getUserDetails(userId);
+        dispatch(setUserDetails(user)); // Handle the fetched posts as needed
+      } catch (error) {
+        console.error(error); // Handle any errors that occur during the API call
+      }
+    };
+
+    // Call the fetchPostsByChannel function when the component mounts
+    fetchUserDetails();
+  }, [dispatch, userId]);
 
   const renderTabBar = props => {
     return (
@@ -76,7 +96,11 @@ const ProfileScreen = () => {
             style={styles.gradient}
             start={{x: 0, y: 1}}
             end={{x: 0, y: 0}}>
-            <UserImage imageUri={videos[0].uploader.image} />
+            <UserImage
+              imageUri={
+                userDetails.profilePicResource ?? videos[0].uploader.image
+              }
+            />
           </LinearGradient>
         </View>
         <TouchableOpacity
@@ -92,7 +116,9 @@ const ProfileScreen = () => {
           <Image source={SettingIcon} />
         </TouchableOpacity>
       </View>
-      <Typography style={styles.userName}>{videos[0].uploader.name}</Typography>
+      <Typography style={styles.userName}>
+        {userDetails.firstName + ' ' + userDetails.lastName}
+      </Typography>
       <View style={{flex: 1}}>
         <TabView
           navigationState={{index, routes}}

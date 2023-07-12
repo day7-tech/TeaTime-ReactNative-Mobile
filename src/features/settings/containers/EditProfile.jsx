@@ -8,8 +8,10 @@ import {Formik} from 'formik';
 import * as Yup from 'yup';
 import AppFloatingTextInput from '../../../components/AppFloatingTextInput';
 import KeyboardDismissWrapper from '../../../components/KeyboardDismissWrapper';
+import {useSelector} from 'react-redux';
 
 const EditProfile = ({navigation}) => {
+  const {userDetails} = useSelector(state => state.profile);
   const validationSchema = Yup.object().shape({
     firstName: Yup.string().required('First name is required'),
     lastName: Yup.string().required('Last name is required'),
@@ -36,11 +38,14 @@ const EditProfile = ({navigation}) => {
 
   return (
     <KeyboardDismissWrapper style={styles.container} behavior="padding">
-      <AddUserImage />
+      <AddUserImage image={userDetails.profilePicResource} />
       <View style={styles.contentContainer}>
         <Typography style={styles.title}>About You</Typography>
         <Formik
-          initialValues={{firstName: '', lastName: ''}}
+          initialValues={{
+            firstName: userDetails.firstName ?? '',
+            lastName: userDetails.lastName ?? '',
+          }}
           validationSchema={validationSchema}
           onSubmit={handleSubmit}>
           {({values, handleChange, errors, touched}) => (

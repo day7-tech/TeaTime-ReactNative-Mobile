@@ -1,24 +1,64 @@
-import {Image, Pressable, StyleSheet, Text, View} from 'react-native';
-import React, {useCallback} from 'react';
-import KeyboardDismissWrapper from '../../../components/KeyboardDismissWrapper';
-import {SafeAreaView} from 'react-native-safe-area-context';
-import BackArrowIcon from '../../../../assets/images/arrow-left.png';
-import Typography from '../../../components/Typography/Typography';
+import React, {useCallback, useState} from 'react';
+import {Image, Pressable, StyleSheet, View} from 'react-native';
 import * as Progress from 'react-native-progress';
+import {SafeAreaView} from 'react-native-safe-area-context';
+import {useDispatch, useSelector} from 'react-redux';
+import BackArrowIcon from '../../../../assets/images/arrow-left.png';
+import {signUp} from '../../../api/authApi';
+import GradientBtn from '../../../components/Buttons/GradientBtn';
+import KeyboardDismissWrapper from '../../../components/KeyboardDismissWrapper';
+import Typography from '../../../components/Typography/Typography';
 import {HORIZONTAL_MARGIN, SCREEN_WIDTH} from '../../../utils/constants';
 import {Colors} from '../../../utils/styles';
-import GradientBtn from '../../../components/Buttons/GradientBtn';
+import {startLoading, stopLoading} from '../../auth/store/AuthActions';
 import AddUserImage from '../components/AddUserImage';
-import {ROUTE_AUTHENTICATED_NAVIGATOR} from '../../../navigators/RouteNames';
 
-const UserProfileImageScreen = ({navigation}) => {
+const UserProfileImageScreen = ({navigation, route}) => {
+  const dispatch = useDispatch();
+  const {firstName, lastName, password, dob} = route.params;
+  const {userId} = useSelector(state => state.auth);
+  const [profilePic, setProfilePicUri] = useState({});
+
+  const handleImageSelect = imageObj => {
+    setProfilePicUri(imageObj);
+  };
+
   const onBackPress = useCallback(() => {
     navigation.goBack();
   }, [navigation]);
+  console.log(profilePic);
+  const onCompletePress = useCallback(async () => {
+    try {
+      dispatch(startLoading());
 
-  const onCompletePress = useCallback(() => {
-    navigation.navigate(ROUTE_AUTHENTICATED_NAVIGATOR);
-  }, [navigation]);
+      const response = await signUp(
+        password,
+        firstName,
+        lastName,
+        dob,
+        userId,
+        profilePic,
+      );
+      // Handle the response or perform any necessary actions
+      console.log('response=>', response);
+      if (response) {
+        navigation.popToTop();
+      }
+    } catch (error) {
+      // Handle the error
+    } finally {
+      dispatch(stopLoading());
+    }
+  }, [
+    dispatch,
+    dob,
+    firstName,
+    lastName,
+    navigation,
+    password,
+    profilePic,
+    userId,
+  ]);
 
   return (
     <KeyboardDismissWrapper style={styles.container} behavior="padding">
@@ -40,7 +80,7 @@ const UserProfileImageScreen = ({navigation}) => {
           <Typography style={styles.infoText}>
             Add a profile picture so others can identify who you are in the app
           </Typography>
-          <AddUserImage />
+          <AddUserImage onImageSelect={handleImageSelect} />
         </View>
 
         <GradientBtn

@@ -10,6 +10,7 @@ const AppFloatingTextInput = ({
   value,
   placeholder,
   error,
+  errorText,
   ...rest
 }) => {
   const [isFocused, setIsFocused] = useState(false);
@@ -39,7 +40,11 @@ const AppFloatingTextInput = ({
         inputStyles={styles.inputStyle}
         {...rest}
       />
-      {error && <Typography style={styles.errorText}>Invalid Input</Typography>}
+      {error && (
+        <Typography style={styles.errorText}>
+          {errorText ?? 'Invalid Input'}
+        </Typography>
+      )}
     </View>
   );
 };
@@ -86,6 +91,10 @@ const styles = StyleSheet.create({
   },
   errorText: {
     color: Colors.red,
-    fontSize: 12,
+    fontSize: 14,
+    marginTop: 4,
+  },
+  errorContainer: {
+    borderColor: Colors.red,
   },
 });

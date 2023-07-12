@@ -29,9 +29,9 @@ const FeedDetails = ({
 }) => {
   return (
     <View style={[styles.container, style]}>
-      <View style={{flex: 6}}>
+      <View style={{flex: 1}}>
         {/* Render channel and uploader details based on whether it is in favorites */}
-        {isFavourites ? (
+        {/* {isFavourites ? (
           <ChannelAndUploaderDetails
             channelImage={item.channel.image}
             channelName={item.channel.name}
@@ -45,7 +45,7 @@ const FeedDetails = ({
             channelName={item.channel.name}
             onPress={onUserDetailsPress}
           />
-        )}
+        )} */}
         <FeedCaption caption={item.description} />
       </View>
       {/* Render feed options based on whether it is in favorites */}

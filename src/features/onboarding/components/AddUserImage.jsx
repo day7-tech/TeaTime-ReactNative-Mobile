@@ -5,8 +5,8 @@ import {PERMISSIONS, RESULTS, request} from 'react-native-permissions';
 import AddImageIcon from '../../../../assets/images/floating_button.png';
 import {Colors} from '../../../utils/styles';
 
-const AddUserImage = () => {
-  const [imageUri, setImageUri] = useState(null);
+const AddUserImage = ({onImageSelect, image}) => {
+  const [imageUri, setImageUri] = useState(image ?? null);
   const [modalVisible, setModalVisible] = useState(false);
 
   const requestCameraPermission = async () => {
@@ -35,8 +35,14 @@ const AddUserImage = () => {
 
       launchImageLibrary(options, response => {
         if (!response.didCancel && !response.error) {
-          console.log(response.assets);
           setImageUri(response.assets[0]?.uri);
+          console.log(response.assets[0]);
+          const tempPhoto = {
+            uri: response.assets[0]?.uri,
+            type: response.assets[0]?.type,
+            name: response.assets[0]?.fileName,
+          };
+          onImageSelect(tempPhoto);
         }
       });
     });
@@ -53,6 +59,12 @@ const AddUserImage = () => {
       launchCamera(options, response => {
         if (!response.didCancel && !response.error) {
           setImageUri(response.assets[0]?.uri);
+          const tempPhoto = {
+            uri: response.assets[0]?.uri,
+            type: response.assets[0]?.type,
+            name: response.assets[0]?.fileName,
+          };
+          onImageSelect(tempPhoto);
         }
       });
     });

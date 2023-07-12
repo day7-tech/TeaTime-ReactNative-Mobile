@@ -51,7 +51,5 @@ const MomentsFeedOptions = ({item, defaultLikes, isLiked}) => {
 export default MomentsFeedOptions;
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 2,
-  },
+  container: {},
 });
