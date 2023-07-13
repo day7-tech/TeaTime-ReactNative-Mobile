@@ -96,11 +96,14 @@ const ProfileScreen = () => {
             style={styles.gradient}
             start={{x: 0, y: 1}}
             end={{x: 0, y: 0}}>
-            <UserImage
+            { userDetails?.profilePicResource && (
+              <UserImage
               imageUri={
                 userDetails.profilePicResource ?? videos[0].uploader.image
               }
             />
+            )}
+            
           </LinearGradient>
         </View>
         <TouchableOpacity
@@ -117,7 +120,7 @@ const ProfileScreen = () => {
         </TouchableOpacity>
       </View>
       <Typography style={styles.userName}>
-        {userDetails.firstName + ' ' + userDetails.lastName}
+        {userDetails?.firstName || 'User First Name not set' + ' ' + userDetails?.lastName || 'User Last Name not set'}
       </Typography>
       <View style={{flex: 1}}>
         <TabView

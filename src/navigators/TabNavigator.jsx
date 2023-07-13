@@ -15,11 +15,13 @@ import CreatePostStackNavigator from './CreatePostStackNavigator';
 import ProfileStackNavigator from './ProfileStackNavigator';
 import {
   ROUTE_CREATE_POST_STACK_NAVIGATOR,
+  ROUTE_GROUPS_NAVIGATOR,
   ROUTE_GROUPS_SCREEN,
   ROUTE_HOME_SCREEN,
   ROUTE_NOTIFICATIONS_SCREEN,
   ROUTE_PROFILE_NAVIGATOR,
 } from './RouteNames';
+import GroupsNavigator from './GroupsNavigator';
 
 const Tab = createBottomTabNavigator();
 
@@ -61,9 +63,10 @@ const TabNavigator = props => {
 
       {/* Groups Tab */}
       <Tab.Screen
-        component={GroupsScreen}
-        name={ROUTE_GROUPS_SCREEN}
+        component={GroupsNavigator}
+        name={ROUTE_GROUPS_NAVIGATOR}
         options={{
+          headerShown: false,
           tabBarLabel: ({color}) => (
             <Typography style={{color: color, fontSize: 10}}>Groups</Typography>
           ),

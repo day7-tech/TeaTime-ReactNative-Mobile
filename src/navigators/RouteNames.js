@@ -2,8 +2,13 @@
 export const ROUTE_AUTHENTICATION_NAVIGATOR = 'authentication_navigator';
 export const ROUTE_AUTHENTICATED_NAVIGATOR = 'authenticated_navigator';
 export const ROUTE_TAB_NAVIGATOR = 'tab_navigator';
+export const ROUTE_GROUPS_NAVIGATOR = 'groups_navigator';
 export const ROUTE_HOME_SCREEN = 'home_screen';
 export const ROUTE_GROUPS_SCREEN = 'groups_screen';
+export const ROUTE_ADD_NETWORK_MEMBERS = 'add_network_members';
+export const ROUTE_ADD_NETWORK_MEMBERS_CONTACTS = 'AddNetworkMembersContacts';
+export const ROUTE_ADD_NETWORK_MEMBERS_EMAIL = 'AddNetworkMembersEmail';
+export const ROUTE_NETWORK_USER_DETAIL = 'Network_User_Detail'
 export const ROUTE_ADD_CONTENT = 'add_content';
 export const ROUTE_PROFILE_SCREEN = 'profile_screen';
 export const ROUTE_NOTIFICATIONS_SCREEN = 'notifications_screen';
