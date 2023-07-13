@@ -93,6 +93,7 @@ const TabNavigator = props => {
         component={NotificationScreens}
         name={ROUTE_NOTIFICATIONS_SCREEN}
         options={{
+          headerTitle: 'Notifications',
           tabBarLabel: ({color}) => (
             <Typography style={{color: color, fontSize: 10}}>
               Notifications
