@@ -1,10 +1,25 @@
+import {useDispatch} from 'react-redux';
 import API from './api';
 
-export const getPostsByChannel = async (channelId, numberOfItems) => {
+export const getMomentPostsByChannel = async (channelId, numberOfItems) => {
   try {
     const response = await API.get(`/channel/${channelId}/posts`, {
       params: {
         numberOfItems,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    throw new Error(error);
+  }
+};
+
+export const getFavPosts = async (numberOfItems, page) => {
+  try {
+    const response = await API.get(`/feed`, {
+      params: {
+        numberOfItems,
+        page,
       },
     });
     return response.data;
@@ -41,6 +56,7 @@ export const createComment = async (postId, message) => {
   try {
     const endpoint = `/post/${postId}/comment`;
     const response = await API.post(endpoint, {message});
+
     return response.data;
   } catch (error) {
     throw new Error(error);

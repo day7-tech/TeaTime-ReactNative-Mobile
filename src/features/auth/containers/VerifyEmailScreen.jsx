@@ -84,7 +84,7 @@ const VerifyEmailScreen = ({navigation}) => {
 
         if (response) {
           const {userId, code} = response;
-          console.log('code===>', code);
+
           dispatch(setUserID(userId, email));
           navigation.navigate(ROUTE_VERIFICATION_CODE_SCREEN);
         } else {
@@ -136,7 +136,7 @@ const VerifyEmailScreen = ({navigation}) => {
           </Typography>
         </View>
         <Formik
-          initialValues={{email: '', password: ''}}
+          initialValues={{email: 'Sid66@hotmail.com', password: 'cookies'}}
           validationSchema={validationSchema}
           onSubmit={onSubmit}>
           {({

@@ -6,22 +6,22 @@ import ShareIcon from '../../../../assets/images/share.png';
 import FeedOption from '../../../components/FeedOption';
 
 const MomentsFeedOptions = ({item, defaultLikes, isLiked}) => {
-  const [like, setLike] = useState(false);
-  const [likeCount, setLikeCount] = useState(item.likeCount);
+  //   const [like, setLike] = useState(false);
+  //   const [likeCount, setLikeCount] = useState(item.likeCount);
 
   /**
    * Handle the Like button press.
    * Updates the like count and toggles the like state.
    */
-  const onLikePress = useCallback(() => {
-    setLikeCount(prevCount => (like ? prevCount - 1 : prevCount + 1));
-    setLike(prevLike => !prevLike);
-  }, [like]);
+  //   const onLikePress = useCallback(() => {
+  //     setLikeCount(prevCount => (like ? prevCount - 1 : prevCount + 1));
+  //     setLike(prevLike => !prevLike);
+  //   }, [like]);
 
-  useEffect(() => {
-    setLike(isLiked ?? false);
-    setLikeCount(defaultLikes ?? item.likeCount);
-  }, [isLiked, defaultLikes, item.likeCount]);
+  //   useEffect(() => {
+  //     setLike(isLiked ?? false);
+  //     setLikeCount(defaultLikes ?? item.likeCount);
+  //   }, [isLiked, defaultLikes, item.likeCount]);
 
   /**
    * Handle the Share button press.
@@ -33,11 +33,11 @@ const MomentsFeedOptions = ({item, defaultLikes, isLiked}) => {
   return (
     <View style={styles.container}>
       {/* Like button */}
-      <FeedOption
+      {/* <FeedOption
         label={likeCount}
         imageIcon={like ? LikedIcon : LikeIcon}
         onPress={onLikePress}
-      />
+      /> */}
       {/* Share button */}
       <FeedOption
         label={'Share'}

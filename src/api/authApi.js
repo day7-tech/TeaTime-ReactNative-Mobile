@@ -53,7 +53,6 @@ export const sendVerificationEmail = async email => {
     const response = await API.post('/user/send-verification-email', {
       email,
     });
-    console.log(response.data, email);
     return response.data;
   } catch (error) {
     throw error;
