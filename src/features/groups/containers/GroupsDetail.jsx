@@ -1,14 +1,22 @@
-import {FlatList, StyleSheet, Text, View} from 'react-native';
+import {FlatList, Image, Pressable, StyleSheet, Text, View} from 'react-native';
 import React from 'react';
 import NetworkMemberItem from '../components/NetworkMemberItem/NetworkMemberItem';
 import users from '../data/data'
 import AddNetworkButton from '../components/AddNetworkButton/AddNetworkButton';
+import RightArrow from '../../../../assets/images/right-arrow.png';
+
 import colors from '../../../theme/color';
 import fonts from '../../../theme/fonts';
+import { useNavigation, useRoute } from '@react-navigation/native';
 const GroupsScreen = () => {
+  const navigation = useNavigation();
+  const route = useRoute();
   return (
     <View style={styles.page}>
-        <Text style={styles.title}>My Network</Text>
+        <Pressable onPress={() => navigation.goBack()} style={{ padding: 0, zIndex: 100}}>
+            <Image source={RightArrow} style={{ transform: [{ rotate: '180deg'}], marginTop: 15, marginLeft: 10,  width: 15, height: 15, resizeMode: 'contain', position: 'absolute' }} />
+        </Pressable>
+        <Text style={styles.title}>{route.params.groupName}</Text>
         <Text style={styles.body}>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras accumsan efficitur lacus non iaculis. Donec  </Text>
         <Text style={styles.heading}>Network Members</Text>
         <FlatList
@@ -43,7 +51,7 @@ const styles = StyleSheet.create({
       fontWeight: fonts.weight.bold,
   },
   body: {
-      fontSize: 18,
+      fontSize: 17,
       marginVertical: 10,
   }
 })

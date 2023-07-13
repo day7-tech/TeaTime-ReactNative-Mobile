@@ -21,7 +21,7 @@ const NetworkMemberItem = ({ user }) => {
             <View style={styles.relationship}>
                 <Text style={styles.relationshipLabel}>{user.relationship}</Text>
             </View>
-            <Image source={RightArrow} style={{ marginTop: 5, width: 15, height: 15, resizeMode: 'contain', marginLeft: 'auto'}} />
+            <Image source={RightArrow} style={{ marginTop: 5, width: 15, height: 15, resizeMode: 'contain' }} />
 
         </Pressable>
     )
@@ -45,14 +45,15 @@ const styles = StyleSheet.create({
         paddingHorizontal: 15,
     },
     relationship: {
-        marginRight: 'auto',
+        marginLeft: 'auto',
+        marginRight: 15,
         padding: 10,
         paddingHorizontal: 15,
         borderRadius: 20,
-        backgroundColor: colors.grey,
+        backgroundColor: colors.textgrey,
     },
     relationshipLabel: {    
-        color: colors.black,
+        color: colors.white,
         fontSize: 15,
     }
 });

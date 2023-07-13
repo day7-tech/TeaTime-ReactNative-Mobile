@@ -1,14 +1,32 @@
-import { View, Text, StyleSheet } from 'react-native'
-import React from 'react'
+import { View, Text, StyleSheet, Image } from 'react-native'
+import React, { useState } from 'react'
 import colors from '../../../../theme/color';
 import fonts from '../../../../theme/fonts'
+import { SelectList } from 'react-native-dropdown-select-list'
+import RightArrow from '../../../../../assets/images/right-arrow.png';
 
-const DetailSection = ({ title, label }) => {
+const DetailSection = ({ title, label, data }) => {
+
+
+    const [selected, setSelected] = useState(data[0].value);
+
+
     return (
         <View>
             <Text style={styles.title}>{title}</Text>
             <View style={styles.dropdown}>
-                <Text style={styles.dropdowntext}>{label}</Text>
+            <SelectList 
+                setSelected={(val) => setSelected(val)} 
+                data={data} 
+                save="value"
+                placeholder={selected}
+                boxStyles={{ marginLeft: 25, paddingTop: 13,right: 25, width: '90%', paddingRight: 20, borderColor: colors.grey, height: 50 }}
+                dropdownItemStyles={{ borderWidth: 0, borderColor: colors.grey}}
+                dropdownStyles={{  borderColor: colors.grey }}
+                arrowicon={<Image source={RightArrow} style={{ marginTop: 5,marginHorizontal: -7, width: 10, height: 10, resizeMode: 'contain' }} />}
+                inputStyles={{ width: 300, fontSize: 17}}
+                search={false}
+            />
             </View>
             <View style={styles.textContainer}>
                 <Text>Lorem Ipsum</Text>
@@ -24,12 +42,11 @@ const styles = StyleSheet.create({
         padding: 20,
     },
     dropdown: {
-        backgroundColor: colors.verylightgray,
-        padding: 15,
+        backgroundColor: colors.grey,
+
         width: '90%',
         alignSelf: 'center',
-        borderColor: colors.lightgray,
-        borderWidth: 1,
+        borderColor: colors.grey,
         borderRadius: 7,
         flexDirection: 'row',
     },

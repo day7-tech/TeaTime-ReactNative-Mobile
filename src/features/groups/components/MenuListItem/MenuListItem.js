@@ -41,10 +41,11 @@ const styles = StyleSheet.create({
     heading: {
         paddingVertical: 2,
         paddingHorizontal: 2,
-        fontSize: 18,
-        fontWeight: fonts.weight.semi
+        fontSize: 17,
+        fontWeight: fonts.weight.normal
     },
     detail: {
+        fontSize: 13,
         paddingHorizontal: 2,
         color: colors.black
     }

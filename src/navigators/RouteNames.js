@@ -5,6 +5,7 @@ export const ROUTE_TAB_NAVIGATOR = 'tab_navigator';
 export const ROUTE_GROUPS_NAVIGATOR = 'groups_navigator';
 export const ROUTE_HOME_SCREEN = 'home_screen';
 export const ROUTE_GROUPS_SCREEN = 'groups_screen';
+export const ROUTE_GROUPS_DETAIL_SCREEN = 'groups_detail_screen';
 export const ROUTE_ADD_NETWORK_MEMBERS = 'add_network_members';
 export const ROUTE_ADD_NETWORK_MEMBERS_CONTACTS = 'AddNetworkMembersContacts';
 export const ROUTE_ADD_NETWORK_MEMBERS_EMAIL = 'AddNetworkMembersEmail';

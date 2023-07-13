@@ -5,10 +5,10 @@ import MenuListItem from '../MenuListItem/MenuListItem';
 
 const MenuList = () => {
     return (
-        <FlatList
+            <FlatList
             data={list}
             renderItem={({item}) => <MenuListItem item={item} />}
-        />
+            />
     )
 }
 

@@ -2,7 +2,7 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import React from 'react';
 import TabBarOption from '../components/TabBarOption';
 import Typography from '../components/Typography/Typography';
-import GroupsScreen from '../features/groups/containers/GroupsScreen';
+import GroupsScreen from '../features/groups/containers/GroupsDetail';
 import HomeScreen from '../features/home/containers/HomeScreen';
 import NotificationScreens from '../features/notifications/containers/NotificationScreen';
 import {Colors} from '../utils/styles';

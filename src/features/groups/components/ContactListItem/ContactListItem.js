@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     name: {
-        fontSize: 20,
+        fontSize: 17,
         marginHorizontal: 15,
     }
 });
