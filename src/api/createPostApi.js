@@ -1,24 +1,28 @@
 import API from './api';
 
-export const createPostApi = async (
+export const createPost = async (
   channelId,
   title,
   description,
   file,
   thumbnail,
+  songId,
 ) => {
   try {
-    const formData = new FormData();
-    formData.append('title', title);
-    formData.append('description', description);
-    formData.append('file', file);
-    formData.append('thumbnail', thumbnail);
+    const form = new FormData();
+    form.append('title', title);
+    form.append('description', description);
+    form.append('file', file);
+    form.append('thumbnail', thumbnail);
+    form.append('songId', songId);
 
-    const endpoint = `/channel/${channelId}/post`;
-
-    const response = await API.post(endpoint, formData);
+    const response = await API.post(`/channel/${channelId}/post`, form, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
     return response.data;
   } catch (error) {
-    throw new Error(error);
+    throw error;
   }
 };

@@ -24,6 +24,8 @@ import {Colors} from '../../../utils/styles';
 import GalleryImages from '../components/GalleryImages';
 import RNFS from 'react-native-fs';
 import {Camera, useCameraDevices} from 'react-native-vision-camera';
+import {PESDK} from 'react-native-photoeditorsdk';
+import PhotoEditorModal from '../components/PhotoEditorModal';
 
 const Post = ({onClosePress}) => {
   const navigation = useNavigation();
@@ -35,11 +37,12 @@ const Post = ({onClosePress}) => {
     useState('not-determined');
   const [microphonePermissionStatus, setMicrophonePermissionStatus] =
     useState('not-determined');
+  const [selectedImage, setSelectedImage] = useState(null); // Added state for selected image
+  const [isPhotoEditorVisible, setIsPhotoEditorVisible] = useState(false);
   const isFocused = useIsFocused();
 
   const devices = useCameraDevices();
   const device = cameraType === 'back' ? devices.back : devices.front;
-  console.log(devices);
 
   const requestMicrophonePermission = useCallback(async () => {
     console.log('Requesting microphone permission...');
@@ -116,12 +119,11 @@ const Post = ({onClosePress}) => {
     if (!result.canceled) {
       // Do something with the selected image or video
       const tempFileUri = await saveFileToLocal(result.assets[0].uri);
-      navigation.navigate(ROUTE_EDITING, {
-        fileUri: tempFileUri,
-        mediaType: 'image',
-      });
+      setSelectedImage(tempFileUri); // Set the selected image URI to the state
+      setIsPhotoEditorVisible(true); // Show the PhotoEditorModal
+      // Create a `Configuration` object.
     }
-  }, [navigation, saveFileToLocal]);
+  }, [saveFileToLocal]);
 
   const toggleFlash = () => {
     setFlashMode(prevFlashMode => (prevFlashMode === 'off' ? 'on' : 'off'));
@@ -140,8 +142,14 @@ const Post = ({onClosePress}) => {
         fileUri: tempFileUri,
         mediaType: 'image',
       });
+      setSelectedImage(tempFileUri); // Set the selected image URI to the state
+      setIsPhotoEditorVisible(true);
     }
   };
+
+  const closePhotoEditor = useCallback(() => {
+    setIsPhotoEditorVisible(false); // Close the PhotoEditorModal
+  }, []);
 
   const handleMediaCapture = fileUri => {
     // Handle the captured image here
@@ -158,6 +166,7 @@ const Post = ({onClosePress}) => {
   const gradientTestPost = () => {
     navigation.navigate(ROUTE_GRADIENT_TEXT_POST);
   };
+
   if (device == null) return <ActivityIndicator size="large" color="#fff" />;
   return (
     <View style={styles.container}>
@@ -191,6 +200,11 @@ const Post = ({onClosePress}) => {
           </Pressable>
         </View>
       </Camera>
+      <PhotoEditorModal
+        visible={isPhotoEditorVisible}
+        image={selectedImage}
+        onFinish={closePhotoEditor}
+      />
     </View>
   );
 };

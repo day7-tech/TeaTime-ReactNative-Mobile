@@ -6,6 +6,9 @@ import LikedIcon from '../../../../assets/images/liked.png';
 import ReplyIcon from '../../../../assets/images/reply.png';
 import ThanksIcon from '../../../../assets/images/thanks.png';
 import FeedOption from '../../../components/FeedOption';
+import {likePost, unlikePost} from '../../../api/homeApi';
+import {useDispatch} from 'react-redux';
+import {updateLikeCount} from '../store/HomeActions';
 
 // FavouritesFeedOptions: Component for displaying feed options in the Favourites screen
 const FavouritesFeedOptions = ({
@@ -17,12 +20,36 @@ const FavouritesFeedOptions = ({
 }) => {
   const [like, setLike] = useState(false);
   const [likeCount, setLikeCount] = useState(item.likeCount);
+  const dispatch = useDispatch();
 
   // Handle the press event for the Like button
   const onLikePress = useCallback(() => {
     setLikeCount(prevCount => (like ? prevCount - 1 : prevCount + 1));
     setLike(prevLike => !prevLike);
-  }, [like]);
+    like ? handleUnlikePost() : handleLikePost();
+  }, [handleLikePost, handleUnlikePost, like]);
+
+  const handleLikePost = useCallback(async () => {
+    try {
+      setLike(true);
+      await likePost(item.id);
+      //   dispatch(updateLikeCount(item.id, true));
+    } catch (e) {
+      console.log(e);
+    }
+  }, [item.id]);
+
+  // Handle the unlike button press
+  const handleUnlikePost = useCallback(async () => {
+    try {
+      await unlikePost(item.id);
+
+      //   dispatch(updateLikeCount(item.id, false));
+      setLike(false);
+    } catch (e) {
+      console.log(e);
+    }
+  }, [item.id]);
 
   useEffect(() => {
     // Update the initial state based on the provided props

@@ -6,12 +6,11 @@ import Feed from '../components/Feed';
 import {useSelector} from 'react-redux';
 
 const Favourites = ({isFocused}) => {
-  const {posts} = useSelector(state => state.home);
+  const {favPosts} = useSelector(state => state.home);
   const flatListRef = useRef(null);
   const tabBarHeight = useBottomTabBarHeight();
   const [currentVideoId, setCurrentVideoId] = useState(null);
   const [isScrolling, setIsScrolling] = useState(false);
-
   /**
    * Load more videos.
    * Generates additional video posts and appends them to the current list.
@@ -39,16 +38,16 @@ const Favourites = ({isFocused}) => {
 
   // Function to pause the first video
   const pauseFirstVideo = useCallback(() => {
-    if (posts.length > 0) {
+    if (favPosts.length > 0) {
       setCurrentVideoId(null);
     }
-  }, [posts.length]);
+  }, [favPosts.length]);
   // Function to play the first video
   const playFirstVideo = useCallback(() => {
-    if (posts.length > 0) {
-      setCurrentVideoId(posts[0].id);
+    if (favPosts.length > 0) {
+      setCurrentVideoId(favPosts[0].id);
     }
-  }, [posts]);
+  }, [favPosts]);
 
   // Pause the first video when isFocused is false
   useEffect(() => {
@@ -67,12 +66,12 @@ const Favourites = ({isFocused}) => {
 
       // Only update the current video ID when the active tab is "favourites"
       const visibleVideoIndex = Math.floor(scrollPosition / screenHeight);
-      const visibleVideo = posts[visibleVideoIndex];
+      const visibleVideo = favPosts[visibleVideoIndex];
       if (visibleVideo) {
         setCurrentVideoId(visibleVideo.id);
       }
     },
-    [posts],
+    [favPosts],
   );
 
   const handleScrollBegin = useCallback(() => {
@@ -87,7 +86,7 @@ const Favourites = ({isFocused}) => {
     <View>
       <FlatList
         ref={flatListRef}
-        data={posts}
+        data={favPosts}
         renderItem={renderPost}
         keyExtractor={item => item.id.toString()}
         onEndReached={loadMoreVideos}

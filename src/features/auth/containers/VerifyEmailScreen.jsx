@@ -84,7 +84,7 @@ const VerifyEmailScreen = ({navigation}) => {
 
         if (response) {
           const {userId, code} = response;
-          console.log('code===>', code);
+
           dispatch(setUserID(userId, email));
           navigation.navigate(ROUTE_VERIFICATION_CODE_SCREEN);
         } else {
