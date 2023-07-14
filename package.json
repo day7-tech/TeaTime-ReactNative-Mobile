@@ -61,6 +61,7 @@
     "react-native-tab-view": "^3.5.1",
     "react-native-toast-message": "^2.1.6",
     "react-native-video": "^6.0.0-alpha.6",
+    "react-native-video-cache": "^2.7.3",
     "react-native-video-processing": "^1.7.2",
     "react-native-videoeditorsdk": "^3.0.0",
     "react-native-vision-camera": "^2.15.4",

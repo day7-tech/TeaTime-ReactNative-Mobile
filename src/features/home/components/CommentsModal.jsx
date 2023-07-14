@@ -1,4 +1,4 @@
-import React, {useCallback, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {
   FlatList,
   Image,
@@ -14,13 +14,61 @@ import BottomModal from '../../../components/BottomModal';
 import Typography from '../../../components/Typography/Typography';
 import UserComment from '../../../components/UserComment';
 import {Colors} from '../../../utils/styles';
+import CompanyImage from '../../../../assets/images/company.png';
+import {createComment, fetchCommentsByPostId} from '../../../api/homeApi';
+import {SafeAreaView} from 'react-native-safe-area-context';
 
-const CommentsModal = ({commentsModalRef, userDetails}) => {
+const CommentsModal = ({commentsModalRef, postDetails}) => {
   const [commentText, setCommentText] = useState('');
+  const [comments, setComments] = useState([]); // State variable for holding the comments data
+  const [nextCursor, setCursor] = useState(null);
+  const [hasMoreData, setHasMoreData] = useState(true);
 
-  const onPostPress = useCallback(() => {
-    console.log('on Comment Press');
-  }, []);
+  const fetchPostComments = useCallback(async () => {
+    try {
+      const response = await fetchCommentsByPostId(
+        postDetails.id,
+        nextCursor,
+        10,
+      );
+      const {comments: fetchedComments, cursor} = response;
+
+      setComments(prevComments => [...prevComments, ...fetchedComments]);
+      setCursor(cursor);
+
+      if (fetchedComments.length === 0) {
+        setHasMoreData(false);
+      }
+    } catch (error) {
+      console.log('Error fetching comments:', error);
+    }
+  }, [nextCursor, postDetails.id]);
+
+  useEffect(() => {
+    fetchPostComments();
+  }, [fetchPostComments]);
+
+  const handleEndReached = useCallback(() => {
+    if (hasMoreData) {
+      fetchPostComments();
+    }
+  }, [fetchPostComments, hasMoreData]);
+
+  const onPostPress = useCallback(async () => {
+    if (commentText.trim() === '') {
+      return;
+    }
+
+    try {
+      const createdComment = await createComment(postDetails.id, commentText);
+      console.log(createdComment);
+      setComments(prevComments => [...prevComments, createdComment]);
+      setCommentText('');
+    } catch (error) {
+      console.log('Error creating comment:', error);
+    }
+  }, [commentText, postDetails.id]);
+  console.log(comments, postDetails);
 
   return (
     // Render the bottom modal container
@@ -30,44 +78,33 @@ const CommentsModal = ({commentsModalRef, userDetails}) => {
       containerStyle={styles.bottomModalContainer}>
       {/* Render the comments list */}
       <FlatList
-        data={[1, 2, 3, 4]}
+        data={comments}
         keyExtractor={(item, index) => index.toString()}
         showsVerticalScrollIndicator={false}
         renderItem={({item, index}) => (
           <View key={index}>
             {/* Render each user comment */}
             <UserComment
-              userImage={userDetails.uploader.image}
-              userName={userDetails.uploader.name}
-              comment={'Hello, Hi, how are you?'}
-            />
-            <UserComment
-              userImage={userDetails.uploader.image}
-              userName={userDetails.uploader.name}
-              comment={
-                'Hello, Hi, how are you? I am good. What about you? Have you had lunch?'
-              }
-            />
-            <UserComment
-              userImage={userDetails.uploader.image}
-              userName={userDetails.uploader.name}
-              comment={'Hello'}
+              isUser={item.user === postDetails.user.id}
+              userImage={CompanyImage}
+              userName={item.user.name}
+              comment={item.message}
             />
           </View>
         )}
+        onEndReached={handleEndReached}
+        onEndReachedThreshold={0.2}
       />
 
       {/* Render the comment input and post button */}
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-        keyboardVerticalOffset={
-          Platform.OS === 'ios' ? getBottomSpace() + 180 : 0
-        }
+        keyboardVerticalOffset={Platform.OS === 'ios' ? 220 : 0}
         style={styles.keyboardAvoidingContainer}>
-        <Image
+        {/* <Image
           source={{uri: userDetails.channel.image}}
           style={styles.userImage}
-        />
+        /> */}
         <AppTextInput
           value={commentText}
           onChangeText={setCommentText}
@@ -96,7 +133,7 @@ const styles = StyleSheet.create({
   bottomModalContainer: {
     marginTop: 15,
     flex: 1,
-    paddingBottom: getBottomSpace(),
+    paddingBottom: 40,
   },
   textInputContainer: {
     height: 50,
@@ -117,7 +154,7 @@ const styles = StyleSheet.create({
   inputContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: getBottomSpace(),
+    marginBottom: 40,
   },
   textInput: {
     alignItems: 'center',

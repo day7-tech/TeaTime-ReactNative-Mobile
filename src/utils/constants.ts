@@ -18,7 +18,7 @@ export const HORIZONTAL_MARGIN = 20;
 /**
  * Constant representing the delay for double tap.
  */
-export const DOUBLE_TAP_DELAY = 300;
+export const DOUBLE_TAP_DELAY = 200;
 
 /**
  * Constant representing the vertical padding value.

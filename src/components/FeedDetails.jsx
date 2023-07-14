@@ -21,8 +21,6 @@ const FeedDetails = ({
   style,
   item,
   onUserDetailsPress,
-  defaultLikes,
-  isLiked,
   isFavourites,
   onThanksPress,
   onCommentsPress,
@@ -51,10 +49,11 @@ const FeedDetails = ({
       {/* Render feed options based on whether it is in favorites */}
       {isFavourites ? (
         <FavouritesFeedOptions
-          item={item}
-          defaultLikes={defaultLikes}
-          isLiked={isLiked}
+          postId={item.id}
+          numberOfLikes={item._count.likes}
+          isLiked={item.hasLikedPost}
           onThanksPress={onThanksPress}
+          numerOfComments={item._count.comments}
           onCommentsPress={onCommentsPress}
         />
       ) : (

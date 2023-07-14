@@ -136,7 +136,7 @@ const VerifyEmailScreen = ({navigation}) => {
           </Typography>
         </View>
         <Formik
-          initialValues={{email: '', password: ''}}
+          initialValues={{email: 'Sid66@hotmail.com', password: 'cookies'}}
           validationSchema={validationSchema}
           onSubmit={onSubmit}>
           {({

@@ -1,8 +1,10 @@
 import {useNavigation} from '@react-navigation/native';
-import React, {useCallback, useEffect, useMemo, useRef, useState} from 'react';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {Image, StyleSheet, TouchableOpacity, View} from 'react-native';
 import Video from 'react-native-video';
-import {useDispatch, useSelector} from 'react-redux';
+import convertToProxyURL from 'react-native-video-cache';
+import {useDispatch} from 'react-redux';
+import PlayIcon from '../../../../assets/images/PlayIcon.png';
 import {likePost, unlikePost} from '../../../api/homeApi';
 import FeedDetails from '../../../components/FeedDetails';
 import {
@@ -15,28 +17,29 @@ import {
 import {
   DOUBLE_TAP_DELAY,
   HORIZONTAL_MARGIN,
+  SCREEN_HEIGHT,
   SCREEN_WIDTH,
 } from '../../../utils/constants';
 import {Colors} from '../../../utils/styles';
 import {updateLikeCount} from '../store/HomeActions';
+import usePostDetails from '../../../hooks/usePostDetails';
+import CommentsModal from './CommentsModal';
 
 /**
- * Feed: Component for displaying a feed item.
+ * Feed: Component for displaying a feed post.
  *
- * @param {object} item - The feed item object.
- * @param {boolean} isFavourites - Indicates if the feed item is in favorites.
+ * @param {object} post - The feed post object.
+ * @param {boolean} isFavourites - Indicates if the feed post is in favorites.
  */
-const Feed = ({item, isFavourites, height, currentVideoId, isScrolling}) => {
-  const memoizedProps = useMemo(
-    () => ({
-      item,
-      isFavourites,
-      height,
-      currentVideoId,
-      isScrolling,
-    }),
-    [item, isFavourites, height, currentVideoId, isScrolling],
-  );
+const Feed = ({
+  postId,
+  isLiked,
+  isFavourites,
+  height,
+  currentVideoId,
+  isScrolling,
+}) => {
+  const post = usePostDetails(postId, isFavourites);
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const [isPlaying, setIsPlaying] = useState(false);
@@ -46,7 +49,6 @@ const Feed = ({item, isFavourites, height, currentVideoId, isScrolling}) => {
   const doubleTapTimerRef = useRef(null);
 
   // Get the height of the bottom tab bar
-  const [like, setLike] = useState(item.hasLikedPost);
   const recognitionModalRef = useRef(null);
   const commentsModalRef = useRef(null);
 
@@ -62,9 +64,7 @@ const Feed = ({item, isFavourites, height, currentVideoId, isScrolling}) => {
     if (lastTapRef.current && now - lastTapRef.current < DOUBLE_TAP_DELAY) {
       clearTimeout(doubleTapTimerRef.current);
       doubleTapTimerRef.current = null;
-      {
-        like ? handleUnlikePost() : handleLikePost();
-      }
+      likeUnlikePost();
     } else {
       lastTapRef.current = now;
       doubleTapTimerRef.current = setTimeout(() => {
@@ -73,35 +73,31 @@ const Feed = ({item, isFavourites, height, currentVideoId, isScrolling}) => {
         handlePlayPause();
       }, DOUBLE_TAP_DELAY);
     }
-  }, [handleLikePost, handlePlayPause, handleUnlikePost, like]);
+  }, [handlePlayPause, likeUnlikePost]);
 
-  // Get the like status and count from Redux state
-
-  //   const isLiked = item.hasLikedPost;
-  const likeCount = item._count.likes;
+  const likeUnlikePost = useCallback(() => {
+    post.hasLikedPost ? handleUnlikePost() : handleLikePost();
+  }, [handleLikePost, handleUnlikePost, post]);
 
   // Handle the like button press
   const handleLikePost = useCallback(async () => {
     try {
-      setLike(true);
-      await likePost(item.id);
-      //   dispatch(updateLikeCount(item.id, true));
+      const res = await likePost(postId);
+      dispatch(updateLikeCount(res.postId, res.hasLikedPost));
     } catch (e) {
       console.log(e);
     }
-  }, [item.id]);
+  }, [dispatch, postId]);
 
   // Handle the unlike button press
   const handleUnlikePost = useCallback(async () => {
     try {
-      await unlikePost(item.id);
-
-      //   dispatch(updateLikeCount(item.id, false));
-      setLike(false);
+      const res = await unlikePost(postId);
+      dispatch(updateLikeCount(res.postId, res.hasLikedPost));
     } catch (e) {
       console.log(e);
     }
-  }, [item.id]);
+  }, [dispatch, postId]);
 
   /**
    * Handle the Play/Pause button press.
@@ -147,14 +143,14 @@ const Feed = ({item, isFavourites, height, currentVideoId, isScrolling}) => {
           params: {
             screen: ROUTE_RECOGNITION_STICKER_SCREEN,
             params: {
-              post: item,
+              post: post,
               sticker,
             },
           },
         });
       }, 500);
     },
-    [item, navigation, onModalClose],
+    [post, navigation, onModalClose],
   );
 
   /**
@@ -167,11 +163,11 @@ const Feed = ({item, isFavourites, height, currentVideoId, isScrolling}) => {
       params: {
         screen: ROUTE_USER_DETAILS,
         params: {
-          userDetails: item,
+          userDetails: post,
         },
       },
     });
-  }, [item, navigation]);
+  }, [post, navigation]);
 
   const onModalClose = useCallback(() => {
     recognitionModalRef?.current?.close();
@@ -182,10 +178,9 @@ const Feed = ({item, isFavourites, height, currentVideoId, isScrolling}) => {
   }, []);
 
   const [shouldPlay, setShouldPlay] = useState(false);
-
   useEffect(() => {
     if (
-      currentVideoId === item.id &&
+      currentVideoId === postId &&
       isVideoLoaded &&
       isPlaying &&
       !isScrolling
@@ -194,20 +189,22 @@ const Feed = ({item, isFavourites, height, currentVideoId, isScrolling}) => {
     } else {
       setShouldPlay(false);
     }
-  }, [currentVideoId, isVideoLoaded, isPlaying, item.id, isScrolling]);
-  console.log('like', like);
+  }, [currentVideoId, isVideoLoaded, isPlaying, postId, isScrolling]);
   return (
     <View style={[styles.container, {height: height}]}>
-      {item.mediaType === 'video' ? (
+      {post.mediaType === 'video' ? (
         <TouchableOpacity
           activeOpacity={1}
           onPress={handleDoubleTap}
           ref={doubleTapRef}
           style={[styles.videoWrapper, {height: height, width: SCREEN_WIDTH}]}>
+          {!shouldPlay ? (
+            <Image source={PlayIcon} style={styles.playIcon} />
+          ) : null}
           {/* Video component */}
           <Video
             ref={videoRef}
-            source={{uri: item.resource}}
+            source={{uri: convertToProxyURL(post.resource)}}
             style={styles.video}
             resizeMode={'cover'}
             paused={!shouldPlay}
@@ -218,21 +215,21 @@ const Feed = ({item, isFavourites, height, currentVideoId, isScrolling}) => {
           />
         </TouchableOpacity>
       ) : (
-        <View
+        <TouchableOpacity
+          activeOpacity={1}
+          onPress={handleDoubleTap}
           style={[styles.videoWrapper, {height: height, width: SCREEN_WIDTH}]}>
           <Image
-            source={{uri: item.resource}}
+            source={{uri: post.resource}}
             style={styles.video}
             resizeMode="cover"
           />
-        </View>
+        </TouchableOpacity>
       )}
       {/* Feed details section */}
       <View style={styles.postDetails}>
         <FeedDetails
-          item={item}
-          defaultLikes={likeCount}
-          isLiked={like}
+          item={post}
           isFavourites={isFavourites}
           onThanksPress={onThanksPress}
           onUserDetailsPress={onUserDetailsPress}
@@ -242,28 +239,17 @@ const Feed = ({item, isFavourites, height, currentVideoId, isScrolling}) => {
       {/* Recognition stickers modal */}
       {/* <RecognitionStickersModal
         recognitionModalRef={recognitionModalRef}
-        postDetails={item}
+        postDetails={post}
         stickers={Stickers}
         onSendStickerPress={onSendStickerPress}
         onModalClose={onModalClose}
       /> */}
-      {/* <CommentsModal commentsModalRef={commentsModalRef} userDetails={item} /> */}
+      <CommentsModal commentsModalRef={commentsModalRef} postDetails={post} />
     </View>
   );
 };
 
-export default React.memo(Feed, (prevProps, nextProps) => {
-  // Custom comparison logic to determine whether the component should re-render
-  return (
-    // Compare relevant props here and return true if an update is needed
-    prevProps.item !== nextProps.item ||
-    prevProps.isFavourites !== nextProps.isFavourites ||
-    prevProps.height !== nextProps.height ||
-    prevProps.currentVideoId !== nextProps.currentVideoId ||
-    prevProps.isScrolling !== nextProps.isScrolling
-    // Compare other relevant props
-  );
-});
+export default React.memo(Feed);
 
 const styles = StyleSheet.create({
   container: {
@@ -287,5 +273,13 @@ const styles = StyleSheet.create({
     right: 0,
     zIndex: -1,
     opacity: 0,
+  },
+  playIcon: {
+    position: 'absolute',
+    height: 100,
+    width: 100,
+    top: SCREEN_HEIGHT / 2 - 50,
+    left: SCREEN_WIDTH / 2 - 50,
+    zIndex: 1,
   },
 });

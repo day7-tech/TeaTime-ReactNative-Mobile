@@ -8,7 +8,7 @@ import {
   View,
 } from 'react-native';
 import {SceneMap, TabView} from 'react-native-tab-view';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {getFavPosts, getMomentPostsByChannel} from '../../../api/homeApi';
 import Typography from '../../../components/Typography/Typography';
 import {ROUTE_SEARCH_SCREEN} from '../../../navigators/RouteNames';
@@ -18,29 +18,26 @@ import {setFavPosts, setMomentPosts} from '../store/HomeActions';
 import SearchIcon from './../../../../assets/images/search.png';
 import Favourites from './Favourites';
 import Moments from './Moments';
+import {useFocusEffect} from '@react-navigation/native';
 const channelId = '90f0abdb-951e-4186-bc70-bdcfb0f1e733';
-const numberOfItems = 10;
+const numberOfItems = 5;
 const page = 0;
-
-// Create two components to render as the two tabs
-// Create two components to render as the two tabs
 
 // Define memoized versions of the `Moments` and `Favourites` components
 
 const FirstRoute = ({isFocused}) => {
-  return <Moments isFocused={isFocused} />;
-  // return null;
+  return <Favourites isFocused={isFocused} />;
 };
 
 const SecondRoute = ({isFocused}) => {
-  return <Favourites isFocused={isFocused} />;
-  // return null;
+  return <Moments isFocused={isFocused} />;
 };
 
 const HomeScreen = ({navigation}) => {
   // Set up state to track the selected tab
-  const [index, setIndex] = React.useState(0);
+  const [index, setIndex] = React.useState(1);
   const [isLoading, setIsLoading] = useState(true);
+  const {favPosts, momentPosts} = useSelector(state => state.home);
 
   const dispatch = useDispatch();
   // Define an array of route objects, one for each tab
@@ -49,31 +46,46 @@ const HomeScreen = ({navigation}) => {
     {key: 'moments', title: 'Moments'},
   ]);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      setIsLoading(true);
-      try {
-        const [momentPosts, favPosts] = await Promise.all([
-          getMomentPostsByChannel(channelId, numberOfItems),
-          getFavPosts(numberOfItems, page),
-        ]);
-
-        dispatch(setMomentPosts(momentPosts.posts));
-        dispatch(setFavPosts(favPosts.posts));
-        setIsLoading(false);
-      } catch (error) {
-        console.error(error); // Handle any errors that occur during the API calls
+  const fetchData = useCallback(async () => {
+    setIsLoading(true);
+    try {
+      if (index === 0 && !favPosts.length) {
+        const favPostsResponse = await getFavPosts(numberOfItems, page);
+        dispatch(setFavPosts(favPostsResponse.posts));
+      } else if (index === 1 && !momentPosts.length) {
+        const momentPostsResponse = await getMomentPostsByChannel(
+          channelId,
+          numberOfItems,
+        );
+        dispatch(setMomentPosts(momentPostsResponse.posts));
       }
-    };
+      setIsLoading(false);
+    } catch (error) {
+      console.error(error);
+    }
+  }, [dispatch, favPosts.length, index, momentPosts.length]);
 
-    fetchData();
-  }, [dispatch]);
+  // useEffect(() => {
+  //   fetchData();
+  // }, [fetchData, index]);
+
+  useFocusEffect(
+    useCallback(() => {
+      fetchData();
+    }, [fetchData]),
+  );
 
   // Define a function to render the appropriate tab component based on the current index
-  const renderScene = SceneMap({
-    moments: () => <FirstRoute isFocused={index === 1} />,
-    favourites: () => <SecondRoute isFocused={index === 0} />,
-  });
+  const renderScene = ({route}) => {
+    switch (route.key) {
+      case 'favourites':
+        return index === 0 ? <FirstRoute isFocused={index === 0} /> : null;
+      case 'moments':
+        return index === 1 ? <SecondRoute isFocused={index === 1} /> : null;
+      default:
+        return null;
+    }
+  };
   // Define a function to render the tab bar
   const renderTabBar = props => {
     return (
@@ -116,7 +128,10 @@ const HomeScreen = ({navigation}) => {
         onIndexChange={setIndex}
         initialLayout={{width: SCREEN_WIDTH}}
         renderTabBar={renderTabBar}
-        lazy={false}
+        lazy={true}
+        shouldRenderScene={(route, focused) =>
+          focused || route.key === routes[index].key
+        }
       />
       {/* Render the search icon */}
       <Pressable style={styles.searchIcon} onPress={onSearchPress}>

@@ -12,50 +12,38 @@ import {updateLikeCount} from '../store/HomeActions';
 
 // FavouritesFeedOptions: Component for displaying feed options in the Favourites screen
 const FavouritesFeedOptions = ({
-  item,
-  defaultLikes,
+  postId,
+  numberOfLikes,
   isLiked,
   onThanksPress,
   onCommentsPress,
+  numerOfComments,
 }) => {
-  const [like, setLike] = useState(false);
-  const [likeCount, setLikeCount] = useState(item.likeCount);
   const dispatch = useDispatch();
 
   // Handle the press event for the Like button
   const onLikePress = useCallback(() => {
-    setLikeCount(prevCount => (like ? prevCount - 1 : prevCount + 1));
-    setLike(prevLike => !prevLike);
-    like ? handleUnlikePost() : handleLikePost();
-  }, [handleLikePost, handleUnlikePost, like]);
+    isLiked ? handleUnlikePost() : handleLikePost();
+  }, [handleLikePost, handleUnlikePost, isLiked]);
 
   const handleLikePost = useCallback(async () => {
     try {
-      setLike(true);
-      await likePost(item.id);
-      //   dispatch(updateLikeCount(item.id, true));
+      const res = await likePost(postId);
+      dispatch(updateLikeCount(res.postId, res.hasLikedPost));
     } catch (e) {
       console.log(e);
     }
-  }, [item.id]);
+  }, [dispatch, postId]);
 
   // Handle the unlike button press
   const handleUnlikePost = useCallback(async () => {
     try {
-      await unlikePost(item.id);
-
-      //   dispatch(updateLikeCount(item.id, false));
-      setLike(false);
+      const res = await unlikePost(postId);
+      dispatch(updateLikeCount(res.postId, res.hasLikedPost));
     } catch (e) {
       console.log(e);
     }
-  }, [item.id]);
-
-  useEffect(() => {
-    // Update the initial state based on the provided props
-    setLike(isLiked ?? false);
-    setLikeCount(defaultLikes ?? item.likeCount);
-  }, [isLiked, defaultLikes, item.likeCount]);
+  }, [dispatch, postId]);
 
   const onSharePress = useCallback(() => {
     // Handle the press event for the Share button
@@ -71,13 +59,13 @@ const FavouritesFeedOptions = ({
       />
       {/* Like Option */}
       <FeedOption
-        label={likeCount}
-        imageIcon={like ? LikedIcon : LikeIcon}
+        label={numberOfLikes}
+        imageIcon={isLiked ? LikedIcon : LikeIcon}
         onPress={onLikePress}
       />
       {/* Comments Option */}
       <FeedOption
-        label={'Comments'}
+        label={numerOfComments}
         imageIcon={CommentsIcon}
         onPress={onCommentsPress}
       />

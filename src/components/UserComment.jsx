@@ -3,16 +3,30 @@ import {Image, StyleSheet, View} from 'react-native';
 import {Colors} from '../utils/styles';
 import Typography from './Typography/Typography';
 
-const UserComment = ({userImage, userName, comment}) => {
+const UserComment = ({userImage, userName, comment, isUser}) => {
   return (
     <View style={styles.container}>
-      <View style={styles.imageContainer}>
-        <Image source={{uri: userImage}} style={styles.commentUserImage} />
-      </View>
-      <View style={styles.commentContainer}>
-        <Typography style={styles.userName}>{userName}</Typography>
-        <Typography style={styles.comment}>{comment}</Typography>
-      </View>
+      {isUser ? (
+        <>
+          <View style={styles.commentContainer}>
+            <Typography style={styles.userName}>{userName}</Typography>
+            <Typography style={styles.comment}>{comment}</Typography>
+          </View>
+          <View style={styles.imageContainer}>
+            <Image source={userImage} style={styles.commentUserImage} />
+          </View>
+        </>
+      ) : (
+        <>
+          <View style={styles.imageContainer}>
+            <Image source={userImage} style={styles.commentUserImage} />
+          </View>
+          <View style={styles.commentContainer}>
+            <Typography style={styles.userName}>{userName}</Typography>
+            <Typography style={styles.comment}>{comment}</Typography>
+          </View>
+        </>
+      )}
     </View>
   );
 };

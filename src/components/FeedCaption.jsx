@@ -60,5 +60,6 @@ const styles = StyleSheet.create({
   },
   captionContainer: {
     marginVertical: 15,
+    marginRight: 20,
   },
 });
