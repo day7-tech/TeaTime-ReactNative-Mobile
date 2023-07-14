@@ -16,10 +16,10 @@ import ChangeCameraIcon from '../../../../assets/images/change-camera.png';
 import CloseIcon from '../../../../assets/images/close.png';
 import FlashLightIcon from '../../../../assets/images/light.png';
 import RecordVideoIcon from '../../../../assets/images/record-video.png';
-import {ROUTE_EDITING} from '../../../navigators/RouteNames';
 import {HORIZONTAL_MARGIN} from '../../../utils/constants';
 import {Colors} from '../../../utils/styles';
 import GalleryImages from '../components/GalleryImages';
+import VideoEditorModal from '../components/VideoEditorModal';
 
 const Video = ({onClosePress}) => {
   const navigation = useNavigation();
@@ -33,10 +33,10 @@ const Video = ({onClosePress}) => {
     useState('not-determined');
   const [isRecording, setIsRecording] = useState(false);
   const isFocused = useIsFocused();
-
+  const [selectedVideo, setSelectedVideo] = useState(null); // Added state for selected image
+  const [isVideoEditorVisible, setIsVideoEditorVisible] = useState(false);
   const devices = useCameraDevices();
   const device = cameraType === 'back' ? devices.back : devices.front;
-  console.log(devices);
 
   const requestMicrophonePermission = useCallback(async () => {
     console.log('Requesting microphone permission...');
@@ -124,10 +124,8 @@ const Video = ({onClosePress}) => {
   };
 
   const goToPreviewScreen = tempFileUri => {
-    navigation.navigate(ROUTE_EDITING, {
-      fileUri: tempFileUri,
-      mediaType: 'video',
-    });
+    setSelectedVideo(tempFileUri);
+    setIsVideoEditorVisible(true);
   };
 
   const startRecording = async () => {
@@ -159,6 +157,10 @@ const Video = ({onClosePress}) => {
   const handleMediaCapture = fileUri => {
     // Handle the captured video here
   };
+
+  const closeVideoEditor = useCallback(() => {
+    setIsVideoEditorVisible(false); // Close the PhotoEditorModal
+  }, []);
 
   if (device == null) return <ActivityIndicator size="large" color="#fff" />;
   return (
@@ -198,6 +200,11 @@ const Video = ({onClosePress}) => {
           </Pressable>
         </View>
       </Camera>
+      <VideoEditorModal
+        visible={isVideoEditorVisible}
+        video={selectedVideo}
+        onFinish={closeVideoEditor}
+      />
     </View>
   );
 };

@@ -31,21 +31,21 @@ const FeedDetails = ({
     <View style={[styles.container, style]}>
       <View style={{flex: 1}}>
         {/* Render channel and uploader details based on whether it is in favorites */}
-        {/* {isFavourites ? (
+        {isFavourites ? (
           <ChannelAndUploaderDetails
-            channelImage={item.channel.image}
-            channelName={item.channel.name}
-            uploaderImage={item.uploader.image}
-            uploaderName={item.uploader.name}
+            channelImage={item.user.work.profilePicResource}
+            channelName={item.user.work.name}
+            uploaderImage={item.user.profilePicResource}
+            uploaderName={item.user.name}
             onPress={onUserDetailsPress}
           />
         ) : (
           <ChannelDetails
-            channelImage={item.channel.image}
-            channelName={item.channel.name}
+            channelImage={item.user.profilePicResource}
+            channelName={item.user.name}
             onPress={onUserDetailsPress}
           />
-        )} */}
+        )}
         <FeedCaption caption={item.description} />
       </View>
       {/* Render feed options based on whether it is in favorites */}
@@ -58,10 +58,11 @@ const FeedDetails = ({
           onCommentsPress={onCommentsPress}
         />
       ) : (
+        //TODO:likes need to discuss first
         <MomentsFeedOptions
-          item={item}
-          defaultLikes={defaultLikes}
-          isLiked={isLiked}
+          //   item={item}
+          //   defaultLikes={defaultLikes}
+          //   isLiked={isLiked}
           onThanksPress={onThanksPress}
           onCommentsPress={onCommentsPress}
         />

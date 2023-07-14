@@ -1,5 +1,6 @@
-import React, {useCallback, useEffect} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {
+  ActivityIndicator,
   Image,
   Pressable,
   StyleSheet,
@@ -7,36 +8,40 @@ import {
   View,
 } from 'react-native';
 import {SceneMap, TabView} from 'react-native-tab-view';
+import {useDispatch} from 'react-redux';
+import {getFavPosts, getMomentPostsByChannel} from '../../../api/homeApi';
 import Typography from '../../../components/Typography/Typography';
 import {ROUTE_SEARCH_SCREEN} from '../../../navigators/RouteNames';
 import {SCREEN_WIDTH} from '../../../utils/constants';
 import {Colors} from '../../../utils/styles';
+import {setFavPosts, setMomentPosts} from '../store/HomeActions';
 import SearchIcon from './../../../../assets/images/search.png';
 import Favourites from './Favourites';
 import Moments from './Moments';
-import {getPostsByChannel} from '../../../api/homeApi';
-import {useDispatch} from 'react-redux';
-import {setPosts} from '../store/HomeActions';
+const channelId = '90f0abdb-951e-4186-bc70-bdcfb0f1e733';
+const numberOfItems = 10;
+const page = 0;
 
 // Create two components to render as the two tabs
 // Create two components to render as the two tabs
 
 // Define memoized versions of the `Moments` and `Favourites` components
-const MemoizedMoments = React.memo(Moments);
-const MemoizedFavourites = React.memo(Favourites);
+
 const FirstRoute = ({isFocused}) => {
-  // return <MemoizedMoments isFocused={isFocused} />;
-  return null;
+  return <Moments isFocused={isFocused} />;
+  // return null;
 };
 
 const SecondRoute = ({isFocused}) => {
-  return <MemoizedFavourites isFocused={isFocused} />;
+  return <Favourites isFocused={isFocused} />;
   // return null;
 };
 
 const HomeScreen = ({navigation}) => {
   // Set up state to track the selected tab
   const [index, setIndex] = React.useState(0);
+  const [isLoading, setIsLoading] = useState(true);
+
   const dispatch = useDispatch();
   // Define an array of route objects, one for each tab
   const [routes] = React.useState([
@@ -45,22 +50,23 @@ const HomeScreen = ({navigation}) => {
   ]);
 
   useEffect(() => {
-    // Function to fetch posts by channel
-    const fetchPostsByChannel = async () => {
+    const fetchData = async () => {
+      setIsLoading(true);
       try {
-        const channelId = 'fa2b8d44-5c79-4646-bb87-ca2146057f5d';
-        const numberOfItems = 10;
+        const [momentPosts, favPosts] = await Promise.all([
+          getMomentPostsByChannel(channelId, numberOfItems),
+          getFavPosts(numberOfItems, page),
+        ]);
 
-        const posts = await getPostsByChannel(channelId, numberOfItems);
-        dispatch(setPosts(posts.posts));
-        console.log(posts); // Handle the fetched posts as needed
+        dispatch(setMomentPosts(momentPosts.posts));
+        dispatch(setFavPosts(favPosts.posts));
+        setIsLoading(false);
       } catch (error) {
-        console.error(error); // Handle any errors that occur during the API call
+        console.error(error); // Handle any errors that occur during the API calls
       }
     };
 
-    // Call the fetchPostsByChannel function when the component mounts
-    fetchPostsByChannel();
+    fetchData();
   }, [dispatch]);
 
   // Define a function to render the appropriate tab component based on the current index
@@ -96,6 +102,10 @@ const HomeScreen = ({navigation}) => {
   const onSearchPress = useCallback(() => {
     navigation.navigate(ROUTE_SEARCH_SCREEN);
   }, [navigation]);
+
+  if (isLoading) {
+    return <ActivityIndicator size="large" color={Colors.primary} />;
+  }
 
   return (
     <View style={styles.container}>

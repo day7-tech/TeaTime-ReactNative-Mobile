@@ -11,8 +11,9 @@
 		13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.mm */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
-		6CB7943D29D6F11714F16EAC /* libPods-TeaTime-TeaTimeTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 242BF0C31A17962FD0ACEFAA /* libPods-TeaTime-TeaTimeTests.a */; };
+		18D86D3C4A220F84F443DE88 /* libPods-TeaTime.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 60E1656E228A1F33BF893961 /* libPods-TeaTime.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
+		B737E8D083CE4D287587FF68 /* libPods-TeaTime-TeaTimeTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C21601048AEA5F6DDE2ED8B5 /* libPods-TeaTime-TeaTimeTests.a */; };
 		CE1FF73E2A52FA76006CF8BD /* BootSplash.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CE1FF73D2A52FA76006CF8BD /* BootSplash.storyboard */; };
 		CE8B6DCF2A2D838400AB22FA /* Outfit-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CE8B6DC62A2D838400AB22FA /* Outfit-Medium.ttf */; };
 		CE8B6DD02A2D838400AB22FA /* Outfit-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CE8B6DC72A2D838400AB22FA /* Outfit-Light.ttf */; };
@@ -24,7 +25,6 @@
 		CE8B6DD62A2D838400AB22FA /* Outfit-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CE8B6DCD2A2D838400AB22FA /* Outfit-Bold.ttf */; };
 		CE8B6DD72A2D838400AB22FA /* Outfit-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CE8B6DCE2A2D838400AB22FA /* Outfit-Black.ttf */; };
 		CEEA7BA22A4053F700FCE981 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEEA7BA12A4053F700FCE981 /* OpenGLES.framework */; };
-		E6269CDE9BEEA63C771C6DC6 /* libPods-TeaTime.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2055673CD8F2FE33610F92D0 /* libPods-TeaTime.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,13 +47,11 @@
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = TeaTime/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = TeaTime/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = TeaTime/main.m; sourceTree = "<group>"; };
-		2055673CD8F2FE33610F92D0 /* libPods-TeaTime.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-TeaTime.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		242BF0C31A17962FD0ACEFAA /* libPods-TeaTime-TeaTimeTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-TeaTime-TeaTimeTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		381510DB3EA6B8B99AD32250 /* Pods-TeaTime-TeaTimeTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TeaTime-TeaTimeTests.debug.xcconfig"; path = "Target Support Files/Pods-TeaTime-TeaTimeTests/Pods-TeaTime-TeaTimeTests.debug.xcconfig"; sourceTree = "<group>"; };
-		58D99A33762D31A3F5357AD5 /* Pods-TeaTime.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TeaTime.debug.xcconfig"; path = "Target Support Files/Pods-TeaTime/Pods-TeaTime.debug.xcconfig"; sourceTree = "<group>"; };
-		7A4DA5193F2169D80090DF80 /* Pods-TeaTime.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TeaTime.release.xcconfig"; path = "Target Support Files/Pods-TeaTime/Pods-TeaTime.release.xcconfig"; sourceTree = "<group>"; };
+		60E1656E228A1F33BF893961 /* libPods-TeaTime.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-TeaTime.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = TeaTime/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		BB05A58EF1AA2E179BCDB2CB /* Pods-TeaTime-TeaTimeTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TeaTime-TeaTimeTests.release.xcconfig"; path = "Target Support Files/Pods-TeaTime-TeaTimeTests/Pods-TeaTime-TeaTimeTests.release.xcconfig"; sourceTree = "<group>"; };
+		844D61CC56B3124E846F0574 /* Pods-TeaTime.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TeaTime.debug.xcconfig"; path = "Target Support Files/Pods-TeaTime/Pods-TeaTime.debug.xcconfig"; sourceTree = "<group>"; };
+		A136DD4E6D2CA8B6677830BE /* Pods-TeaTime-TeaTimeTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TeaTime-TeaTimeTests.release.xcconfig"; path = "Target Support Files/Pods-TeaTime-TeaTimeTests/Pods-TeaTime-TeaTimeTests.release.xcconfig"; sourceTree = "<group>"; };
+		C21601048AEA5F6DDE2ED8B5 /* libPods-TeaTime-TeaTimeTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-TeaTime-TeaTimeTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		CE1FF73D2A52FA76006CF8BD /* BootSplash.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = BootSplash.storyboard; path = TeaTime/BootSplash.storyboard; sourceTree = "<group>"; };
 		CE8B6DC62A2D838400AB22FA /* Outfit-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Outfit-Medium.ttf"; path = "../assets/fonts/Outfit-Medium.ttf"; sourceTree = "<group>"; };
 		CE8B6DC72A2D838400AB22FA /* Outfit-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Outfit-Light.ttf"; path = "../assets/fonts/Outfit-Light.ttf"; sourceTree = "<group>"; };
@@ -65,6 +63,8 @@
 		CE8B6DCD2A2D838400AB22FA /* Outfit-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Outfit-Bold.ttf"; path = "../assets/fonts/Outfit-Bold.ttf"; sourceTree = "<group>"; };
 		CE8B6DCE2A2D838400AB22FA /* Outfit-Black.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Outfit-Black.ttf"; path = "../assets/fonts/Outfit-Black.ttf"; sourceTree = "<group>"; };
 		CEEA7BA12A4053F700FCE981 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
+		DD60BF55358CB39DC71CBFE8 /* Pods-TeaTime-TeaTimeTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TeaTime-TeaTimeTests.debug.xcconfig"; path = "Target Support Files/Pods-TeaTime-TeaTimeTests/Pods-TeaTime-TeaTimeTests.debug.xcconfig"; sourceTree = "<group>"; };
+		E5AFD3B26D06355DCC182139 /* Pods-TeaTime.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TeaTime.release.xcconfig"; path = "Target Support Files/Pods-TeaTime/Pods-TeaTime.release.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
@@ -73,7 +73,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6CB7943D29D6F11714F16EAC /* libPods-TeaTime-TeaTimeTests.a in Frameworks */,
+				B737E8D083CE4D287587FF68 /* libPods-TeaTime-TeaTimeTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -82,7 +82,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CEEA7BA22A4053F700FCE981 /* OpenGLES.framework in Frameworks */,
-				E6269CDE9BEEA63C771C6DC6 /* libPods-TeaTime.a in Frameworks */,
+				18D86D3C4A220F84F443DE88 /* libPods-TeaTime.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -126,8 +126,8 @@
 			children = (
 				CEEA7BA12A4053F700FCE981 /* OpenGLES.framework */,
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
-				2055673CD8F2FE33610F92D0 /* libPods-TeaTime.a */,
-				242BF0C31A17962FD0ACEFAA /* libPods-TeaTime-TeaTimeTests.a */,
+				60E1656E228A1F33BF893961 /* libPods-TeaTime.a */,
+				C21601048AEA5F6DDE2ED8B5 /* libPods-TeaTime-TeaTimeTests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -166,10 +166,10 @@
 		BBD78D7AC51CEA395F1C20DB /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				58D99A33762D31A3F5357AD5 /* Pods-TeaTime.debug.xcconfig */,
-				7A4DA5193F2169D80090DF80 /* Pods-TeaTime.release.xcconfig */,
-				381510DB3EA6B8B99AD32250 /* Pods-TeaTime-TeaTimeTests.debug.xcconfig */,
-				BB05A58EF1AA2E179BCDB2CB /* Pods-TeaTime-TeaTimeTests.release.xcconfig */,
+				844D61CC56B3124E846F0574 /* Pods-TeaTime.debug.xcconfig */,
+				E5AFD3B26D06355DCC182139 /* Pods-TeaTime.release.xcconfig */,
+				DD60BF55358CB39DC71CBFE8 /* Pods-TeaTime-TeaTimeTests.debug.xcconfig */,
+				A136DD4E6D2CA8B6677830BE /* Pods-TeaTime-TeaTimeTests.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -197,12 +197,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "TeaTimeTests" */;
 			buildPhases = (
-				D405555D39310DA2368F7258 /* [CP] Check Pods Manifest.lock */,
+				189FA2869B2A0F0B9C36E630 /* [CP] Check Pods Manifest.lock */,
 				00E356EA1AD99517003FC87E /* Sources */,
 				00E356EB1AD99517003FC87E /* Frameworks */,
 				00E356EC1AD99517003FC87E /* Resources */,
-				22D49F14333EBF52C2167FDF /* [CP] Embed Pods Frameworks */,
-				0C472995D7DD467940B06E6B /* [CP] Copy Pods Resources */,
+				214E9BF9A4C05FBBFBCE7236 /* [CP] Embed Pods Frameworks */,
+				64E7A3B8F4844CDCE5E46F42 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -218,14 +218,14 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "TeaTime" */;
 			buildPhases = (
-				A6F16F3254552FD72FBB2729 /* [CP] Check Pods Manifest.lock */,
+				B2E5E109E35483C8C1A0B8BC /* [CP] Check Pods Manifest.lock */,
 				FD10A7F022414F080027D42C /* Start Packager */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
-				1698774F92A8112B88F7880D /* [CP] Embed Pods Frameworks */,
-				4205A184FAB79811DBAF6EA4 /* [CP] Copy Pods Resources */,
+				E0C520A37C9CA93F1B41F337 /* [CP] Embed Pods Frameworks */,
+				B794131E450376C193B47B92 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -318,41 +318,29 @@
 			shellPath = /bin/sh;
 			shellScript = "set -e\n\nWITH_ENVIRONMENT=\"../node_modules/react-native/scripts/xcode/with-environment.sh\"\nREACT_NATIVE_XCODE=\"../node_modules/react-native/scripts/react-native-xcode.sh\"\n\n/bin/sh -c \"$WITH_ENVIRONMENT $REACT_NATIVE_XCODE\"\n";
 		};
-		0C472995D7DD467940B06E6B /* [CP] Copy Pods Resources */ = {
+		189FA2869B2A0F0B9C36E630 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-TeaTime-TeaTimeTests/Pods-TeaTime-TeaTimeTests-resources-${CONFIGURATION}-input-files.xcfilelist",
 			);
-			name = "[CP] Copy Pods Resources";
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
 			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-TeaTime-TeaTimeTests/Pods-TeaTime-TeaTimeTests-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-TeaTime-TeaTimeTests-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-TeaTime-TeaTimeTests/Pods-TeaTime-TeaTimeTests-resources.sh\"\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		1698774F92A8112B88F7880D /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-TeaTime/Pods-TeaTime-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-TeaTime/Pods-TeaTime-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-TeaTime/Pods-TeaTime-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		22D49F14333EBF52C2167FDF /* [CP] Embed Pods Frameworks */ = {
+		214E9BF9A4C05FBBFBCE7236 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -369,24 +357,24 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-TeaTime-TeaTimeTests/Pods-TeaTime-TeaTimeTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		4205A184FAB79811DBAF6EA4 /* [CP] Copy Pods Resources */ = {
+		64E7A3B8F4844CDCE5E46F42 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-TeaTime/Pods-TeaTime-resources-${CONFIGURATION}-input-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-TeaTime-TeaTimeTests/Pods-TeaTime-TeaTimeTests-resources-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-TeaTime/Pods-TeaTime-resources-${CONFIGURATION}-output-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-TeaTime-TeaTimeTests/Pods-TeaTime-TeaTimeTests-resources-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-TeaTime/Pods-TeaTime-resources.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-TeaTime-TeaTimeTests/Pods-TeaTime-TeaTimeTests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		A6F16F3254552FD72FBB2729 /* [CP] Check Pods Manifest.lock */ = {
+		B2E5E109E35483C8C1A0B8BC /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -408,26 +396,38 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		D405555D39310DA2368F7258 /* [CP] Check Pods Manifest.lock */ = {
+		B794131E450376C193B47B92 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-TeaTime/Pods-TeaTime-resources-${CONFIGURATION}-input-files.xcfilelist",
 			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
+			name = "[CP] Copy Pods Resources";
 			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-TeaTime-TeaTimeTests-checkManifestLockResult.txt",
+				"${PODS_ROOT}/Target Support Files/Pods-TeaTime/Pods-TeaTime-resources-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-TeaTime/Pods-TeaTime-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		E0C520A37C9CA93F1B41F337 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-TeaTime/Pods-TeaTime-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-TeaTime/Pods-TeaTime-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-TeaTime/Pods-TeaTime-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		FD10A7F022414F080027D42C /* Start Packager */ = {
@@ -482,7 +482,7 @@
 /* Begin XCBuildConfiguration section */
 		00E356F61AD99517003FC87E /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 381510DB3EA6B8B99AD32250 /* Pods-TeaTime-TeaTimeTests.debug.xcconfig */;
+			baseConfigurationReference = DD60BF55358CB39DC71CBFE8 /* Pods-TeaTime-TeaTimeTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
@@ -492,7 +492,7 @@
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = TeaTimeTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -511,14 +511,14 @@
 		};
 		00E356F71AD99517003FC87E /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = BB05A58EF1AA2E179BCDB2CB /* Pods-TeaTime-TeaTimeTests.release.xcconfig */;
+			baseConfigurationReference = A136DD4E6D2CA8B6677830BE /* Pods-TeaTime-TeaTimeTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				COPY_PHASE_STRIP = NO;
 				DEVELOPMENT_TEAM = WD3QK9N8MH;
 				INFOPLIST_FILE = TeaTimeTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -537,7 +537,7 @@
 		};
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 58D99A33762D31A3F5357AD5 /* Pods-TeaTime.debug.xcconfig */;
+			baseConfigurationReference = 844D61CC56B3124E846F0574 /* Pods-TeaTime.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -566,7 +566,7 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7A4DA5193F2169D80090DF80 /* Pods-TeaTime.release.xcconfig */;
+			baseConfigurationReference = E5AFD3B26D06355DCC182139 /* Pods-TeaTime.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -640,7 +640,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					/usr/lib/swift,
 					"$(inherited)",
@@ -705,7 +705,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					/usr/lib/swift,
 					"$(inherited)",

@@ -1,7 +1,9 @@
 import {useNavigation} from '@react-navigation/native';
-import React, {useCallback, useEffect, useRef, useState} from 'react';
+import React, {useCallback, useEffect, useMemo, useRef, useState} from 'react';
 import {Image, StyleSheet, TouchableOpacity, View} from 'react-native';
 import Video from 'react-native-video';
+import {useDispatch, useSelector} from 'react-redux';
+import {likePost, unlikePost} from '../../../api/homeApi';
 import FeedDetails from '../../../components/FeedDetails';
 import {
   ROUTE_AUTHENTICATED_NAVIGATOR,
@@ -10,18 +12,13 @@ import {
   ROUTE_USER_DETAILS,
   ROUTE_USER_DETAILS_STACK_NAVIGATOR,
 } from '../../../navigators/RouteNames';
-import Stickers from '../../../utils/Stickers';
 import {
   DOUBLE_TAP_DELAY,
   HORIZONTAL_MARGIN,
   SCREEN_WIDTH,
 } from '../../../utils/constants';
 import {Colors} from '../../../utils/styles';
-import RecognitionStickersModal from '../../recognition/containers/RecognitionStickersModal';
-import CommentsModal from './CommentsModal';
-import Typography from '../../../components/Typography/Typography';
-import {useDispatch, useSelector} from 'react-redux';
-import {likePost, unlikePost} from '../../../api/homeApi';
+import {updateLikeCount} from '../store/HomeActions';
 
 /**
  * Feed: Component for displaying a feed item.
@@ -30,6 +27,16 @@ import {likePost, unlikePost} from '../../../api/homeApi';
  * @param {boolean} isFavourites - Indicates if the feed item is in favorites.
  */
 const Feed = ({item, isFavourites, height, currentVideoId, isScrolling}) => {
+  const memoizedProps = useMemo(
+    () => ({
+      item,
+      isFavourites,
+      height,
+      currentVideoId,
+      isScrolling,
+    }),
+    [item, isFavourites, height, currentVideoId, isScrolling],
+  );
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const [isPlaying, setIsPlaying] = useState(false);
@@ -39,12 +46,11 @@ const Feed = ({item, isFavourites, height, currentVideoId, isScrolling}) => {
   const doubleTapTimerRef = useRef(null);
 
   // Get the height of the bottom tab bar
-  const [like, setLike] = useState(false);
+  const [like, setLike] = useState(item.hasLikedPost);
   const recognitionModalRef = useRef(null);
   const commentsModalRef = useRef(null);
 
   const lastTapRef = useRef(null);
-
   /**
    * Handle double tap event.
    * If the user taps twice within a certain delay, it triggers a double tap.
@@ -57,7 +63,7 @@ const Feed = ({item, isFavourites, height, currentVideoId, isScrolling}) => {
       clearTimeout(doubleTapTimerRef.current);
       doubleTapTimerRef.current = null;
       {
-        isLiked ? handleUnlikePost() : handleLikePost();
+        like ? handleUnlikePost() : handleLikePost();
       }
     } else {
       lastTapRef.current = now;
@@ -67,22 +73,34 @@ const Feed = ({item, isFavourites, height, currentVideoId, isScrolling}) => {
         handlePlayPause();
       }, DOUBLE_TAP_DELAY);
     }
-  }, [handleLikePost, handlePlayPause, handleUnlikePost, isLiked]);
+  }, [handleLikePost, handlePlayPause, handleUnlikePost, like]);
 
   // Get the like status and count from Redux state
-  const likedPosts = useSelector(state => state.home.posts);
-  const postIndex = likedPosts.findIndex(post => post.id === item.id);
-  const isLiked = postIndex !== -1;
+
+  //   const isLiked = item.hasLikedPost;
   const likeCount = item._count.likes;
 
   // Handle the like button press
-  const handleLikePost = useCallback(() => {
-    likePost(item.id);
+  const handleLikePost = useCallback(async () => {
+    try {
+      setLike(true);
+      await likePost(item.id);
+      //   dispatch(updateLikeCount(item.id, true));
+    } catch (e) {
+      console.log(e);
+    }
   }, [item.id]);
 
   // Handle the unlike button press
-  const handleUnlikePost = useCallback(() => {
-    unlikePost(item.id);
+  const handleUnlikePost = useCallback(async () => {
+    try {
+      await unlikePost(item.id);
+
+      //   dispatch(updateLikeCount(item.id, false));
+      setLike(false);
+    } catch (e) {
+      console.log(e);
+    }
   }, [item.id]);
 
   /**
@@ -177,7 +195,7 @@ const Feed = ({item, isFavourites, height, currentVideoId, isScrolling}) => {
       setShouldPlay(false);
     }
   }, [currentVideoId, isVideoLoaded, isPlaying, item.id, isScrolling]);
-
+  console.log('like', like);
   return (
     <View style={[styles.container, {height: height}]}>
       {item.mediaType === 'video' ? (
@@ -234,7 +252,18 @@ const Feed = ({item, isFavourites, height, currentVideoId, isScrolling}) => {
   );
 };
 
-export default React.memo(Feed);
+export default React.memo(Feed, (prevProps, nextProps) => {
+  // Custom comparison logic to determine whether the component should re-render
+  return (
+    // Compare relevant props here and return true if an update is needed
+    prevProps.item !== nextProps.item ||
+    prevProps.isFavourites !== nextProps.isFavourites ||
+    prevProps.height !== nextProps.height ||
+    prevProps.currentVideoId !== nextProps.currentVideoId ||
+    prevProps.isScrolling !== nextProps.isScrolling
+    // Compare other relevant props
+  );
+});
 
 const styles = StyleSheet.create({
   container: {
