@@ -15,8 +15,9 @@ import GradientSwitch from '../../../components/GradientSwitch';
 import Typography from '../../../components/Typography/Typography';
 import {HORIZONTAL_MARGIN} from '../../../utils/constants';
 import {Colors} from '../../../utils/styles';
-
+import {useNavigation} from '@react-navigation/native';
 const Notes = ({onSavePress}) => {
+  const navigation = useNavigation();
   const [notes, setNotes] = useState('');
 
   const handleOutsidePress = () => {
@@ -32,7 +33,9 @@ const Notes = ({onSavePress}) => {
       <TouchableWithoutFeedback onPress={handleOutsidePress}>
         <View style={styles.container}>
           <View style={styles.topButtonContainer}>
-            <Pressable onPress={onSavePress} style={styles.saveButton}>
+            <Pressable
+              onPress={() => navigation.navigate('home_screen')}
+              style={styles.saveButton}>
               <Typography style={styles.saveText}>Save</Typography>
             </Pressable>
           </View>

@@ -6,6 +6,7 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import {SceneMap, TabView} from 'react-native-tab-view';
 import SettingIcon from '../../../../assets/images/settings.png';
 import Typography from '../../../components/Typography/Typography';
+import ProfilePic from '../../../../assets/images/profile.png';
 import {
   ROUTE_AUTHENTICATED_NAVIGATOR,
   ROUTE_PROFILE_SETTINGS_STACK_NAVIGATOR,
@@ -79,7 +80,7 @@ const ProfileScreen = () => {
                 style={[styles.tabBarText, isSelected && styles.selectedText]}>
                 {route.title}
               </Typography>
-              {isSelected && <View style={styles.bottomBar}></View>}
+              {isSelected && <View style={styles.bottomBar} />}
             </TouchableOpacity>
           );
         })}
@@ -96,14 +97,7 @@ const ProfileScreen = () => {
             style={styles.gradient}
             start={{x: 0, y: 1}}
             end={{x: 0, y: 0}}>
-            { userDetails?.profilePicResource && (
-              <UserImage
-              imageUri={
-                userDetails.profilePicResource ?? videos[0].uploader.image
-              }
-            />
-            )}
-            
+            <UserImage imageUri={ProfilePic} />
           </LinearGradient>
         </View>
         <TouchableOpacity
@@ -120,7 +114,8 @@ const ProfileScreen = () => {
         </TouchableOpacity>
       </View>
       <Typography style={styles.userName}>
-        {userDetails?.firstName || 'User First Name not set' + ' ' + userDetails?.lastName || 'User Last Name not set'}
+        {/* userDetails?.firstName || 'User First Name not set' + ' ' + userDetails?.lastName || 'User Last Name not set' */}
+        FirstName LastName
       </Typography>
       <View style={{flex: 1}}>
         <TabView

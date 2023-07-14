@@ -2,7 +2,7 @@ import React from 'react';
 import {Image, StyleSheet} from 'react-native';
 
 const UserImage = ({imageUri}) => {
-  return <Image source={{uri: imageUri}} style={styles.userImage} />;
+  return <Image source={imageUri} style={styles.userImage} />;
 };
 
 export default UserImage;
